@@ -19,12 +19,7 @@ export const routes: Routes = [
     {
         path: 'clients',
         component: Navbar,
-        loadChildren: () => import('./pages/client/client.module').then(c => c.ClientModule)
-    },
-    {
-        path: 'payroll/detail/id',
-        component: Navbar,
-        loadChildren: () => import('./pages/payroll-detail/payroll-detail.module').then(p => p.PayrollDetailModule)
+        loadChildren: () => import('./pages/clients/clients.module').then(c => c.ClientsModule)
     },
     {
         path: 'companies',

@@ -1,0 +1,50 @@
+<div class="mx-4 md:mx-8 mt-7">
+    <div class="grid">
+        <div class="col-auto">
+            <p-button routerLink="/clients/id/payroll/id" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+            </p-button>
+        </div>
+        <div class="col-auto ml-3">
+            <b class="">
+                Title Payroll
+            </b>
+            <p class="text-sm">Nama Perusahaan <span class="font-bold">(Payment Date : 12 Mei)</span> </p>
+        </div>
+    </div>
+    <div class="grid mt-7 justify-content-center">
+        <div class="md:col-6 col-12 flex align-items-center">
+            <div class="w-full shadow-3 p-4">
+                <form>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="activity" class="form-label fw-semibold">Aktivitas <span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <textarea pInputTextarea rows="4" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md" id="activity" formControlName="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="date" class="form-label fw-semibold">Maksimal Unggah<span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <input type="date" id="date" class="w-full bg-gray-100" pInputText/>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <p-triStateCheckbox inputId="checked" />
+                        <label for="checked">
+                            Unggahan Klien
+                        </label>
+                    </div>
+                    <p-button routerLink="/clients/id/payroll/id" type="button" severity="secondary">Batal</p-button>
+                    <p-button routerLink="/clients/id/payroll/id" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                </form>
+            </div>
+        </div>
+        <div class="md:col-6 col-12 flex justify-content-center">
+            <img src="./assets/images/klien.svg" class="w-26rem" alt="add-account-image">
+        </div>
+    </div>
+</div>

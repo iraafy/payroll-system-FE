@@ -18,7 +18,7 @@ import { Login } from "./login.component";
         LoginRouting,
         ButtonModule,
         InputTextModule,
-        FileUploadModule
+        FileUploadModule,
     ]
 })
 

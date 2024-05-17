@@ -7,6 +7,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { Login } from "./login.component";
 
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from 'primeng/ripple';
+
 @NgModule({
     declarations: [
         Login
@@ -19,6 +23,11 @@ import { Login } from "./login.component";
         ButtonModule,
         InputTextModule,
         FileUploadModule,
+        ToastModule,
+        RippleModule
+    ],
+    providers: [
+        MessageService
     ]
 })
 

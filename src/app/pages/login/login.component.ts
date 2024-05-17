@@ -4,11 +4,13 @@ import { Router } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { LoginReqDto } from "../../dto/user/login.req.dto";
-import { ToastrService } from "ngx-toastr";
+import { MessageService } from "primeng/api";
+
 
 @Component({
     selector: 'login-app',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    
 })
 
 export class Login {
@@ -22,7 +24,7 @@ export class Login {
         private authService: AuthService,
         private fb: NonNullableFormBuilder,
         private router: Router,
-        private toastr: ToastrService
+        private messageService: MessageService
     ) { }
 
     onSubmit() {
@@ -36,7 +38,7 @@ export class Login {
                 },
                 (err) => {
                     if (err['status']) {
-                        err['status'] === 403 && this.toastr.warning("Wrong Email / Password !")
+                        err['status'] === 403 && this.messageService.add({severity: 'warn', summary:'warn', detail: 'Email atau password salah'})
                     }
                 }
             )

@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.bg-login {
+    background-image: url(./assets/images/login-img.svg);
+    object-fit: cover;
+    height: 100vh;
+}
+
+.bg-none {
+    background: none;
+}
+
+.bg-color-primary {
+    background-color: #012B30;
+}
+
+.text-color-primary {
+    color: #012B30;
+}
+
+.nav-icon {
+    width: 1.5rem;
+}
+
+.hero-img {
+    height: 24rem;
+    object-fit: cover;
+}
+
+.p-menuitem-content:hover {
+    background-color: transparent !important;
+}
+
+.custom-shadow {
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.35);
+}
+
+.custom-small-shadow {
+    box-shadow: 0px 0px 7px 2px rgba(0,0,0,0.15);
+}

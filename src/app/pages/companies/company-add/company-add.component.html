@@ -1,0 +1,43 @@
+<div class="mx-4 md:mx-8 mt-7">
+    <h2 class="text-center fw-bold">
+        Tambah Perusahaan
+    </h2>
+    <p class="text-center">Lorem ipsum dolor sit amet consectetur.</p>
+    <div class="grid mt-7 justify-content-center">
+        <div class="md:col-4 col-12 flex align-items-center">
+            <div class="w-full">
+                <form>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="name" class="form-label fw-semibold">Nama Perusahaan<span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <input type="text" class="w-full bg-gray-100" id="name" pInputText>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="date" class="form-label fw-semibold">Tanggal Payroll<span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <input type="number" id="date" class="w-full bg-gray-100" pInputText/>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div class="mb-2">
+                            <label for="file" class="form-label fw-semibold">Logo Perusahaan</label>
+                        </div>
+                        <div>
+                            <input type="file" id="file" class="w-full bg-gray-100" pInputText/>
+                        </div>
+                    </div>
+                    <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
+                    <p-button routerLink="/companies" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                </form>
+            </div>
+        </div>
+        <div class="md:col-5 col-12 flex justify-content-end">
+            <img src="./assets/images/company.svg" class="w-26rem" alt="add-account-image">
+        </div>
+    </div>
+</div>

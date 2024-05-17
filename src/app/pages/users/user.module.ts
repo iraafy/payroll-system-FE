@@ -10,6 +10,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
+import { RippleModule } from "primeng/ripple";
 
 @NgModule({
     declarations: [
@@ -26,7 +29,12 @@ import { DropdownModule } from 'primeng/dropdown';
         InputTextModule,
         InputNumberModule,
         FileUploadModule,
-        DropdownModule
+        DropdownModule,
+        ToastModule,
+        RippleModule
+    ],
+    providers: [
+        MessageService
     ]
 })
 

@@ -1,0 +1,48 @@
+<div class="mx-4 md:mx-8 mt-7">
+
+    <h2 class="text-center">
+        Klien
+    </h2>
+    <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+    <div class="grid mt-7 justify-content-center">
+        <div class="md:col-4 col-12 flex align-items-center">
+            <div class="w-full">
+                <form>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="ps" class="form-label fw-semibold">Payroll Service<span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <p-dropdown 
+                                styleClass="w-full bg-gray-100"
+                                [options]="payrollServices"
+                                optionValue="id"
+                                optionLabel="name" 
+                                id="ps"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-2">
+                            <label for="client" class="form-label fw-semibold">Klien<span class="text-red-500">*</span></label>
+                        </div>
+                        <div>
+                            <p-dropdown 
+                                styleClass="w-full bg-gray-100"
+                                [options]="clients"
+                                optionValue="id"
+                                optionLabel="name" 
+                                id="client"
+                            />
+                        </div>
+                    </div>
+                    <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
+                    <p-button routerLink="/companies" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                </form>
+            </div>
+        </div>
+        <div class="md:col-5 col-12 flex justify-content-end">
+            <img src="./assets/images/client.svg" class="w-26rem" alt="add-account-image">
+        </div>
+    </div>
+</div>

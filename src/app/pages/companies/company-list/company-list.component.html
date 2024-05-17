@@ -1,0 +1,28 @@
+<div class="mx-4 md:mx-8 mt-7">
+    <h2 class="ml-2 fw-bolder text-center">Daftar Perusahaan</h2>
+    <p class="text-center text-md">Lorem ipsum dolor sit amet consectetur.</p>
+
+    <div class="button-content flex justify-content-end mb-3 mt-5">
+        <a routerLink="/companies/new">
+            <p-button styleClass="bg-color-primary">
+                + Tambah Perusahaan
+            </p-button>
+        </a>
+    </div>
+    <p-table [value]="companies">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>No.</th>
+                <th>Nama Perusahaan</th>
+                <th>Tanggal Payroll</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-company let-i="rowIndex">
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.date }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,32 @@
+<div class="mx-4 md:mx-8 mt-7">
+    <h2 class="ml-2 fw-bolder text-center">Daftar Pengguna</h2>
+    <p class="text-center text-md">Lorem ipsum dolor sit amet consectetur.</p>
+
+    <div class="button-content flex justify-content-end mb-3 mt-5">
+        <a routerLink="/users/new">
+            <p-button styleClass="bg-color-primary">
+                + Tambah Pengguna
+            </p-button>
+        </a>
+    </div>
+    <p-table [value]="users">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>No.</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Perusahaan</th>
+                <th>Role</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-i="rowIndex">
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.company }}</td>
+                <td>{{ user.role }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

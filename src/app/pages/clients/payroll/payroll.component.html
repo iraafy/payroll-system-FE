@@ -27,13 +27,13 @@
                 [style]="{ width: '30vw' }" 
                 [draggable]="false" 
                 [resizable]="false">
-                    <form>
+                    <form [formGroup]="payrollReqDtoFg">
                         <div class="mb-3">
                             <div class="mb-2">
                                 <label for="title" class="form-label fw-semibold">Judul Payroll <span class="text-red-500">*</span></label>
                             </div>
                             <div>
-                                <input type="text" id="title" class="w-full bg-gray-100" pInputText/>
+                                <input type="text" id="title" class="w-full bg-gray-100" pInputText formControlName="title"/>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -41,7 +41,7 @@
                                 <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
                             </div>
                             <div>
-                                <input type="number" id="date" class="w-full bg-gray-100" value="25" pInputText/>
+                                <input type="number" id="date" class="w-full bg-gray-100" value="25" pInputText formControlName="scheduledDate"/>
                             </div>
                         </div>
                         <div class="mt- flex justify-content-end">

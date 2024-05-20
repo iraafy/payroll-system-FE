@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, NonNullableFormBuilder, Validators } from "@angular/forms";
 import { firstValueFrom } from "rxjs";
 import { CompanyService } from "../../../services/company.service";
 import { Router } from "@angular/router";
@@ -20,7 +20,7 @@ export class CompanyAdd implements OnInit {
     });
 
     constructor(
-        private fb: FormBuilder,
+        private fb: NonNullableFormBuilder,
         private companyService: CompanyService,
         private router: Router,
         private messageService: MessageService

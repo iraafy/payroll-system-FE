@@ -1,7 +1,7 @@
 <p-menubar [model]="navlinks" styleClass="bg-color-primary p-3 sticky top-0 z-5" class="text-white">
     <ng-template pTemplate="item" let-item>
         <ng-container>
-            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4">
+            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4" *ngIf="isAdmin">
                 <span>{{item.label}}</span>
             </a> 
         </ng-container>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ClientAssignmentResDto } from "../../../dto/client-assignment/client-assignment.res.dto";
-import { ClientAssignmentService } from "../../../services/client-assignment.service";
+import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assignment.res.dto";
+import { ClientAssignmentService } from "../../services/client-assignment.service";
 import { firstValueFrom } from "rxjs";
 
 @Component({

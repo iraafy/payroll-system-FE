@@ -3,6 +3,7 @@ import { Homepage } from "./homepage.component";
 import { HomepageRouting } from "./homepage.routing";
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -12,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
         HomepageRouting,
         CardModule,
         ButtonModule,
+        CommonModule
     ]
 })
 

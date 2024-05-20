@@ -9,6 +9,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChipsModule } from 'primeng/chips';
+import { AuthService } from "../../services/auth.service";
+import { RoleType } from "../../constants/role-type";
 
 @Component({
     selector: 'app-navbar',
@@ -34,8 +36,8 @@ export class Navbar {
     chatDetailVisible: boolean = false;
     navlinks: any = [];
 
-    constructor() {}
-
+    constructor(private authService : AuthService) {}
+    
     ngOnInit() {
         this.navlinks = [
             {image: 'assets/images/icon/logo.svg', route: '/homepage'},
@@ -43,6 +45,19 @@ export class Navbar {
             {label: 'Perusahaan', route: '/companies'},
             {label: 'Klien', route: '/client/assignment'},
         ];
+    }
+    
+    loginData = this.authService.getLoginData();
+    get isAdmin () {
+        return this.loginData?.roleCode == RoleType.SUPER_ADMIN;
+    }
+
+    get isPS () {
+        return this.loginData?.roleCode == RoleType.PS;
+    }
+
+    get isClient () {
+        return this.loginData?.roleCode == RoleType.CLIENT;
     }
 
     openChat() {

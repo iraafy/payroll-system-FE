@@ -5,6 +5,10 @@ import { ClientAssignment } from "./client-assignment.component";
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { BadgeModule } from 'primeng/badge';
+import { CommonModule } from "@angular/common";
+import { ConfirmationService, MessageService } from "primeng/api";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -15,7 +19,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         ButtonModule,
         InputTextModule,
         DropdownModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        BadgeModule,
+        CommonModule,
+        ReactiveFormsModule
+    ],
+    providers: [
+        ConfirmationService,
+        MessageService
     ]
 })
 

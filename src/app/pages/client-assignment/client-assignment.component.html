@@ -7,7 +7,7 @@
     <div class="grid mt-7 justify-content-center">
         <div class="md:col-4 col-12 flex align-items-center">
             <div class="w-full">
-                <form>
+                <form [formGroup]="clientAssignmentReqDtoFormGroup">
                     <div class="mb-3">
                         <div class="mb-2">
                             <label for="ps" class="form-label fw-semibold">Payroll Service<span class="text-red-500">*</span></label>
@@ -19,6 +19,7 @@
                                 optionValue="id"
                                 optionLabel="fullName" 
                                 id="ps"
+                                formControlName="psId"
                             />
                         </div>
                     </div>
@@ -33,11 +34,20 @@
                                 optionValue="id"
                                 optionLabel="clientName"
                                 id="client"
-                            />
+                                formControlName="clientId"
+                            >
+                                <ng-template let-client pTemplate="item">
+                                    <div class="flex align-items-center gap-2">
+                                        <div>{{ client.clientName }}</div>
+                                        <p-badge *ngIf="client.psName" [value]="client.psName" />
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
                         </div>
                     </div>
+                    <p-confirmDialog />
                     <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
-                    <p-button routerLink="/companies" type="submit" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button (click)="confirm($event)" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>

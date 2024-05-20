@@ -6,13 +6,13 @@
     <div class="grid mt-7 justify-content-center">
         <div class="md:col-4 col-12 flex align-items-center">
             <div class="w-full">
-                <form>
+                <form [formGroup]="companyReqDtoFg" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <div class="mb-2">
                             <label for="name" class="form-label fw-semibold">Nama Perusahaan<span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <input type="text" class="w-full bg-gray-100" id="name" pInputText>
+                            <input formControlName="companyName" type="text" class="w-full bg-gray-100" id="name" pInputText>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -20,7 +20,7 @@
                             <label for="date" class="form-label fw-semibold">Tanggal Payroll<span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <input type="number" id="date" class="w-full bg-gray-100" pInputText/>
+                            <input formControlName="defaultPaymentDay" type="number" id="date" class="w-full bg-gray-100" pInputText />
                         </div>
                     </div>
                     <div class="mb-5">
@@ -28,11 +28,11 @@
                             <label for="file" class="form-label fw-semibold">Logo Perusahaan</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-100" pInputText/>
+                            <input type="file" id="file" class="w-full bg-gray-100" pInputText (change)="fileUpload($event)"/>
                         </div>
                     </div>
                     <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
-                    <p-button routerLink="/companies" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button type="submit" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>

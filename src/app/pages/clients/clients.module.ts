@@ -11,8 +11,10 @@ import { DialogModule } from 'primeng/dialog';
 import { ChipModule } from 'primeng/chip';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
 import { Activity } from "./activity/activity.component";
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
     declarations: [
@@ -31,7 +33,9 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
         ChipModule,
         InputTextModule,
         CalendarModule,
-        TriStateCheckboxModule
+        FormsModule,
+        TriStateCheckboxModule,
+        FullCalendarModule
     ]
 })
 

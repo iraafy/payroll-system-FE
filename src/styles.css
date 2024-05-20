@@ -9,7 +9,9 @@ body {
 .bg-login {
     background-image: url(./assets/images/login-img.svg);
     object-fit: cover;
+    background-size: cover;
     height: 100vh;
+    background-repeat: no-repeat;
 }
 
 .bg-none {
@@ -47,4 +49,8 @@ body {
 
 textarea:focus-visible {
     outline: none;
+}
+
+.h-40rem {
+    height: 40rem;
 }

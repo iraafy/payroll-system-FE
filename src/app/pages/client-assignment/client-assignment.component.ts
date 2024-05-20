@@ -1,20 +1,30 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { firstValueFrom } from "rxjs";
+import { UserService } from "../../services/user.service";
+import { UserResDto } from "../../dto/user/user.res.dto";
+import { ClientDropdownResDto } from "../../dto/user/client-dropdown.res.dto";
 
 @Component({
     selector: 'client-assignment',
     templateUrl: './client-assignment.component.html',
 })
 
-export class ClientAssignment {
-    payrollServices = [
-        { id: 1, name: 'Payroll Service 1' },
-        { id: 2, name: 'Payroll Service 2' },
-        { id: 3, name: 'Payroll Service 3' }
-    ];
+export class ClientAssignment implements OnInit {
+    payrollServices : UserResDto[] = []
+    clients : ClientDropdownResDto[] = []
 
-    clients = [
-        { id: 1, name: 'Client 1' },
-        { id: 2, name: 'Client 2' },
-        { id: 3, name: 'Client 3' }
-    ];
+    constructor(private userService: UserService){}
+
+    ngOnInit(): void {
+        firstValueFrom(this.userService.getAllPs()).then(
+            res => {
+                this.payrollServices = res
+            }
+        )
+        firstValueFrom(this.userService.getAllClient()).then(
+            res => {
+                this.clients = res
+            }
+        )
+    }
 }

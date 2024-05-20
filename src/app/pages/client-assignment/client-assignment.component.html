@@ -17,7 +17,7 @@
                                 styleClass="w-full bg-gray-100"
                                 [options]="payrollServices"
                                 optionValue="id"
-                                optionLabel="name" 
+                                optionLabel="fullName" 
                                 id="ps"
                             />
                         </div>
@@ -31,13 +31,13 @@
                                 styleClass="w-full bg-gray-100"
                                 [options]="clients"
                                 optionValue="id"
-                                optionLabel="name" 
+                                optionLabel="clientName"
                                 id="client"
                             />
                         </div>
                     </div>
                     <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
-                    <p-button routerLink="/companies" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button routerLink="/companies" type="submit" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>

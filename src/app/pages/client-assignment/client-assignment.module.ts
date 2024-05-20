@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { ClientAssignment } from "./client-assignment.component";
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [
@@ -14,7 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
         ClientAssignmentRouting,
         ButtonModule,
         InputTextModule,
-        DropdownModule
+        DropdownModule,
+        ConfirmDialogModule
     ]
 })
 

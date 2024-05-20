@@ -4,7 +4,6 @@ import { tap } from "rxjs";
 import { Router } from "@angular/router";
 import { BASE_URL } from "../constants/global";
 import { AuthService } from "./auth.service";
-import { MessageService } from "primeng/api";
 
 @Injectable({
     providedIn: 'root'

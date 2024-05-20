@@ -12,15 +12,17 @@ export class CompanyList implements OnInit {
 
     companies: CompanyResDto[] = []
 
-    constructor(private companyService : CompanyService) { }
+    newCompany: boolean = false;
+
+    constructor(
+        private companyService: CompanyService
+    ) { }
 
     ngOnInit(): void {
         firstValueFrom(this.companyService.getAllCompany()).then(
             res => {
-                this.companies = res
+                this.companies = res;
             }
-        )
+        );
     }
-
-
 }

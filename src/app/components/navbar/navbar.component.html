@@ -1,4 +1,4 @@
-<p-menubar [model]="navlinks" styleClass="bg-color-primary p-3" class="text-white">
+<p-menubar [model]="navlinks" styleClass="bg-color-primary p-3 sticky top-0 z-5" class="text-white">
     <ng-template pTemplate="item" let-item>
         <ng-container>
             <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4">

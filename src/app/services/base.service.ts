@@ -11,23 +11,17 @@ import { MessageService } from "primeng/api";
 })
 export class BaseService {
 
-    constructor(private http: HttpClient, private authService: AuthService, private messageService : MessageService, private router: Router) { }
+    constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
     private response<T>() {
         return tap<T>({
             next: (res) => {
                 const restTemp = res as any
-                if (restTemp.message) {
-                    this.messageService.add({severity: 'success', summary: 'Success', detail: restTemp['message']})
-                }
             },
             error: (err) => {
                 if (err['status'] == 401) {
                     localStorage.clear()
-                    this.messageService.add({severity: 'warn', summary: 'Warn', detail: 'Session Expired' })
                     this.router.navigateByUrl('/login')
-                } else {
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: err.message })
                 }
             }
         })

@@ -1,12 +1,12 @@
 <p-menubar [model]="navlinks" styleClass="bg-color-primary p-3" class="text-white">
     <ng-template pTemplate="item" let-item>
         <ng-container>
-            <a [routerLink]="item.route" class="no-underline text-white mx-4">
+            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4">
                 <span>{{item.label}}</span>
             </a> 
         </ng-container>
         <ng-container *ngIf="item.image">
-            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon mr-5">
+            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon mr-5 hidden">
         </ng-container>
     </ng-template>
     <ng-template pTemplate="end">

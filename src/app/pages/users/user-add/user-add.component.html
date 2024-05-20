@@ -2,11 +2,14 @@
     <h2 class="text-center fw-bold">
         Tambah Pengguna
     </h2>
-    <p class="text-center">Lorem ipsum dolor sit amet consectetur.</p>
+    <pre>
+        {{userForm.value | json}}
+    </pre>
+    <p class="text-center">Silahkan isi data pengguna sesuai dengan form dibawah ini</p>
     <div class="grid mt-7 justify-content-center">
         <div class="md:col-5 col-12 flex align-items-center">
             <div class="w-full">
-                <form>
+                <form [formGroup]="userForm" (ngSubmit)="createUser()">
                     <div class="grid">
                         <div class="col-6">
                             <div class="mb-3">
@@ -14,7 +17,7 @@
                                     <label for="name" class="form-label fw-semibold">Nama Lengkap<span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="text" class="w-full bg-gray-100" id="name" pInputText>
+                                    <input type="text" class="w-full bg-gray-100" id="name" pInputText formControlName="fullName">
                                 </div>
                             </div>
                         </div>
@@ -24,7 +27,7 @@
                                     <label for="email" class="form-label fw-semibold">Email<span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="email" class="w-full bg-gray-100" id="email" pInputText>
+                                    <input type="email" class="w-full bg-gray-100" id="email" pInputText formControlName="email">
                                 </div>
                             </div>
                         </div>
@@ -39,9 +42,13 @@
                                     <p-dropdown 
                                         styleClass="w-full bg-gray-100"
                                         [options]="companies"
-                                        optionLabel="name"
+                                        optionLabel="companyName"
                                         optionValue="id"
+                                        [filter]="true"
+                                        filterBy="companyName" 
+                                        [showClear]="true"
                                         id="company"
+                                        formControlName="companyId"
                                     />
                                 </div>
                             </div>
@@ -56,8 +63,9 @@
                                         styleClass="w-full bg-gray-100"
                                         [options]="roles"
                                         optionValue="id"
-                                        optionLabel="name" 
+                                        optionLabel="roleName" 
                                         id="role"
+                                        formControlName="roleId"
                                     />
                                 </div>
                             </div>
@@ -69,11 +77,11 @@
                             <label for="file" class="form-label fw-semibold">Foto Profil</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-100" pInputText/>
+                            <input type="file" id="file" class="w-full bg-gray-100" pInputText (change)="fileUpload($event)"/>
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>
-                    <p-button routerLink="/users" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button type="submit" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>
@@ -81,4 +89,7 @@
             <img src="./assets/images/users.svg" class="w-26rem" alt="add-account-image">
         </div>
     </div>
+</div>
+<div class="card flex justify-content-center">
+    <p-toast />
 </div>

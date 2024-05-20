@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { UserService } from "../../../services/user.service";
 import { firstValueFrom } from "rxjs";
 import { UserResDto } from "../../../dto/user/user.res.dto";
+import { MessageService } from "primeng/api";
 
 @Component({
     selector: 'user-list',
@@ -11,7 +12,7 @@ import { UserResDto } from "../../../dto/user/user.res.dto";
 export class UserList implements OnInit {
     users : UserResDto[] = []
 
-    constructor(private userService : UserService) {}
+    constructor(private userService : UserService, private messageService : MessageService) {}
 
     ngOnInit(): void {
         this.init()
@@ -21,6 +22,9 @@ export class UserList implements OnInit {
         firstValueFrom(this.userService.getAllUser()).then(
             res => {
                 this.users = res
+            },
+            err => {
+                this.messageService.add({severity: 'error', summary: 'Error' ,detail: err})
             }
         )
     }

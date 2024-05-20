@@ -99,7 +99,7 @@ export class UserAdd implements OnInit {
                 this.router.navigateByUrl('/users')
             },
             err => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: err})
+                this.messageService.add({severity: 'error', summary: 'Error', detail: err['message']})
             }
         )
     }

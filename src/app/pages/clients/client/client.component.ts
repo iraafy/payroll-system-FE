@@ -1,10 +1,25 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { ClientAssignmentResDto } from "../../../dto/client-assignment/client-assignment.res.dto";
+import { ClientAssignmentService } from "../../../services/client-assignment.service";
+import { firstValueFrom } from "rxjs";
 
 @Component({
     selector: 'client-app',
     templateUrl: './client.component.html',
 })
 
-export class Client {
-    
+export class Client implements OnInit {
+
+    clients: ClientAssignmentResDto[] = []
+
+    constructor(private clientAssignmentService: ClientAssignmentService){}
+
+    ngOnInit(): void {
+        firstValueFrom(this.clientAssignmentService.getAllClientAssignment()).then(
+            res => {
+                this.clients = res
+                console.log(res)
+            }
+        )
+    }
 }

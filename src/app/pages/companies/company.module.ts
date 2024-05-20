@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { CompanyAdd } from "./company-add/company-add.component";
 import { CompanyList } from "./company-list/company-list.component";
 import { CompanyRouting } from "./company.routing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -9,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
+import { CompanyAdd } from "./company-add/company-add.component";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @NgModule({
     declarations: [
@@ -24,7 +26,11 @@ import { FileUploadModule } from 'primeng/fileupload';
         ButtonModule,
         InputTextModule,
         InputNumberModule,
-        FileUploadModule
+        FileUploadModule,
+        ToastModule
+    ],
+    providers: [
+        MessageService
     ]
 })
 

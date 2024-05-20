@@ -1,20 +1,108 @@
 <p-menubar [model]="navlinks" styleClass="bg-color-primary p-3 sticky top-0 z-5" class="text-white">
     <ng-template pTemplate="item" let-item>
         <ng-container>
-            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4">
+            <a [routerLink]="item.route" class="no-underline lg:text-white text-black-alpha-90 mx-4">
                 <span>{{item.label}}</span>
             </a> 
         </ng-container>
         <ng-container *ngIf="item.image">
-            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon mr-5 hidden">
+            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon mr-5 hidden lg:inline">
         </ng-container>
     </ng-template>
     <ng-template pTemplate="end">
         <ng-container>
-            <img src="assets/images/icon/message.svg" routerLink="/messages" class="nav-icon mr-5">
-            <img src="assets/images/icon/notification.svg" routerLink="/notifications" class="nav-icon mr-5">
+            <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5">
+            <img src="assets/images/icon/notification.svg" (click)="op.toggle($event)" class="nav-icon mr-5">
             <img src="assets/images/icon/user.svg" routerLink="/users" class="nav-icon mr-7">
         </ng-container>
     </ng-template>
 </p-menubar>
+
+<p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="w-30rem">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+            <h3 class="font-bold text-color-primary" *ngIf="!chatDetailVisible">
+                Semua Pesan
+            </h3>
+            <div class="inline-flex" *ngIf="chatDetailVisible">
+                <h3 class="font-bold text-color-primary">
+                    <svg (click)="closeChat()" class="cursor-pointer pt-2 mr-3" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="currentColor" d="M16.88 2.88a1.25 1.25 0 0 0-1.77 0L6.7 11.29a.996.996 0 0 0 0 1.41l8.41 8.41c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.54 12l7.35-7.35c.48-.49.48-1.28-.01-1.77"/></svg> Nama Perusahaan
+                </h3>
+            </div>
+        </div>
+    </ng-template>
+    <div class="chat-list px-4" *ngIf="!chatDetailVisible">
+        <div class="border-b mt-3 cursor-pointer" (click)="openChat()">
+            <b>Nama Perusahaan</b>
+            <p>Lorem ipsum dolor sit amet ...</p>
+        </div>
+        <div class="border-b mt-3 cursor-pointer" (click)="openChat()">
+            <b>Nama Perusahaan</b>
+            <p>Lorem ipsum dolor sit amet ...</p>
+        </div>
+    </div>
+    <div class="chat-detail" *ngIf="chatDetailVisible">
+        <div class="chat px-4">
+            <div class="sender-bubble p-3 m-2">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="sender-bubble p-3 m-2">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="sender-bubble p-3 m-2">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="my-bubble p-3 m-2 ml-auto">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="sender-bubble p-3 m-2">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="my-bubble p-3 m-2 ml-auto">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="my-bubble p-3 m-2 ml-auto">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+            <div class="my-bubble p-3 m-2 ml-auto">
+                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
+                <p class="text-xs">12:00PM</p>
+            </div>
+        </div>
+        <div class="sticky z-5 w-full bottom-0 p-3 pb-2 bg-white custom-small-shadow">
+            <div class="grid">
+                <div class="col-10">
+                    <textarea pInputTextarea rows="2" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md"></textarea>
+                </div>
+                <div class="col-2">
+                    <p-button styleClass="bg-color-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" class="p-0 m-0" viewBox="0 0 28 28"><path fill="#ffffff" d="M3.79 2.625c-.963-.46-2.021.42-1.746 1.451l2.016 7.533a1 1 0 0 0 .824.732l9.884 1.412c.286.04.286.454 0 .495l-9.883 1.411a1 1 0 0 0-.824.732l-2.017 7.537c-.275 1.03.783 1.91 1.746 1.451L25.288 15.13c.949-.452.949-1.804 0-2.257z"/></svg>
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-sidebar>
+
+<p-overlayPanel #op styleClass="w-20rem">
+    <div class="border-b mt-3 cursor-pointer">
+        <p class="text-sm font-semibold mb-1">12:00PM</p>
+        <p class="mt-0 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis impedit ducimus, ipsa aspernatur praesentium dolorem.</p>
+    </div>
+    <div class="border-b mt-3 cursor-pointer">
+        <p class="text-sm font-semibold mb-1">12:00PM</p>
+        <p class="mt-0 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis impedit ducimus, ipsa aspernatur praesentium dolorem.</p>
+    </div>
+    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mb-0 cursor-pointer" routerLink="/notification">
+        Lihat Semua Notifikasi
+    </p>
+</p-overlayPanel>
+
 <router-outlet></router-outlet>

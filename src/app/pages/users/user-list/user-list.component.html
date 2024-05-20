@@ -9,7 +9,13 @@
             </p-button>
         </a>
     </div>
-    <p-table [value]="users">
+    <p-table 
+        [value]="users"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' , 'margin-bottom': '2rem'}"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
         <ng-template pTemplate="header">
             <tr>
                 <th>No.</th>

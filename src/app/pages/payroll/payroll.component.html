@@ -9,9 +9,9 @@
                 </div>
                 <div class="col-auto ml-3">
                     <b class="">
-                        Nama Perusahaan
+                        {{company?.companyName}}
                     </b>
-                    <p class="text-sm">Nama Klien</p>
+                    <p class="text-sm">{{client?.fullName}}</p>
                 </div>
             </div>
         </div>
@@ -63,13 +63,6 @@
                     <div class="content p-3 pb-2 custom-small-shadow">
                         <b>{{payroll.title}}</b>
                         <p>{{payroll.scheduleDate}}</p>
-                    </div>
-                </div>
-        
-                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/payrolls/id">
-                    <div class="content p-3 pb-2 custom-small-shadow">
-                        <b>Title Payroll</b>
-                        <p>12-12-2024</p>
                     </div>
                 </div>
                 

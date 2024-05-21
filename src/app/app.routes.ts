@@ -28,23 +28,30 @@ export const routes: Routes = [
         data : [ RoleType.PS ]
     },
     {
-        path: 'clients/id',
+        path: 'clients/:id',
         component: Navbar,
         loadChildren: () => import('./pages/payroll/payroll.module').then(p => p.PayrollModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.PS ]
     },
     {
-        path: 'payrolls/id',
+        path: 'payrolls/:id',
         component: Navbar,
         loadChildren: () => import('./pages/payroll-detail/payroll-detail.module').then(pd => pd.PayrollDetailModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.PS ]
     },
     {
-        path: 'payrolls/id/new',
+        path: 'payrolls/:id/new',
         component: Navbar,
         loadChildren: () => import('./pages/activity/activity.module').then(a => a.ActivityModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS ]
+    },
+    {
+        path: 'payrolls/:id/reschedule',
+        component: Navbar,
+        loadChildren: () => import('./pages/reschedule/reschedule.module').then(r => r.RescheduleModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.PS ]
     },

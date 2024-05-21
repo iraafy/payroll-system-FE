@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assignment.res.dto";
-import { ClientAssignmentService } from "../../services/client-assignment.service";
+import { ClientAssignmentResDto } from "../../../dto/client-assignment/client-assignment.res.dto";
+import { ClientAssignmentService } from "../../../services/client-assignment.service";
 import { firstValueFrom } from "rxjs";
-import { BASE_URL } from "../../constants/global";
+import { BASE_URL } from "../../../constants/global";
 
 @Component({
     selector: 'client-app',
@@ -21,10 +21,14 @@ export class Client implements OnInit {
             res => {
                 this.clients = res
 
+                console.log(res)
+
                 res.forEach((client: { fileId: string }) => {
                     this.companyLogos?.push(`${BASE_URL}/files/file/${client.fileId}`);
                 });
             }
         )
+
+        console.log(this.companyLogos)
     }
 }

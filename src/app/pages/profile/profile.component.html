@@ -1,0 +1,40 @@
+<div class="container d-flex justify-content-center mt-5">
+    <div class="w-full responsive-shadow rounded-3 p-5">
+        <div class="grid">
+            <div class="col-12 md:col-3">
+                <div class="flex align-items-center justify-content-center shadow-3 h-25rem">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5987/5987424.png" class="w-15rem h-15rem" alt="login-image">
+                </div>
+            </div>
+            <div class="col-12 md:col-9">
+                <div class="d-flex align-items-center shadow-3 p-4 h-25rem">
+                    <div class="w-full">
+                        <h2 class="fw-bold mb-4 responsive-text">
+                            Profile
+                        </h2>
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold mb-2">Nama</label>
+                            <div class="mt-2">
+                                <input type="name" pInputText class="form-control w-full" id="name" aria-describedby="nameHelp" [value]="name" disabled>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="company" class="form-label fw-semibold mb-2 mt-3">Perusahaan</label>
+                            <div class="mt-2">
+                                <input type="company" pInputText class="form-control w-full" id="company" aria-describedby="companyHelp" [value]="company" disabled>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label fw-semibold mb-2 mt-3">Role</label>
+                            <div class="mt-2">
+                                <input type="role" pInputText class="form-control w-full" id="role" aria-describedby="roleHelp" [value]="roleName" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

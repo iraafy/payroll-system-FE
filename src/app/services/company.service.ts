@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { CompanyReqDto } from "../dto/company/company.req.dto";
 import { InsertResDto } from "../dto/insert.res.dto";
+import { CompanyResDto } from "../dto/company/company.res.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,7 @@ export class CompanyService {
     }
 
     getCompanyByClientId(clientId: string){
-        return this.baseService.get<any>(`companies/client/${clientId}`)
+        return this.baseService.get<CompanyResDto>(`companies/client/${clientId}`)
     }
 
 }

@@ -40,6 +40,7 @@ export class Payroll implements OnInit {
 		if (this.clientId != null) {
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(res => this.payrolls = res)
 		}
+		console.log(this.payrolls)
 	}
 
 	showDialogPayroll() {

@@ -13,4 +13,8 @@ export class PayrollService {
     createNewPayroll(data: PayrollReqDto){
         return this.baseService.post<InsertResDto>('payrolls/new', data)
     }
+
+    getPayrollByClientId() {
+        return this.baseService.get<any>('payrolls/client')
+    }
 }

@@ -15,6 +15,6 @@ export class PayrollService {
     }
 
     getPayrollByClientId(id: string) {
-        return this.baseService.get<any>('payrolls/client/{id}')
+        return this.baseService.get<any>(`payrolls/client/${id}`)
     }
 }

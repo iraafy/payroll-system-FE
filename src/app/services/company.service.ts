@@ -18,4 +18,8 @@ export class CompanyService {
         return this.baseService.post<InsertResDto>('companies/new', data)
     }
 
+    getCompanyByClientId(clientId: string){
+        return this.baseService.get<any>(`companies/client/${clientId}`)
+    }
+
 }

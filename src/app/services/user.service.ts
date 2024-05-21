@@ -34,4 +34,8 @@ export class UserService {
     changePassword(body : UserUpdateReqDto) {
 		return this.base.patch<UpdateResDto>('users/changePassword', body);
 	}
+
+    getUserByid(id : string){
+        return this.base.get<UserResDto>(`users/${id}`);
+    }
 }

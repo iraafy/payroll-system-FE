@@ -7,7 +7,7 @@
 
     <div class="grid mt-7">
         <div *ngFor="let client of clients; let i=index"  class="col-12 md:col-4 flex justify-content-center cursor-pointer">
-            <div class="shadow-3 w-full text-center" routerLink="/clients/{{client.id}}">
+            <div class="shadow-3 w-full text-center" routerLink="/clients/{{client.id}}" >
                 <img [src]="companyLogos[i]" alt="Company-Logo" class="w-7rem h-7rem" />
                 <h4>{{ client.company }}</h4>
                 <p>{{ client.name }}</p>

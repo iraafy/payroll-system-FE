@@ -11,6 +11,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ChipsModule } from 'primeng/chips';
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
+import { ClientAssignmentService } from "../../services/client-assignment.service";
+import { firstValueFrom } from "rxjs";
+import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assignment.res.dto";
 
 @Component({
     selector: 'app-navbar',
@@ -31,12 +34,17 @@ import { RoleType } from "../../constants/role-type";
 })
 
 export class Navbar {
-    sidebarVisible: boolean = false;
-    chatListVisible: boolean = true;
-    chatDetailVisible: boolean = false;
-    navlinks: any = [];
+    sidebarVisible: boolean = false
+    chatListVisible: boolean = true
+    chatDetailVisible: boolean = false
+    navlinks: any = []
+    clients : ClientAssignmentResDto[]  = []
+    pickedClient : any
 
-    constructor(private authService : AuthService, private router : Router) {}
+    constructor(
+        private clientAssignmentService : ClientAssignmentService,
+        private authService : AuthService, 
+        private router : Router) {}
     
     ngOnInit() {
         this.navlinks = [
@@ -45,9 +53,12 @@ export class Navbar {
             {label: 'Perusahaan', route: '/companies'},
             {label: 'Klien', route: '/client/assignment'},
         ];
+
+        this.init()
     }
     
     loginData = this.authService.getLoginData();
+
     get isAdmin () {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN;
     }
@@ -60,9 +71,10 @@ export class Navbar {
         return this.loginData?.roleCode == RoleType.CLIENT;
     }
 
-    openChat() {
+    openChat(client : ClientAssignmentResDto) {
         this.chatListVisible = false;
         this.chatDetailVisible = true;
+        this.pickedClient = client
     }
 
     closeChat() {
@@ -73,5 +85,14 @@ export class Navbar {
     logout() {
         localStorage.removeItem('loginData');
         this.router.navigateByUrl('/login');
+    }
+
+    init() {
+        firstValueFrom(this.clientAssignmentService.getAllClientAssignment()).then(
+            res => {
+                this.clients = res
+                console.log(res)
+            }
+        )
     }
 }

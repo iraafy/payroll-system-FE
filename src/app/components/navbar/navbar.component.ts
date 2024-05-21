@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule, Routes } from "@angular/router";
 import { MenubarModule } from 'primeng/menubar';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
@@ -36,7 +36,7 @@ export class Navbar {
     chatDetailVisible: boolean = false;
     navlinks: any = [];
 
-    constructor(private authService : AuthService) {}
+    constructor(private authService : AuthService, private router : Router) {}
     
     ngOnInit() {
         this.navlinks = [
@@ -68,5 +68,10 @@ export class Navbar {
     closeChat() {
         this.chatListVisible = true;
         this.chatDetailVisible = false;
+    }
+
+    logout() {
+        localStorage.removeItem('loginData');
+        this.router.navigateByUrl('/login');
     }
 }

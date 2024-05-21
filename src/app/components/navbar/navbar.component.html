@@ -1,7 +1,7 @@
 <p-menubar [model]="navlinks" styleClass="bg-color-primary p-3 sticky top-0 z-5" class="text-white">
     <ng-template pTemplate="item" let-item>
         <ng-container>
-            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4" *ngIf="isAdmin">
+            <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90 mx-4">
                 <span>{{item.label}}</span>
             </a> 
         </ng-container>
@@ -12,8 +12,8 @@
     <ng-template pTemplate="end">
         <ng-container>
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5">
-            <img src="assets/images/icon/notification.svg" (click)="op.toggle($event)" class="nav-icon mr-5">
-            <img src="assets/images/icon/user.svg" routerLink="/users" class="nav-icon mr-7">
+            <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5">
+            <img src="assets/images/icon/user.svg" (click)="profile.toggle($event)" class="nav-icon mr-7">
         </ng-container>
     </ng-template>
 </p-menubar>
@@ -24,7 +24,7 @@
             <h3 class="font-bold text-color-primary" *ngIf="!chatDetailVisible">
                 Semua Pesan
             </h3>
-            <div class="inline-flex" *ngIf="chatDetailVisible">
+            <div class="inline-flex cursor-pointer" *ngIf="chatDetailVisible">
                 <h3 class="font-bold text-color-primary">
                     <svg (click)="closeChat()" class="cursor-pointer pt-2 mr-3" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="currentColor" d="M16.88 2.88a1.25 1.25 0 0 0-1.77 0L6.7 11.29a.996.996 0 0 0 0 1.41l8.41 8.41c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.54 12l7.35-7.35c.48-.49.48-1.28-.01-1.77"/></svg> Nama Perusahaan
                 </h3>
@@ -91,7 +91,7 @@
     </div>
 </p-sidebar>
 
-<p-overlayPanel #op styleClass="w-20rem">
+<p-overlayPanel #notif styleClass="w-20rem">
     <div class="border-b mt-3 cursor-pointer">
         <p class="text-sm font-semibold mb-1">12:00PM</p>
         <p class="mt-0 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis impedit ducimus, ipsa aspernatur praesentium dolorem.</p>
@@ -103,6 +103,35 @@
     <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mb-0 cursor-pointer" routerLink="/notification">
         Lihat Semua Notifikasi
     </p>
+</p-overlayPanel>
+
+<p-overlayPanel #profile styleClass="w-14rem">
+    <div class="grid">
+        <div class="col-12 p-1">
+            <div class="inline-flex cursor-pointer" routerLink="/profile">
+                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2M8.5 9.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0m9.758 7.484A7.985 7.985 0 0 1 12 20a7.985 7.985 0 0 1-6.258-3.016C7.363 15.821 9.575 15 12 15s4.637.821 6.258 1.984"/></g></svg> 
+                <span>
+                    Profil
+                </span> 
+            </div>
+        </div>
+        <div class="col-12 p-1 pt-2">
+            <div class="inline-flex cursor-pointer" routerLink="/change-password">
+                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 15 15"><path fill="currentColor" d="M11 11h-1v-1h1zm-3 0h1v-1H8zm5 0h-1v-1h1z"/><path fill="currentColor" fill-rule="evenodd" d="M3 6V3.5a3.5 3.5 0 1 1 7 0V6h1.5A1.5 1.5 0 0 1 13 7.5v.55a2.5 2.5 0 0 1 0 4.9v.55a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 0 13.5v-6A1.5 1.5 0 0 1 1.5 6zm1-2.5a2.5 2.5 0 0 1 5 0V6H4zM8.5 9a1.5 1.5 0 1 0 0 3h4a1.5 1.5 0 0 0 0-3z" clip-rule="evenodd"/></svg> 
+                <span>
+                    Ganti Kata Sandi
+                </span> 
+            </div>
+        </div>
+        <div class="col-12 p-1 pt-2">
+            <div class="inline-flex cursor-pointer" (click)="logout()">
+                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="currentColor" d="M11.25 19a.75.75 0 0 1 .75-.75h6a.25.25 0 0 0 .25-.25V6a.25.25 0 0 0-.25-.25h-6a.75.75 0 0 1 0-1.5h6c.966 0 1.75.784 1.75 1.75v12A1.75 1.75 0 0 1 18 19.75h-6a.75.75 0 0 1-.75-.75"/><path fill="currentColor" d="M15.612 13.115a1 1 0 0 1-1 1H9.756c-.023.356-.052.71-.086 1.066l-.03.305a.718.718 0 0 1-1.025.578a16.844 16.844 0 0 1-4.885-3.539l-.03-.031a.721.721 0 0 1 0-.998l.03-.031a16.843 16.843 0 0 1 4.885-3.539a.718.718 0 0 1 1.025.578l.03.305c.034.355.063.71.086 1.066h4.856a1 1 0 0 1 1 1z"/></svg> 
+                <span>
+                    Keluar
+                </span> 
+            </div>
+        </div>
+    </div>
 </p-overlayPanel>
 
 <router-outlet></router-outlet>

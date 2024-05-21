@@ -11,6 +11,9 @@ import { CompanyService } from "../../services/company.service";
 import { CompanyResDto } from "../../dto/company/company.res.dto";
 import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 import { DatePipe } from "@angular/common";
+import { UserService } from "../../services/user.service";
+import { UserResDto } from "../../dto/user/user.res.dto";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
 	selector: 'payroll-detail',
@@ -22,6 +25,7 @@ export class Payroll implements OnInit {
 	createPayrollVisible: boolean = false;
 	clientId: string | null = null;
 	currentCompanyPayroll: string | null = null;
+	client: UserResDto | null = null;
 
 	company: CompanyResDto | null = null;
 
@@ -40,7 +44,9 @@ export class Payroll implements OnInit {
 		private messageService: MessageService,
 		private router: Router,
 		private companyService: CompanyService,
-		private datePipe: DatePipe
+		private datePipe: DatePipe,
+		private userService: UserService,
+		private authService: AuthService
 	) { }
 
 	ngOnInit(): void {
@@ -60,11 +66,15 @@ export class Payroll implements OnInit {
 					this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 
 					this.currentCompanyPayroll = formattedDate
-
-					console.log(this.currentCompanyPayroll)
 				})
 
 			this.payrollReqDtoFg.get('clientId')?.patchValue(this.clientId);
+
+			firstValueFrom(this.userService.getUserByid(this.clientId)).then(
+				res => {
+					this.client = res;
+				}
+			)
 		}
 	}
 
@@ -72,8 +82,15 @@ export class Payroll implements OnInit {
 		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
 		if (this.clientId != null) {
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(res => this.payrolls = res)
+		} else {
+
+			const loginData = this.authService.getLoginData()
+
+			if (loginData) {
+				this.clientId = loginData?.id;
+			}
 		}
-		console.log(this.payrolls)
+
 	}
 
 	showDialogPayroll() {

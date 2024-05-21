@@ -1,10 +1,8 @@
 import { NgModule } from "@angular/core"
-import { ClientsRouting } from "./clients.routing"
+import { ClientRouting } from "./client.routing"
 import { CardModule } from 'primeng/card'
 import { ButtonModule } from 'primeng/button'
-import { Client } from "./client/client.component"
-import { Payroll } from "./payroll/payroll.component"
-import { PayrollDetail } from "./payroll-detail/payroll-detail.component"
+import { Client } from "./client.component"
 import { StepperModule } from 'primeng/stepper'
 import { FileUploadModule } from 'primeng/fileupload'
 import { DialogModule } from 'primeng/dialog'
@@ -12,20 +10,16 @@ import { ChipModule } from 'primeng/chip'
 import { InputTextModule } from 'primeng/inputtext'
 import { CalendarModule } from 'primeng/calendar'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { Activity } from "./activity/activity.component"
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'
 import { FullCalendarModule } from '@fullcalendar/angular'
 import { CommonModule } from "@angular/common"
 
 @NgModule({
     declarations: [
-        Client,
-        Payroll,
-        PayrollDetail,
-        Activity
+        Client
     ],
     imports: [
-        ClientsRouting,
+        ClientRouting,
         CardModule,
         ButtonModule,
         StepperModule,
@@ -43,6 +37,6 @@ import { CommonModule } from "@angular/common"
     ]
 })
 
-export class ClientsModule {
+export class ClientModule {
 
 }

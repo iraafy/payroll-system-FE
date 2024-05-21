@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule, Routes } from "@angular/router";
 import { MenubarModule } from 'primeng/menubar';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
@@ -9,6 +9,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChipsModule } from 'primeng/chips';
+import { AuthService } from "../../services/auth.service";
+import { RoleType } from "../../constants/role-type";
 import { ClientAssignmentService } from "../../services/client-assignment.service";
 import { firstValueFrom } from "rxjs";
 import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assignment.res.dto";
@@ -40,9 +42,10 @@ export class Navbar {
     pickedClient : any
 
     constructor(
-        private clientAssignmentService : ClientAssignmentService
-    ) {}
-
+        private clientAssignmentService : ClientAssignmentService,
+        private authService : AuthService, 
+        private router : Router) {}
+    
     ngOnInit() {
         this.navlinks = [
             {image: 'assets/images/icon/logo.svg', route: '/homepage'},
@@ -52,6 +55,20 @@ export class Navbar {
         ];
 
         this.init()
+    }
+    
+    loginData = this.authService.getLoginData();
+
+    get isAdmin () {
+        return this.loginData?.roleCode == RoleType.SUPER_ADMIN;
+    }
+
+    get isPS () {
+        return this.loginData?.roleCode == RoleType.PS;
+    }
+
+    get isClient () {
+        return this.loginData?.roleCode == RoleType.CLIENT;
     }
 
     openChat(client : ClientAssignmentResDto) {
@@ -63,6 +80,11 @@ export class Navbar {
     closeChat() {
         this.chatListVisible = true;
         this.chatDetailVisible = false;
+    }
+
+    logout() {
+        localStorage.removeItem('loginData');
+        this.router.navigateByUrl('/login');
     }
 
     init() {

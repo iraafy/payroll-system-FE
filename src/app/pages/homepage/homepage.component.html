@@ -9,6 +9,12 @@
                     <p>
                         Selamat datang di Payroll System
                     </p>
+                    <p-button *ngIf="isPS" routerLink="/clients" class="rounded-3" styleClass="bg-white text-black-alpha-90 custom-border">
+                        Lihat Klien
+                    </p-button>
+                    <p-button *ngIf="isClient" routerLink="/clients/{{loginData?.id}}"  class="rounded-3" styleClass="bg-white text-black-alpha-90 custom-border">
+                        Lihat Aktivitas
+                    </p-button>
                 </div>
             </div>
             <div class="col-6 p-0 m-0">

@@ -19,13 +19,41 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/homepage/homepage.module').then(h => h.HomepageModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
-    },
+    },    
     {
         path: 'clients',
         component: Navbar,
-        loadChildren: () => import('./pages/clients/clients.module').then(c => c.ClientsModule),
+        loadChildren: () => import('./pages/client/client.module').then(c => c.ClientModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
+    },
+    {
+        path: 'clients/:id',
+        component: Navbar,
+        loadChildren: () => import('./pages/payroll/payroll.module').then(p => p.PayrollModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.CLIENT ]
+    },
+    {
+        path: 'payrolls/:id',
+        component: Navbar,
+        loadChildren: () => import('./pages/payroll-detail/payroll-detail.module').then(pd => pd.PayrollDetailModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.CLIENT ]
+    },
+    {
+        path: 'payrolls/:id/new',
+        component: Navbar,
+        loadChildren: () => import('./pages/activity/activity.module').then(a => a.ActivityModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.CLIENT ]
+    },
+    {
+        path: 'payrolls/:id/reschedule',
+        component: Navbar,
+        loadChildren: () => import('./pages/reschedule/reschedule.module').then(r => r.RescheduleModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'companies',
@@ -47,5 +75,19 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/client-assignment/client-assignment.module').then(ca => ca.ClientAssignmentModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.SUPER_ADMIN ]
+    },
+    {
+        path: 'change-password',
+        component: Navbar,
+        loadChildren: () => import('./pages/change-password/change-password.module').then(cp => cp.ChangePasswordModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
+    },
+    {
+        path: 'profile',
+        component: Navbar,
+        loadChildren: () => import('./pages/profile/profile.module').then(p => p.ProfileModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
     }
 ];

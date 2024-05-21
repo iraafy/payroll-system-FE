@@ -25,35 +25,35 @@ export const routes: Routes = [
         component: Navbar,
         loadChildren: () => import('./pages/client/client.module').then(c => c.ClientModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'clients/:id',
         component: Navbar,
         loadChildren: () => import('./pages/payroll/payroll.module').then(p => p.PayrollModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'payrolls/:id',
         component: Navbar,
         loadChildren: () => import('./pages/payroll-detail/payroll-detail.module').then(pd => pd.PayrollDetailModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'payrolls/:id/new',
         component: Navbar,
         loadChildren: () => import('./pages/activity/activity.module').then(a => a.ActivityModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'payrolls/:id/reschedule',
         component: Navbar,
         loadChildren: () => import('./pages/reschedule/reschedule.module').then(r => r.RescheduleModule),
         canMatch : [ roleValidation ],
-        data : [ RoleType.PS ]
+        data : [ RoleType.PS, RoleType.CLIENT ]
     },
     {
         path: 'companies',

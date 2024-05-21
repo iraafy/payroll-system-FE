@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
+import { NonNullableFormBuilder, Validators } from "@angular/forms";
 
 @Component({
     selector: 'payroll-detail',
@@ -12,15 +13,23 @@ export class PayrollDetail {
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
 
-    constructor(private authService : AuthService) {}
+    rescheduleReqDtoFg = this.fb.group({
+        newScheduleDate: ['', Validators.required],
+        payrollDetailId: ['', Validators.required]
+    })
+
+    constructor(
+        private authService: AuthService,
+        private fb: NonNullableFormBuilder
+    ) { }
 
     loginData = this.authService.getLoginData();
 
-    get isPS () {
+    get isPS() {
         return this.loginData?.roleCode == RoleType.PS;
     }
 
-    get isClient () {
+    get isClient() {
         return this.loginData?.roleCode == RoleType.CLIENT;
     }
 

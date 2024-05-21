@@ -15,13 +15,13 @@
     <div class="grid mt-7 justify-content-center">
         <div class="md:col-6 col-12 flex align-items-center">
             <div class="w-full shadow-3 p-4">
-                <form>
+                <form [formGroup]="activityReqDtoFg" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <div class="mb-2">
                             <label for="activity" class="form-label fw-semibold">Aktivitas <span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <textarea pInputTextarea rows="4" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md" id="activity"></textarea>
+                            <textarea pInputTextarea rows="4" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md" id="activity" formControlName="description"></textarea>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -29,19 +29,19 @@
                             <label for="date" class="form-label fw-semibold">Maksimal Unggah<span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <input type="date" id="date" class="w-full bg-gray-100" pInputText/>
+                            <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="maxUploadDate" />
                         </div>
                     </div>
                     <div class="mb-5">
-                        <p-triStateCheckbox inputId="checked" />
+                        <p-triStateCheckbox inputId="checked" formControlName="forClient" />
                         <label for="checked">
                             Unggahan Klien
                         </label>
                     </div>
-                    <p-button routerLink="/payrolls/id" class="rounded-3" severity="secondary">
+                    <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" severity="secondary">
                         Batal
                     </p-button>
-                    <p-button routerLink="/payrolls/id" class="rounded-3" styleClass="bg-color-primary ml-3">
+                    <p-button type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
                         Simpan
                     </p-button>
                 </form>

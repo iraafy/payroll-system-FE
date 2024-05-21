@@ -1,0 +1,157 @@
+<div class="mx-4 md:mx-8 my-7">
+    <div class="grid">
+        <div class="col-6">
+            <div class="grid">
+                <div class="col-auto">
+                    <p-button routerLink="/clients" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+                    </p-button>
+                </div>
+                <div class="col-auto ml-3">
+                    <b class="">
+                        Nama Perusahaan
+                    </b>
+                    <p class="text-sm">Nama Klien</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 flex justify-content-end">
+            <p-button (click)="showDialogPayroll()" class="rounded-3" styleClass="custom-small-shadow border-none bg-color-primary">
+                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 256 256"><path fill="#ffffff" d="M228 128a12 12 0 0 1-12 12h-76v76a12 12 0 0 1-24 0v-76H40a12 12 0 0 1 0-24h76V40a12 12 0 0 1 24 0v76h76a12 12 0 0 1 12 12"/></svg> Tambah Data Payroll
+            </p-button>
+            <p-dialog 
+                header="Tambah Data Payroll" 
+                [(visible)]="createPayrollVisible" 
+                [modal]="true" 
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+                [style]="{ width: '30vw' }" 
+                [draggable]="false" 
+                [resizable]="false">
+                    <form [formGroup]="payrollReqDtoFg">
+                        <div class="mb-3">
+                            <div class="mb-2">
+                                <label for="title" class="form-label fw-semibold">Judul Payroll <span class="text-red-500">*</span></label>
+                            </div>
+                            <div>
+                                <input type="text" id="title" class="w-full bg-gray-100" pInputText formControlName="title"/>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="mb-2">
+                                <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
+                            </div>
+                            <div>
+                                <input type="number" id="date" class="w-full bg-gray-100" value="25" pInputText formControlName="scheduledDate"/>
+                            </div>
+                        </div>
+                        <div class="mt- flex justify-content-end">
+                            <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
+                            <p-button label="Simpan" styleClass="ml-2 bg-color-primary" />
+                        </div>
+                    </form>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="grid mt-5">
+        <div class="md:col-6 col-12 pr-5">
+            <full-calendar class="h-40rem" [options]="calendarOptions"></full-calendar>
+        </div>
+        <div class="md:col-6 col-12 p-5 overflow-auto h-40rem">
+            <input type="text" pInputText class="mb-5 w-full" placeholder="Cari Payroll" />
+            <div class="grid">
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+        
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+        
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/clients/id/payroll/id">
+                    <div class="content p-3 pb-2 custom-small-shadow">
+                        <b>Title Payroll</b>
+                        <p>12-12-2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

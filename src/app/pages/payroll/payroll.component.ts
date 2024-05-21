@@ -9,13 +9,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { CompanyService } from "../../services/company.service";
 import { CompanyResDto } from "../../dto/company/company.res.dto";
+import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 
 @Component({
 	selector: 'payroll-detail',
 	templateUrl: './payroll.component.html',
 })
 
-export class Payroll implements OnInit {
+export class Payroll implements OnInit implements OnInit {
 	date: Date[] | undefined;
 	createPayrollVisible: boolean = false;
 	clientId: string | null = null;
@@ -25,6 +26,8 @@ export class Payroll implements OnInit {
         companyName: '',
         payrollDate: 0
 	}
+	payrolls: PayrollResDto[] = [];
+	clientId: string | null = null;
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -53,6 +56,17 @@ export class Payroll implements OnInit {
 			this.payrollReqDtoFg.get('clientId')?.patchValue(param['id']);
 		})
 
+	}
+
+	ngOnInit(): void {
+		this.init();
+	}
+
+	init(): void {
+		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
+		if (this.clientId != null) {
+			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(res => this.payrolls = res)
+		}
 	}
 
 	showDialogPayroll() {

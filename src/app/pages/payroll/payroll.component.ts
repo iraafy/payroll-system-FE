@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { PayrollReqDto } from "../../dto/payroll/payroll.req.dto";
 import { firstValueFrom } from "rxjs";
 import { PayrollService } from "../../services/payroll.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
 	selector: 'payroll-detail',
@@ -23,7 +24,8 @@ export class Payroll {
 
 	constructor(
 		private fb: NonNullableFormBuilder,
-		private payrollService: PayrollService
+		private payrollService: PayrollService,
+		private activeRoute: ActivatedRoute
 	) { }
 
 	showDialogPayroll() {

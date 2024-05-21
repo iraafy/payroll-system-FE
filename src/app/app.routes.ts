@@ -28,7 +28,7 @@ export const routes: Routes = [
         data : [ RoleType.PS ]
     },
     {
-        path: 'clients/id',
+        path: 'clients/:id',
         component: Navbar,
         loadChildren: () => import('./pages/payroll/payroll.module').then(p => p.PayrollModule),
         canMatch : [ roleValidation ],

@@ -76,4 +76,18 @@ export const routes: Routes = [
         canMatch : [ roleValidation ],
         data : [ RoleType.SUPER_ADMIN ]
     },
+    {
+        path: 'change-password',
+        component: Navbar,
+        loadChildren: () => import('./pages/change-password/change-password.module').then(cp => cp.ChangePasswordModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
+    },
+    {
+        path: 'profile',
+        component: Navbar,
+        loadChildren: () => import('./pages/profile/profile.module').then(p => p.ProfileModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
+    }
 ];

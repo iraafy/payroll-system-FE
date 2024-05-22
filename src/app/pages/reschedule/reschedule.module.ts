@@ -5,6 +5,7 @@ import { Reschedule } from "./reschedule.component"
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from "@angular/common"
 import { DialogModule } from "primeng/dialog"
+import { BadgeModule } from "primeng/badge"
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { DialogModule } from "primeng/dialog"
         FormsModule,
         ReactiveFormsModule,
         ButtonModule,
-        DialogModule
+        DialogModule,
+        BadgeModule
     ]
 })
 

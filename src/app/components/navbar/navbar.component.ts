@@ -51,8 +51,8 @@ export class Navbar {
     pickedClient? : any
     sockClient : any
     received : ChatResDto[] = []
-    connected? : Boolean | null
-    username? : string | null
+    connected? : Boolean | null | undefined
+    username? : string | null | undefined
     text? : string | null
     sent? : ChatReqDto[] | null;
 
@@ -141,10 +141,10 @@ export class Navbar {
           that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
             // tslint:disable-next-line:triple-equals
             console.log(JSON.parse(message.body))
-            if (that.username != JSON.parse(message.body).name) {
+            // if (that.username != JSON.parse(message.body).name) {
               that.received.push(JSON.parse(message.body));
               that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
-            }
+            // }
           })
         })
     }
@@ -154,8 +154,8 @@ export class Navbar {
           this.connected = false
           this.sent = []
           this.received = []
-          this.username = null
-          this.text = null
+          this.username = undefined
+          this.text = undefined
           console.log('Disconnected!')
           this.sockClient.disconnect()
         }

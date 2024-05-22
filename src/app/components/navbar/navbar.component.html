@@ -35,56 +35,37 @@
     </ng-template>
     <div class="chat-list px-4" *ngIf="!chatDetailVisible">
         <div class="border-b mt-3 cursor-pointer" *ngFor="let client of clients;" (click)="openChat(client)">
-            <b>{{client.company}}</b>
+            <b *ngIf="isPS">{{client.company}}</b>
             <p>{{client.name}}</p>
         </div>
     </div>
     <div class="chat-detail" *ngIf="chatDetailVisible">
         <div class="chat px-4">
-            <div class="sender-bubble p-3 m-2">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
+            <div class="sender-bubble p-3 m-2" *ngFor="let message of received">
+                <p class="m-0">{{message.message}}</p>
+                <p class="text-xs">{{message.createdAt}}</p>
             </div>
-            <div class="sender-bubble p-3 m-2">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="sender-bubble p-3 m-2">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="my-bubble p-3 m-2 ml-auto">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="sender-bubble p-3 m-2">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="my-bubble p-3 m-2 ml-auto">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="my-bubble p-3 m-2 ml-auto">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
-            </div>
-            <div class="my-bubble p-3 m-2 ml-auto">
-                <p class="m-0">Lorem ipsum dolor sit amet ...</p>
-                <p class="text-xs">12:00PM</p>
+            <div class="my-bubble ml-auto p-3 m-2" *ngFor="let message of received">
+                <p class="m-0">{{message.message}}</p>
+                <p class="text-xs">{{message.createdAt}}</p>
             </div>
         </div>
+        <pre>
+            {{chat.value | json}}
+        </pre>
         <div class="sticky z-5 w-full bottom-0 p-3 pb-2 bg-white custom-small-shadow">
-            <div class="grid">
-                <div class="col-10">
-                    <textarea pInputTextarea rows="2" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md"></textarea>
+            <form [formGroup]="chat" (submit)="sendMessage()">
+                <div class="grid">
+                    <div class="col-10">
+                        <textarea pInputTextarea rows="2" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md" formControlName="message"></textarea>
+                    </div>
+                    <div class="col-2">
+                        <p-button styleClass="bg-color-primary" (onClick)="sendMessage()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" class="p-0 m-0" viewBox="0 0 28 28"><path fill="#ffffff" d="M3.79 2.625c-.963-.46-2.021.42-1.746 1.451l2.016 7.533a1 1 0 0 0 .824.732l9.884 1.412c.286.04.286.454 0 .495l-9.883 1.411a1 1 0 0 0-.824.732l-2.017 7.537c-.275 1.03.783 1.91 1.746 1.451L25.288 15.13c.949-.452.949-1.804 0-2.257z"/></svg>
+                        </p-button>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <p-button styleClass="bg-color-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" class="p-0 m-0" viewBox="0 0 28 28"><path fill="#ffffff" d="M3.79 2.625c-.963-.46-2.021.42-1.746 1.451l2.016 7.533a1 1 0 0 0 .824.732l9.884 1.412c.286.04.286.454 0 .495l-9.883 1.411a1 1 0 0 0-.824.732l-2.017 7.537c-.275 1.03.783 1.91 1.746 1.451L25.288 15.13c.949-.452.949-1.804 0-2.257z"/></svg>
-                    </p-button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </p-sidebar>

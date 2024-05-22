@@ -13,7 +13,7 @@ export class AuthService {
 
     login(loginReqDto: LoginReqDto) {
         return this.http.post<LoginResDto>(
-            'http://localhost:8080/users/login',
+            'http://192.168.20.75:8080/users/login',
             loginReqDto
         )
     }

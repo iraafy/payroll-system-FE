@@ -95,6 +95,10 @@ export class Navbar {
         return this.loginData?.roleCode == RoleType.CLIENT
     }
 
+    get sessionId() {
+        return this.loginData?.id
+    }
+
     openChat(client : ClientAssignmentResDto) {
         this.chatListVisible = false
         this.chatDetailVisible = true
@@ -105,7 +109,7 @@ export class Navbar {
         }else{
             const id : string | undefined = this.authService.getLoginData()?.id
             this.connect(id)
-            this.chat.get('recipientId')?.patchValue(id)
+            this.chat.get('recipientId')?.patchValue(client.id)
         }
     }
 
@@ -164,7 +168,15 @@ export class Navbar {
     sendMessage() {
         const newChat : ChatReqDto = this.chat.getRawValue()
         this.sent?.push(newChat)
-        this.sockClient.send(this.websocketService.topicChat + newChat.recipientId, {}, JSON.stringify(newChat))
+        
+        if(this.isPS){
+            this.sockClient.send(this.websocketService.topicChat + newChat.recipientId, {}, JSON.stringify(newChat))
+        }else{
+            const id : string | undefined = this.authService.getLoginData()?.id
+            this.sockClient.send(this.websocketService.topicChat + id, {}, JSON.stringify(newChat))
+        }
+
         this.text = null
+        this.chat.get('message')?.patchValue(null)
     }
 }

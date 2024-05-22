@@ -2,13 +2,14 @@ import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, firstValueFrom } from "rxjs";
+import { Observable, firstValueFrom, tap } from "rxjs";
 import { PayrollService } from "../../services/payroll.service";
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
 import { DatePipe } from "@angular/common";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ReschduleService } from "../../services/reschedule.service";
 import { MessageService } from "primeng/api";
+import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 
 @Component({
     selector: 'payroll-detail',
@@ -22,6 +23,7 @@ export class PayrollDetail {
     payrollId: string | null = '';
     clientId: string | null = '';
     payrollDetails?: Observable<PayrollDetailResDto[]>
+    payrollItems?: PayrollDetailResDto
     payrollLoop = [1]
     companyLogos: string[] = [];
 
@@ -41,24 +43,31 @@ export class PayrollDetail {
     ) { }
 
     ngOnInit(): void {
-		this.init();
-        
+        this.init();
     }
 
     init(): void {
         this.payrollId = this.activeRoute.snapshot.paramMap.get('id');
         if (this.payrollId != null) {
-            this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId);
+            this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId)
+                .pipe(
+                    tap((items: PayrollDetailResDto[]) => {
+                        items.forEach((item) => {
+                            const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
+                            item.maxUploadDate = formattedDate;
+                        });
+                    })
+                );
         }
 
         if (this.loginData != null) {
-            if(this.loginData.roleCode == RoleType.CLIENT) {
+            if (this.loginData.roleCode == RoleType.CLIENT) {
                 this.clientId = this.loginData.id;
             } else {
                 // this.clientId = this.payrollDetails
             }
-        } 
-	}
+        }
+    }
 
     loginData = this.authService.getLoginData();
 

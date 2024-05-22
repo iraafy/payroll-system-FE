@@ -41,13 +41,15 @@
     </div>
     <div class="chat-detail" *ngIf="chatDetailVisible">
         <div class="chat px-4">
-            <div class="sender-bubble p-3 m-2" *ngFor="let message of received">
-                <p class="m-0">{{message.message}}</p>
-                <p class="text-xs">{{message.createdAt}}</p>
-            </div>
-            <div class="my-bubble ml-auto p-3 m-2" *ngFor="let message of received">
-                <p class="m-0">{{message.message}}</p>
-                <p class="text-xs">{{message.createdAt}}</p>
+            <div *ngFor="let message of received">
+                <div class="sender-bubble p-3 m-2" *ngIf="message.userName === loginData?.id ">
+                    <p class="m-0">{{message.message}}</p>
+                    <p class="text-xs">{{message.createdAt}}</p>
+                </div>
+                <div class="my-bubble ml-auto p-3 m-2" *ngIf="message.userName !== loginData?.id ">
+                    <p class="m-0">{{message.message}}</p>
+                    <p class="text-xs">{{message.createdAt}}</p>
+                </div>
             </div>
         </div>
         <pre>

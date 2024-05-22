@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
 import { ActivatedRoute } from "@angular/router";
-import { firstValueFrom } from "rxjs";
+import { Observable, firstValueFrom } from "rxjs";
 import { PayrollService } from "../../services/payroll.service";
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
 
@@ -16,7 +16,8 @@ export class PayrollDetail {
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
     payrollId: string | null = '';
-    payrollDetails: PayrollDetailResDto[] = []
+    clientId: string | null = '';
+    payrollDetails?: Observable<PayrollDetailResDto[]>
     payrollLoop = [1]
     companyLogos: string[] = [];
 
@@ -28,19 +29,22 @@ export class PayrollDetail {
 
     ngOnInit(): void {
 		this.init();
+        
     }
 
     init(): void {
 		this.payrollId = this.activeRoute.snapshot.paramMap.get('id');
         if (this.payrollId != null) {
-            firstValueFrom(this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId)).then(
-                res => {
-                    this.payrollDetails = res;
-                    console.log(this.payrollDetails);
-                }
-            )
-        }   
+            this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId);
+        }
 
+        if (this.loginData != null) {
+            if(this.loginData.roleCode == RoleType.CLIENT) {
+                this.clientId = this.loginData.id;
+            } else {
+                // this.clientId = this.payrollDetails
+            }
+        } 
 	}
 
     loginData = this.authService.getLoginData();

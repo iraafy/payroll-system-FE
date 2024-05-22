@@ -28,4 +28,8 @@ export class PayrollService {
     getAllPayrollDetailByPayrollId(id: string) {
         return this.baseService.get<PayrollDetailResDto[]>(`payrolls/${id}/details`)
     }
+
+    getClientIdByPayrollId(id: string) {
+        return this.baseService.get<string>(`payrolls/${id}/client`)
+    }
 }

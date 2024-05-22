@@ -81,7 +81,10 @@ export class Payroll implements OnInit {
 	init(): void {
 		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
 		if (this.clientId != null) {
-			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(res => this.payrolls = res)
+			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
+				res => this.payrolls = res
+				
+			)
 		} else {
 
 			const loginData = this.authService.getLoginData()

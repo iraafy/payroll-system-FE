@@ -11,70 +11,64 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <div class="mb-2">
-                                    <label for="name" class="form-label fw-semibold">Nama Lengkap<span class="text-red-500">*</span></label>
+                                    <label for="name" class="form-label fw-semibold">Nama Lengkap<span
+                                            class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="text" class="w-full bg-gray-100" id="name" pInputText formControlName="fullName">
+                                    <input type="text" class="w-full bg-gray-100" id="name" pInputText
+                                        formControlName="fullName">
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
                                 <div class="mb-2">
-                                    <label for="email" class="form-label fw-semibold">Email<span class="text-red-500">*</span></label>
+                                    <label for="email" class="form-label fw-semibold">Email<span
+                                            class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="email" class="w-full bg-gray-100" id="email" pInputText formControlName="email">
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="grid">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <div class="mb-2">
-                                    <label for="company" class="form-label fw-semibold">Perusahaan<span class="text-red-500">*</span></label>
-                                </div>
-                                <div>
-                                    <p-dropdown 
-                                        styleClass="w-full bg-gray-100"
-                                        [options]="companies"
-                                        optionLabel="companyName"
-                                        optionValue="id"
-                                        [filter]="true"
-                                        filterBy="companyName" 
-                                        [showClear]="true"
-                                        id="company"
-                                        formControlName="companyId"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <div class="mb-2">
-                                    <label for="role" class="form-label fw-semibold">Role<span class="text-red-500">*</span></label>
-                                </div>
-                                <div>
-                                    <p-dropdown 
-                                        styleClass="w-full bg-gray-100"
-                                        [options]="roles"
-                                        optionValue="id"
-                                        optionLabel="roleName" 
-                                        id="role"
-                                        formControlName="roleId"
-                                    />
+                                    <input type="email" class="w-full bg-gray-100" id="email" pInputText
+                                        formControlName="email">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="grid">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <div class="mb-2">
+                                    <label for="company" class="form-label fw-semibold">Perusahaan<span
+                                            class="text-red-500">*</span></label>
+                                </div>
+                                <div>
+                                    <p-dropdown styleClass="w-full bg-gray-100" [options]="companies"
+                                        optionLabel="companyName" optionValue="id" [filter]="true"
+                                        filterBy="companyName" [showClear]="true" id="company"
+                                        formControlName="companyId" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <div class="mb-2">
+                                    <label for="role" class="form-label fw-semibold">Role<span
+                                            class="text-red-500">*</span></label>
+                                </div>
+                                <div>
+                                    <p-dropdown styleClass="w-full bg-gray-100" [options]="roles" optionValue="id"
+                                        optionLabel="roleName" id="role" formControlName="roleId" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-5">
                         <div class="mb-2">
                             <label for="file" class="form-label fw-semibold">Foto Profil</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-100" pInputText (change)="fileUpload($event)"/>
+                            <input type="file" id="file" class="w-full bg-gray-100" pInputText
+                                (change)="fileUpload($event)" />
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>
@@ -88,17 +82,14 @@
     </div>
 </div>
 
-<p-dialog header="Konfirmasi" [modal]="true" [(visible)]="displayModal" [style]="{ width: '25vw' }" [draggable]="false"
+<p-dialog header="Konfirmasi menambahkah perusahaan!" [(visible)]="displayModal" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
     [resizable]="false">
-    <div class="flex align-items-center gap-3 mb-3">
-        <label>Apakah anda yakin untuk menambahkan pengguna?</label>
-    </div>
-    <div class="flex justify-content-around grid">
-        <div class="col">
-            <p-button label="Tidak" severity="secondary" (click)="displayModal = false" />
-        </div>
-        <div class="col text-right">
-            <p-button label="Ya" (click)="createUser()" />
-        </div>
+    <p>
+        Apakah anda yakin untuk menambahkan pengguna?
+    </p>
+    <div class="flex justify-content-end">
+        <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
+        <p-button label="Ya" (click)="createUser()" styleClass="ml-2 bg-color-primary" />
     </div>
 </p-dialog>

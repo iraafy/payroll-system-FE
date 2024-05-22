@@ -3,6 +3,10 @@ import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assig
 import { ClientAssignmentService } from "../../services/client-assignment.service";
 import { firstValueFrom } from "rxjs";
 import { BASE_URL } from "../../constants/global";
+import { LoginResDto } from "../../dto/user/login.res.dto";
+import { AuthService } from "../../services/auth.service";
+import { RoleType } from "../../constants/role-type";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'client-app',
@@ -13,18 +17,32 @@ export class Client implements OnInit {
 
     clients: ClientAssignmentResDto[] = []
     companyLogos: string[] = [];
+    loginData: LoginResDto | undefined = undefined;
 
-    constructor(private clientAssignmentService: ClientAssignmentService){}
+    constructor(
+        private clientAssignmentService: ClientAssignmentService,
+        private authService: AuthService,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
+
+        this.loginData = this.authService.getLoginData();
+
         firstValueFrom(this.clientAssignmentService.getAllClientAssignment()).then(
             res => {
                 this.clients = res
+
+                console.log(res)
 
                 res.forEach((client: { fileId: string }) => {
                     this.companyLogos?.push(`${BASE_URL}/files/file/${client.fileId}`);
                 });
             }
         )
+
+        if (this.loginData?.roleCode != RoleType.PS) {
+            this.router.navigate(['/404'])
+        }
     }
 }

@@ -13,6 +13,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { RippleModule } from "primeng/ripple";
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { RippleModule } from "primeng/ripple";
         FileUploadModule,
         DropdownModule,
         ToastModule,
-        RippleModule
+        RippleModule,
+        DialogModule
     ],
     providers: [
         MessageService

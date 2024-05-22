@@ -16,27 +16,29 @@ import { Router } from "@angular/router";
 })
 
 export class UserAdd implements OnInit {
-    userForm : FormGroup = this.fb.group({
-        email : ['', [Validators.required]],
-        fullName : ['', [Validators.required]],
-        roleId : ['', [Validators.required]],
-        companyId : ['', [Validators.required]],
-        fileContent : ['', [Validators.required]],
-        fileExt : ['', [Validators.required]]
+    userForm: FormGroup = this.fb.group({
+        email: ['', [Validators.required]],
+        fullName: ['', [Validators.required]],
+        roleId: ['', [Validators.required]],
+        companyId: ['', [Validators.required]],
+        fileContent: ['', [Validators.required]],
+        fileExt: ['', [Validators.required]]
     })
 
-    companies : CompanyResDto[] = [];
+    displayModal: boolean = false;
 
-    roles : RoleResDto[] = [];
+    companies: CompanyResDto[] = [];
+
+    roles: RoleResDto[] = [];
 
     constructor(
-        private fb : NonNullableFormBuilder,
-        private userService : UserService,
-        private rolesService : RolesService,
-        private companyService : CompanyService,
-        private messageService : MessageService,
-        private router : Router
-    ) {}
+        private fb: NonNullableFormBuilder,
+        private userService: UserService,
+        private rolesService: RolesService,
+        private companyService: CompanyService,
+        private messageService: MessageService,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
         this.init()
@@ -53,7 +55,7 @@ export class UserAdd implements OnInit {
                 this.companies = res
             },
             err => {
-                this.messageService.add({severity: 'error', summary:'Error', detail: err})
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
             }
         )
     }
@@ -64,42 +66,42 @@ export class UserAdd implements OnInit {
                 this.roles = res
             },
             err => {
-                this.messageService.add({severity: 'error', summary:'Error', detail: err})
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
             }
         )
     }
-    
-    fileUpload(event: any) {
-        const toBase64 = (file : File) => new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            if (typeof reader.result === "string") resolve(reader.result)
-          };
-          reader.onerror = error => reject(error);
-        });
-      
-        for (let file of event.target.files) {
-          toBase64(file).then(result => {
-            const resultBase64 = result.substring(result.indexOf(",") + 1, result.length)
-            const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length)
-            
 
-            this.userForm.get('fileContent')?.patchValue(resultBase64)
-            this.userForm.get('fileExt')?.patchValue(resultExtension)
-          })
+    fileUpload(event: any) {
+        const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (typeof reader.result === "string") resolve(reader.result)
+            };
+            reader.onerror = error => reject(error);
+        });
+
+        for (let file of event.target.files) {
+            toBase64(file).then(result => {
+                const resultBase64 = result.substring(result.indexOf(",") + 1, result.length)
+                const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length)
+
+
+                this.userForm.get('fileContent')?.patchValue(resultBase64)
+                this.userForm.get('fileExt')?.patchValue(resultExtension)
+            })
         }
     }
 
     createUser() {
-        const userReq : UserReqDto = this.userForm.getRawValue()
+        const userReq: UserReqDto = this.userForm.getRawValue()
         firstValueFrom(this.userService.saveUser(userReq)).then(
             res => {
-                this.messageService.add({severity: 'success', summary: 'Success', detail: 'Berhasil Menambahkan user'})
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Berhasil Menambahkan user' })
                 this.router.navigateByUrl('/users')
             },
             err => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: err['message']})
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err['message'] })
             }
         )
     }

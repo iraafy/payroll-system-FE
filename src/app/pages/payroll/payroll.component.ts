@@ -143,4 +143,12 @@ export class Payroll implements OnInit {
 			);
 		}
 	}
+
+	get isPS() {
+        return this.loginData?.roleCode == RoleType.PS;
+    }
+
+    get isClient() {
+        return this.loginData?.roleCode == RoleType.CLIENT;
+    }
 }

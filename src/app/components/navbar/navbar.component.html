@@ -45,6 +45,10 @@
                 <p class="m-0">{{message.message}}</p>
                 <p class="text-xs">{{message.createdAt}}</p>
             </div>
+            <div class="my-bubble ml-auto p-3 m-2" *ngFor="let message of received">
+                <p class="m-0">{{message.message}}</p>
+                <p class="text-xs">{{message.createdAt}}</p>
+            </div>
         </div>
         <pre>
             {{chat.value | json}}

@@ -76,14 +76,21 @@ export class Payroll implements OnInit {
 				}
 			)
 		}
+
+
 	}
 
 	init(): void {
 		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
 		if (this.clientId != null) {
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
-				res => this.payrolls = res
-				
+				res => {
+					this.payrolls = res
+					this.payrolls.forEach((payroll) => {
+						const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
+						payroll.scheduleDate = formattedDate;
+					})
+				}
 			)
 		} else {
 
@@ -93,7 +100,6 @@ export class Payroll implements OnInit {
 				this.clientId = loginData?.id;
 			}
 		}
-
 	}
 
 	showDialogPayroll() {

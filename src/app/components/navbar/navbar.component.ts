@@ -14,6 +14,8 @@ import { RoleType } from "../../constants/role-type";
 import { ClientAssignmentService } from "../../services/client-assignment.service";
 import { firstValueFrom } from "rxjs";
 import { ClientAssignmentResDto } from "../../dto/client-assignment/client-assignment.res.dto";
+import { NotificationService } from "../../services/notification.service";
+import { NotificationResDto } from "../../dto/notification/notification.res.dto";
 
 @Component({
     selector: 'app-navbar',
@@ -39,11 +41,13 @@ export class Navbar {
     chatDetailVisible: boolean = false
     navlinks: any = []
     clients : ClientAssignmentResDto[]  = []
+    notification : NotificationResDto[] = [];
     pickedClient : any
 
     constructor(
         private clientAssignmentService : ClientAssignmentService,
         private authService : AuthService, 
+        private notificationService : NotificationService,
         private router : Router) {}
     
     ngOnInit() {
@@ -94,5 +98,11 @@ export class Navbar {
                 console.log(res)
             }
         )
+
+        firstValueFrom(this.notificationService.getAllNotification()).then(
+            res => {
+                this.notification = res;
+            }
+        );
     }
 }

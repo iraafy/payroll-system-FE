@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 flex justify-content-end">
+        <div class="col-6 flex justify-content-end" *ngIf="isPS">
             <p-button routerLink="/payrolls/{{payrollId}}/reschedule" class="rounded-3 mr-2" severity="secondary"
                 styleClass="custom-small-shadow border-none">
                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem"

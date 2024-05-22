@@ -14,6 +14,8 @@ import { DatePipe } from "@angular/common";
 import { UserService } from "../../services/user.service";
 import { UserResDto } from "../../dto/user/user.res.dto";
 import { AuthService } from "../../services/auth.service";
+import { LoginResDto } from "../../dto/user/login.res.dto";
+import { RoleType } from "../../constants/role-type";
 
 @Component({
 	selector: 'payroll-detail',
@@ -26,10 +28,10 @@ export class Payroll implements OnInit {
 	clientId: string | null = null;
 	currentCompanyPayroll: string | null = null;
 	client: UserResDto | null = null;
-
 	company: CompanyResDto | null = null;
-
 	payrolls: PayrollResDto[] = [];
+	backButton: string | null = null;
+	loginData: LoginResDto | undefined = undefined;
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -50,8 +52,9 @@ export class Payroll implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.init();
 
+		this.loginData = this.authService.getLoginData();
+		this.init();
 		const currentDate = new Date();
 
 		if (this.clientId != null) {
@@ -77,12 +80,21 @@ export class Payroll implements OnInit {
 			)
 		}
 
+		if (this.loginData?.roleCode == RoleType.PS) {
+			this.backButton = '/clients'
+		} else if (this.loginData?.roleCode == RoleType.CLIENT) {
+            this.backButton = '/homepage'
+		}
+
 
 	}
 
 	init(): void {
 		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
 		if (this.clientId != null) {
+
+
+
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
 				res => {
 					this.payrolls = res
@@ -94,10 +106,8 @@ export class Payroll implements OnInit {
 			)
 		} else {
 
-			const loginData = this.authService.getLoginData()
-
-			if (loginData) {
-				this.clientId = loginData?.id;
+			if (this.loginData) {
+				this.clientId = this.loginData?.id;
 			}
 		}
 	}

@@ -22,6 +22,8 @@ import { MessageService } from "primeng/api"
 import { ChatReqDto } from "../../dto/chat/chat.req.dto"
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
 
+import { NotificationService } from "../../services/notification.service";
+import { NotificationResDto } from "../../dto/notification/notification.res.dto";
 
 @Component({
     selector: 'app-navbar',
@@ -48,6 +50,7 @@ export class Navbar {
     chatDetailVisible: boolean = false
     navlinks: any = []
     clients : ClientAssignmentResDto[]  = []
+    notification : NotificationResDto[] = [];
     pickedClient? : any
     sockClient : any
     received : ChatResDto[] = []
@@ -64,6 +67,7 @@ export class Navbar {
     constructor(
         private clientAssignmentService : ClientAssignmentService,
         private authService : AuthService, 
+        private notificationService : NotificationService,
         private router : Router,
         private websocketService : WebsocketService,
         private messageService : MessageService,
@@ -131,6 +135,12 @@ export class Navbar {
                 console.log(res)
             }
         )
+
+        firstValueFrom(this.notificationService.getAllNotification()).then(
+            res => {
+                this.notification = res;
+            }
+        );
     }
 
     connect(id : string | undefined) {

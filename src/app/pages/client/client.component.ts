@@ -33,6 +33,8 @@ export class Client implements OnInit {
             res => {
                 this.clients = res
 
+                console.log(res)
+
                 res.forEach((client: { fileId: string }) => {
                     this.companyLogos?.push(`${BASE_URL}/files/file/${client.fileId}`);
                 });

@@ -41,7 +41,7 @@ export class Activity {
         firstValueFrom(this.payrollService.createNewPayrollDetail(payrollDetailReqDto, this.payrollId)).then(
             res => {
                 this.router.navigateByUrl(`/payrolls/${this.payrollId}`);
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Company berhasil terbuat' });
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Aktivitas berhasil terbuat' });
             }
         );
     }

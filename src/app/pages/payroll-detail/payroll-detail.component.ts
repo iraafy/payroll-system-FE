@@ -17,6 +17,7 @@ export class PayrollDetail {
     pingVisible: boolean = false;
     payrollId: string | null = '';
     payrollDetails: PayrollDetailResDto[] = []
+    payrollLoop = [1]
     companyLogos: string[] = [];
 
     constructor(

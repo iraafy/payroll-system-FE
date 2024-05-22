@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { ButtonModule } from 'primeng/button';
         ReactiveFormsModule,
         ChangePasswordRouting,
         InputTextModule,
-        ButtonModule
+        ButtonModule,
+        DialogModule
     ]
 })
 

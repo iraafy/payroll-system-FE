@@ -13,6 +13,8 @@ import { MessageService } from "primeng/api";
 
 export class ChangePassword {
 
+    displayModal: boolean = false;
+
     constructor(
         private userService: UserService,
         private fb: NonNullableFormBuilder,

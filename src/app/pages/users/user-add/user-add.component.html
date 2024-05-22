@@ -6,7 +6,7 @@
     <div class="grid mt-7 justify-content-center">
         <div class="md:col-5 col-12 flex align-items-center">
             <div class="w-full">
-                <form [formGroup]="userForm" (ngSubmit)="createUser()">
+                <form [formGroup]="userForm">
                     <div class="grid">
                         <div class="col-6">
                             <div class="mb-3">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>
-                    <p-button type="submit" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button (click)="displayModal=true" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>
@@ -87,3 +87,18 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="Konfirmasi" [modal]="true" [(visible)]="displayModal" [style]="{ width: '25vw' }" [draggable]="false"
+    [resizable]="false">
+    <div class="flex align-items-center gap-3 mb-3">
+        <label>Apakah anda yakin untuk menambahkan pengguna?</label>
+    </div>
+    <div class="flex justify-content-around grid">
+        <div class="col">
+            <p-button label="Tidak" severity="secondary" (click)="displayModal = false" />
+        </div>
+        <div class="col text-right">
+            <p-button label="Ya" (click)="createUser()" />
+        </div>
+    </div>
+</p-dialog>

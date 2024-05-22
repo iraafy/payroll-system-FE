@@ -11,6 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CompanyAdd } from "./company-add/company-add.component";
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
     declarations: [
@@ -27,7 +28,9 @@ import { MessageService } from "primeng/api";
         InputTextModule,
         InputNumberModule,
         FileUploadModule,
-        ToastModule
+        ToastModule,
+        DialogModule
+        
     ],
     providers: [
         MessageService

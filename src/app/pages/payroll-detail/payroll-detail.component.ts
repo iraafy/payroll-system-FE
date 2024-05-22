@@ -22,8 +22,8 @@ export class PayrollDetail {
     pingVisible: boolean = false;
     payrollId: string | null = '';
     clientId: string | null = '';
-    payrollDetails?: Observable<PayrollDetailResDto[]>
-    payrollItems?: PayrollDetailResDto
+    payrollDetails?: Observable<PayrollDetailResDto[]>;
+    payrolls?: PayrollResDto;
     payrollLoop = [1]
     companyLogos: string[] = [];
 
@@ -49,6 +49,12 @@ export class PayrollDetail {
     init(): void {
         this.payrollId = this.activeRoute.snapshot.paramMap.get('id');
         if (this.payrollId != null) {
+            firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
+                res => {
+                    this.payrolls = res;
+                    this.clientId = res.clientId;
+                }
+            )
             this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId)
                 .pipe(
                     tap((items: PayrollDetailResDto[]) => {
@@ -58,14 +64,6 @@ export class PayrollDetail {
                         });
                     })
                 );
-        }
-
-        if (this.loginData != null) {
-            if (this.loginData.roleCode == RoleType.CLIENT) {
-                this.clientId = this.loginData.id;
-            } else {
-                // this.clientId = this.payrollDetails
-            }
         }
     }
 

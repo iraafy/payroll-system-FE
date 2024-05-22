@@ -13,9 +13,9 @@
                 </div>
                 <div class="col-auto ml-3">
                     <b class="">
-                        Title Payroll
+                        {{payrolls?.title}}
                     </b>
-                    <p class="text-sm">Nama Perusahaan</p>
+                    <p class="text-sm">{{payrolls?.companyName}}</p>
                 </div>
             </div>
         </div>
@@ -38,9 +38,6 @@
             </p-button>
         </div>
     </div>
-    <pre>
-        {{payrollDetails | json}}
-    </pre>
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">

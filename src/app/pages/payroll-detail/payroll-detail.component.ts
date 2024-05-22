@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Observable, firstValueFrom } from "rxjs";
 import { PayrollService } from "../../services/payroll.service";
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
+import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 
 @Component({
     selector: 'payroll-detail',
@@ -17,9 +18,12 @@ export class PayrollDetail {
     pingVisible: boolean = false;
     payrollId: string | null = '';
     clientId: string | null = '';
-    payrollDetails?: Observable<PayrollDetailResDto[]>
+    payrollDetails?: Observable<PayrollDetailResDto[]>;
+    payrolls?: PayrollResDto;
     payrollLoop = [1]
     companyLogos: string[] = [];
+
+    loginData = this.authService.getLoginData();
 
     constructor(
         private authService : AuthService,
@@ -29,25 +33,20 @@ export class PayrollDetail {
 
     ngOnInit(): void {
 		this.init();
-        
     }
 
     init(): void {
 		this.payrollId = this.activeRoute.snapshot.paramMap.get('id');
         if (this.payrollId != null) {
             this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId);
+            firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
+                res => {
+                    this.payrolls = res;
+                    this.clientId = res.clientId;
+                }
+            )
         }
-
-        if (this.loginData != null) {
-            if(this.loginData.roleCode == RoleType.CLIENT) {
-                this.clientId = this.loginData.id;
-            } else {
-                // this.clientId = this.payrollDetails
-            }
-        } 
 	}
-
-    loginData = this.authService.getLoginData();
 
     get isPS() {
         return this.loginData?.roleCode == RoleType.PS;

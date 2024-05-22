@@ -19,6 +19,8 @@ export class CompanyAdd implements OnInit {
         fileExtension: ['']
     });
 
+    displayModal: boolean = false;
+
     constructor(
         private fb: NonNullableFormBuilder,
         private companyService: CompanyService,

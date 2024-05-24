@@ -89,5 +89,12 @@ export const routes: Routes = [
         loadChildren: () => import('./pages/profile/profile.module').then(p => p.ProfileModule),
         canMatch : [ roleValidation ],
         data : [ RoleType.PS, RoleType.SUPER_ADMIN, RoleType.CLIENT ]
-    }
+    },
+    {
+        path: 'notification',
+        component: Navbar,
+        loadChildren: () => import('./pages/notification/notification.module').then(n => n.NotificationModule),
+        canMatch : [ roleValidation ],
+        data : [ RoleType.PS, RoleType.CLIENT ]
+    },
 ];

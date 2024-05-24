@@ -54,7 +54,6 @@ export class CompanyAdd implements OnInit {
     onSubmit() {
         if (this.companyReqDtoFg.valid) {
             const newCompany = this.companyReqDtoFg.getRawValue() as any;
-
             firstValueFrom(this.companyService.createNewCompany(newCompany)).then(
                 res => {
                     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Company berhasil terbuat' });

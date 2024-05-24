@@ -12,7 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Activity } from "./activity.component"
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'
 import { FullCalendarModule } from '@fullcalendar/angular'
-import { CommonModule } from "@angular/common"
+import { CommonModule, DatePipe } from "@angular/common"
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,11 @@ import { CommonModule } from "@angular/common"
         FullCalendarModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InputSwitchModule
+    ],
+    providers: [
+        DatePipe
     ]
 })
 

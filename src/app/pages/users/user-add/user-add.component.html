@@ -82,14 +82,19 @@
     </div>
 </div>
 
-<p-dialog header="Konfirmasi menambahkah perusahaan!" [(visible)]="displayModal" [modal]="true"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
+<p-dialog 
+    header="Konfirmasi" 
+    [(visible)]="displayModal"
+    [modal]="true" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [style]="{ width: '35vw' }"
+    [draggable]="false" 
     [resizable]="false">
-    <p>
-        Apakah anda yakin untuk menambahkan pengguna?
-    </p>
-    <div class="flex justify-content-end">
-        <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
-        <p-button label="Ya" (click)="createUser()" styleClass="ml-2 bg-color-primary" />
-    </div>
+        <p class="m-0">
+            Apakah anda yakin untuk menambahkan pengguna?
+        </p>
+        <div class="grid justify-content-end mt-5">
+            <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
+            <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="createUser()" />
+        </div>
 </p-dialog>

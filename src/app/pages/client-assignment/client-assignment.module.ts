@@ -9,6 +9,7 @@ import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from "@angular/common";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ReactiveFormsModule } from "@angular/forms";
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ReactiveFormsModule } from "@angular/forms";
         ConfirmDialogModule,
         BadgeModule,
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DialogModule
     ],
     providers: [
         ConfirmationService,

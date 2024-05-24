@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Route, Router } from "@angular/router";
 import { Observable, firstValueFrom, tap } from "rxjs";
 import { PayrollService } from "../../services/payroll.service";
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
@@ -10,6 +10,9 @@ import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ReschduleService } from "../../services/reschedule.service";
 import { MessageService } from "primeng/api";
 import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
+import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
+import { NotificationService } from "../../services/notification.service";
+import { BASE_URL } from "../../constants/global";
 
 @Component({
     selector: 'payroll-detail',
@@ -26,6 +29,7 @@ export class PayrollDetail {
     payrolls?: PayrollResDto;
     payrollLoop = [1]
     companyLogos: string[] = [];
+    data: NotificationReqDto | null = null
 
     rescheduleReqDtoFg = this.fb.group({
         newScheduleDate: ['', Validators.required],
@@ -39,7 +43,9 @@ export class PayrollDetail {
         private datePipe: DatePipe,
         private fb: NonNullableFormBuilder,
         private reschduleService: ReschduleService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private notificationService: NotificationService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -107,4 +113,22 @@ export class PayrollDetail {
             this.rescheduleVisible = false;
         }
     }
+
+    pingSubmit() {
+        if (this.clientId != null) {
+            this.data = {
+                notificationContent: 'Anda belum mengisi bagian ini',
+                contextUrl: `/payrolls/${this.payrollId}`,
+                contextId: 'PING',
+                userId: this.clientId
+            }
+            firstValueFrom(this.notificationService.sendPing(this.data)).then(
+                res => {
+                    this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Berhasil mengirimkan ping ke klien' })
+                    this.pingVisible = false
+            })
+            console.log(this.activeRoute.snapshot.url[0].path)
+        }
+		
+	}
 }

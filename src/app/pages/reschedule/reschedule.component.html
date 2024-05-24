@@ -1,44 +1,48 @@
 <div class="mx-4 md:mx-8 my-7">
     <div class="grid mb-5">
         <div class="col-auto">
-            <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+            <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3"
+                styleClass="custom-small-shadow border-none bg-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                    <path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="m14 7l-5 5l5 5" />
+                </svg>
             </p-button>
         </div>
         <div class="col-auto ml-3">
             <b class="">
                 Daftar Pengajuan Reschedule
             </b>
-            <p class="text-sm">Nama Perusahaan</p>
+            <p class="text-sm">{{payroll?.companyName}}</p>
         </div>
     </div>
 
     <div class="grid">
-        <div class="col-6">
+        <div class="col-6" *ngFor="let reschedule of reschedules">
             <div class="custom-small-shadow bg-white p-3 pt-4 mt-3 rounded-3">
                 <div class="grid">
-                    <div class="col">
-                        <p class="mt-0 text-xl"><strong>Aktivitas</strong></p>
-                        <p class="mt-0">21-05-2024 <p-badge severity="warning" value="Tanggal Saat Ini" class="ml-2" /></p>
-                        <p class="mt-0">21-05-2024 <p-badge severity="primary" value="Tanggal Baru" class="ml-2" /></p>
+                    <div class="col-6">
+                        <p class="mt-0 text-xl"><strong>{{reschedule.payrollDetailDescription}}</strong></p>
+                        <p class="mt-0"> {{reschedule.oldScheduleDate}} <p-badge severity="warning"
+                                value="Tanggal Saat Ini" class="ml-2" />
+                        </p>
+                        <p class="mt-0">{{reschedule.newScheduleDate}} <p-badge severity="primary" value="Tanggal Baru"
+                                class="ml-2" /></p>
                     </div>
                     <div class="col flex justify-content-end">
-                        <p-button label="Setujui" (click)="showDialogConfirmation()"  styleClass="ml-2 rounded-3 bg-color-primary" routerLink="/reschedules/id"></p-button>
-                        <p-dialog 
-                            header="Konfirmasi Pengajuan Reschedule" 
-                            [(visible)]="confirmationVisible"
-                            [modal]="true" 
-                            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-                            [style]="{ width: '50vw' }" 
-                            [draggable]="false" 
-                            [resizable]="false">
-                                <p>
-                                    Apakah Anda yakin ingin menyetujui pengajuan reschedule ini?
-                                </p>
-                                <div class="grid justify-content-end mt-5">
-                                    <p-button label="Batal" severity="secondary" (click)="confirmationVisible = false" />
-                                    <p-button label="Setujui" styleClass="ml-2 bg-color-primary" (click)="confirmationVisible = false" />
-                                </div>
+                        <p-button label="Setujui" (click)="showDialogConfirmation()"
+                            styleClass="ml-2 rounded-3 bg-color-primary"></p-button>
+                        <p-dialog header="Konfirmasi" [(visible)]="confirmationVisible" [modal]="true"
+                            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }"
+                            [draggable]="false" [resizable]="false">
+                            <p>
+                                Apakah Anda yakin ingin menyetujui pengajuan reschedule ini?
+                            </p>
+                            <div class="grid justify-content-end mt-5">
+                                <p-button label="Batal" severity="secondary" (click)="confirmationVisible = false" />
+                                <p-button label="Setujui" styleClass="ml-2 bg-color-primary"
+                                    (click)="approveReschedule(reschedule.id)" />
+                            </div>
                         </p-dialog>
                     </div>
                 </div>

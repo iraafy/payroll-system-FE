@@ -1,0 +1,9 @@
+<div class="mx-4 md:mx-8 my-7">
+    <h2 class="font-bold mb-5">
+        Semua Notifikasi
+    </h2>
+    <div class="border-b mt-3 cursor-pointer" *ngFor="let notif of notification">
+        <p class="text-sm font-semibold mb-1">12:00PM</p>
+        <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
+    </div>
+</div>

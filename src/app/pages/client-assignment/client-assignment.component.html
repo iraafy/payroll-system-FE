@@ -44,9 +44,7 @@
                             </p-dropdown>
                         </div>
                     </div>
-                    <p-confirmDialog />
-                    <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>
-                    <p-button (click)="confirm($event)" type="button" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button (click)="displayModal=true" styleClass="bg-color-primary">Buat Penugasan</p-button>
                 </form>
             </div>
         </div>
@@ -55,3 +53,20 @@
         </div>
     </div>
 </div>
+
+<p-dialog 
+    header="Konfirmasi" 
+    [(visible)]="displayModal"
+    [modal]="true" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [style]="{ width: '35vw' }"
+    [draggable]="false" 
+    [resizable]="false">
+        <p class="m-0">
+            Apakah anda yakin ingin membuat penugasan ini?
+        </p>
+        <div class="grid justify-content-end mt-5">
+            <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
+            <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="onSubmit()" />
+        </div>
+</p-dialog>

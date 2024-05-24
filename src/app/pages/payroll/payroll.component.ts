@@ -32,6 +32,7 @@ export class Payroll implements OnInit {
 	payrolls: PayrollResDto[] = [];
 	backButton: string | null = null;
 	loginData: LoginResDto | undefined = undefined;
+	eventsOnCalendar: { title: string; start: string; }[] = [];
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -90,27 +91,28 @@ export class Payroll implements OnInit {
 	}
 
 	init(): void {
-		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
-		if (this.clientId != null) {
+        this.clientId = this.activeRoute.snapshot.paramMap.get('id');
+        if (this.clientId != null) {
+            firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
+                res => {
+                    this.payrolls = res;
+                    this.eventsOnCalendar = [];
 
-
-
-			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
-				res => {
-					this.payrolls = res
 					this.payrolls.forEach((payroll) => {
-						const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
-						payroll.scheduleDate = formattedDate;
-					})
-				}
-			)
-		} else {
+                        const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
+                        payroll.scheduleDate = formattedDate;
+                        this.eventsOnCalendar.push({ title: payroll.title, start: formattedDate });
+                    })
 
-			if (this.loginData) {
-				this.clientId = this.loginData?.id;
-			}
-		}
-	}
+                    this.calendarOptions.events = this.eventsOnCalendar;
+                }
+            );
+        } else {
+            if (this.loginData) {
+                this.clientId = this.loginData.id;
+            }
+        }
+    }
 
 	showDialogPayroll() {
 		this.createPayrollVisible = true;
@@ -120,9 +122,7 @@ export class Payroll implements OnInit {
 		plugins: [dayGridPlugin],
 		initialView: 'dayGridMonth',
 		weekends: false,
-		events: [
-			{ title: 'Meeting', start: new Date() }
-		]
+		events: this.eventsOnCalendar
 	};
 
 	onSubmit() {

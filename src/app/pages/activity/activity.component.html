@@ -1,15 +1,15 @@
 <div class="mx-4 md:mx-8 mt-7">
     <div class="grid">
         <div class="col-auto">
-            <p-button routerLink="/payrolls/id" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
+            <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
             </p-button>
         </div>
         <div class="col-auto ml-3">
             <b class="">
-                Title Payroll
+                {{payroll?.title}}
             </b>
-            <p class="text-sm">Nama Perusahaan <span class="font-bold">(Payment Date : 12 Mei)</span> </p>
+            <p class="text-sm">{{payroll?.companyName}} <span class="font-bold">(Payment Date : {{payrollDate}})</span> </p>
         </div>
     </div>
     <div class="grid mt-7 justify-content-center">
@@ -33,8 +33,8 @@
                         </div>
                     </div>
                     <div class="mb-5">
-                        <p-triStateCheckbox inputId="checked" formControlName="forClient" />
-                        <label for="checked">
+                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" formControlName="forClient"/>
+                        <label for="switch">
                             Unggahan Klien
                         </label>
                     </div>

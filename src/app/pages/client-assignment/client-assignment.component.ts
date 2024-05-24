@@ -16,6 +16,7 @@ import { ClientAssignmentService } from "../../services/client-assignment.servic
 export class ClientAssignment implements OnInit {
     payrollServices : UserResDto[] = []
     clients : ClientDropdownResDto[] = []
+    displayModal: boolean = false
 
     constructor(
         private userService: UserService, 
@@ -47,31 +48,15 @@ export class ClientAssignment implements OnInit {
         clientId: ['', [Validators.required]]
     })
 
-    confirm(event: Event) {
-        this.confirmationService.confirm({
-            target: event.target as EventTarget,
-            message: 'Apakah anda yakin ingin membuat penugasan ini?',
-            header: 'Konfirmasi',
-            icon: 'pi pi-exclamation-triangle',
-            acceptIcon:"none",
-            rejectIcon:"none",
-            rejectButtonStyleClass:"p-button-text",
-            accept: () => {
-                this.onSubmit()
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-            },
-            reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-            }
-        });
-    }
-
     onSubmit() {
         if (this.clientAssignmentReqDtoFormGroup.valid) {
             const clientAssignmentReqDto: ClientAssignmentReqDto = this.clientAssignmentReqDtoFormGroup.getRawValue()
-            console.log(clientAssignmentReqDto)
-            firstValueFrom(this.clientAssignmentService.save(clientAssignmentReqDto)).then(res =>
-                this.clientAssignmentReqDtoFormGroup.reset()
+            firstValueFrom(this.clientAssignmentService.save(clientAssignmentReqDto)).then(
+                res => {
+                    this.clientAssignmentReqDtoFormGroup.reset(),
+                    this.displayModal = false,
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Penugasan berhasil terbuat' });
+                }
             )
         }
     }

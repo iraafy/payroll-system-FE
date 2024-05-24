@@ -150,7 +150,7 @@ export class Navbar {
             }
         )
 
-        firstValueFrom(this.notificationService.getAllNotification()).then(
+        firstValueFrom(this.notificationService.getTop3Notification()).then(
             res => {
                 this.notification = res;
             }

@@ -3,4 +3,5 @@ export interface NotificationResDto {
 	contextId: string;
 	contextUrl: string;
 	notificationContent: string;
+	createdAt: string;
 }

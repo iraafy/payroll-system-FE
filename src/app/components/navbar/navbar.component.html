@@ -71,7 +71,7 @@
 
 <p-overlayPanel #notif styleClass="w-20rem">
     <div class="border-b mt-3 cursor-pointer" *ngFor="let notif of notification">
-        <p class="text-sm font-semibold mb-1">12:00PM</p>
+        <p class="text-sm font-semibold mb-1">{{notif.createdAt}}</p>
         <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
     </div>
     <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer" routerLink="/notification">

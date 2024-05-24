@@ -28,6 +28,7 @@ export class Notification implements OnInit{
         firstValueFrom(this.notificationService.getAllNotification()).then(
             res => {
                 this.notification = res;
+				
             }
         );
     }

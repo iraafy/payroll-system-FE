@@ -5,6 +5,8 @@ import { PayrollDetailReqDto } from "../../dto/payroll-detail/payroll-detail.req
 import { firstValueFrom } from "rxjs";
 import { MessageService } from "primeng/api";
 import { PayrollService } from "../../services/payroll.service";
+import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
+import { DatePipe } from "@angular/common";
 
 @Component({
     selector: 'activity-app',
@@ -13,13 +15,17 @@ import { PayrollService } from "../../services/payroll.service";
 
 export class Activity {
     payrollId: string = '';
+    payroll: PayrollResDto | undefined = undefined
+    payrollDate: string = '';
+    checked: boolean = true;
 
     constructor (
         private activeRoute: ActivatedRoute,
         private fb: NonNullableFormBuilder,
         private messageService: MessageService,
         private payrollService: PayrollService,
-        private router: Router
+        private router: Router,
+        private datePipe: DatePipe
     ) {}
 
     ngOnInit(): void {
@@ -28,6 +34,12 @@ export class Activity {
 
     init(): void {
 		this.payrollId = this.activeRoute.snapshot.paramMap.get('id') || '';
+        firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
+            res => {
+                this.payroll = res
+                const formattedDate = this.datePipe.transform(this.payroll.scheduleDate, 'dd MMM')!;
+                this.payrollDate = formattedDate;
+            })
 	}
 
     activityReqDtoFg = this.fb.group({

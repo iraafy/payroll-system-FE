@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { NotificationResDto } from "../../dto/notification/notification.res.dto";
 import { NotificationService } from "../../services/notification.service";
 import { firstValueFrom } from "rxjs";
+import { DatePipe } from "@angular/common";
 
 @Component({
 	selector: 'notification-app',
@@ -16,7 +17,8 @@ export class Notification implements OnInit{
 
 	constructor(
 		private activeRoute: ActivatedRoute,
-		private notificationService: NotificationService
+		private notificationService: NotificationService,
+		private datePipe: DatePipe
 	) {	}
 
 	ngOnInit(): void {
@@ -28,6 +30,9 @@ export class Notification implements OnInit{
         firstValueFrom(this.notificationService.getAllNotification()).then(
             res => {
                 this.notification = res;
+				this.notification.forEach((item) => {
+					item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
+				})
 				
             }
         );
@@ -35,5 +40,9 @@ export class Notification implements OnInit{
 
 	showDialogConfirmation() {
 		this.confirmationVisible = true;
+	}
+
+	private formatDate(date: string | Date, format: string): string {
+		return this.datePipe.transform(date, format)!;
 	}
 }

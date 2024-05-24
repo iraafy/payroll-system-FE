@@ -100,7 +100,7 @@ export class PayrollDetail {
                     this.init();
                 },
                 err => {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Maaf payroll hanya bisa di reschedule di tanggal sebelumnya.' });
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'harap cek tanggal reschedule dan approval reschedule' });
                 }
             )
 

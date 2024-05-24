@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common"
+import { CommonModule, DatePipe } from "@angular/common"
 import { Component } from "@angular/core"
 import { Router, RouterModule, Routes } from "@angular/router"
 import { MenubarModule } from 'primeng/menubar'
@@ -42,6 +42,9 @@ import { ChatService } from "../../services/chat.service"
         ChipsModule,
         ReactiveFormsModule
     ],
+    providers: [
+        DatePipe
+    ],
     templateUrl: './navbar.component.html',
 })
 
@@ -74,7 +77,8 @@ export class Navbar {
         private router : Router,
         private websocketService : WebsocketService,
         private messageService : MessageService,
-        private fb : NonNullableFormBuilder
+        private fb : NonNullableFormBuilder,
+        private datePipe: DatePipe
     ) {}
     
     ngOnInit() {
@@ -153,6 +157,9 @@ export class Navbar {
         firstValueFrom(this.notificationService.getTop3Notification()).then(
             res => {
                 this.notification = res;
+                this.notification.forEach((item) => {
+                    item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
+                })
             }
         );
     }
@@ -207,4 +214,8 @@ export class Navbar {
         this.text = null
         this.chat.get('message')?.patchValue(null)
     }
+
+    private formatDate(date: string | Date, format: string): string {
+		return this.datePipe.transform(date, format)!;
+	}
 }

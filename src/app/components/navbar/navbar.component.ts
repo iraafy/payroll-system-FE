@@ -24,6 +24,7 @@ import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } fr
 
 import { NotificationService } from "../../services/notification.service";
 import { NotificationResDto } from "../../dto/notification/notification.res.dto";
+import { ChatService } from "../../services/chat.service"
 
 @Component({
     selector: 'app-navbar',
@@ -61,12 +62,14 @@ export class Navbar {
 
     chat: FormGroup = this.fb.group({
         message : ['', [Validators.required]],
-        recipientId : [this.pickedClient?.id, [Validators.required]]
+        recipientId : [this.pickedClient?.id, [Validators.required]],
+        senderId : [this.authService.getLoginData()?.id, [Validators.required]]
     });
 
     constructor(
         private clientAssignmentService : ClientAssignmentService,
-        private authService : AuthService, 
+        private authService : AuthService,
+        private chatService : ChatService,
         private notificationService : NotificationService,
         private router : Router,
         private websocketService : WebsocketService,
@@ -115,6 +118,17 @@ export class Navbar {
             this.connect(id)
             this.chat.get('recipientId')?.patchValue(client.id)
         }
+        firstValueFrom(this.chatService.getChats()).then(
+            res => {
+                for(let item of res) {
+                    var createdAt : string = item.createdAt
+                    var createdDate : string = createdAt.split('T')[0]
+                    var createdTime : string = createdAt.split('T')[1]
+                    item.createdAt = createdDate+" "+createdTime
+                }
+                this.received = res
+            }
+        )
     }
 
     closeChat() {
@@ -154,11 +168,15 @@ export class Navbar {
           that.connected = true
           that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
             // tslint:disable-next-line:triple-equals
-            console.log(JSON.parse(message.body))
             // if (that.username != JSON.parse(message.body).name) {
-              that.received.push(JSON.parse(message.body));
-              that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
             // }
+            var createdAt : string = JSON.parse(message.body).createdAt
+            var createdDate : string = createdAt.split('T')[0]
+            var createdTime : string = createdAt.split('T')[1]
+            const newMessage : any = JSON.parse(message.body)
+            newMessage.createdAt = createdDate+" "+createdTime
+            that.received.push(newMessage);
+            that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
           })
         })
     }
@@ -178,7 +196,7 @@ export class Navbar {
     sendMessage() {
         const newChat : ChatReqDto = this.chat.getRawValue()
         this.sent?.push(newChat)
-        
+
         if(this.isPS){
             this.sockClient.send(this.websocketService.topicChat + newChat.recipientId, {}, JSON.stringify(newChat))
         }else{

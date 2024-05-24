@@ -83,7 +83,7 @@ export class Payroll implements OnInit {
 		if (this.loginData?.roleCode == RoleType.PS) {
 			this.backButton = '/clients'
 		} else if (this.loginData?.roleCode == RoleType.CLIENT) {
-            this.backButton = '/homepage'
+			this.backButton = '/homepage'
 		}
 
 
@@ -131,7 +131,7 @@ export class Payroll implements OnInit {
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(
 				res => {
-					this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Company berhasil terbuat' });
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
 					this.createPayrollVisible = false;
 					this.init();
 

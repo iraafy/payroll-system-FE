@@ -12,4 +12,8 @@ import { NotificationResDto } from "../dto/notification/notification.res.dto";
     getAllNotification() {
         return this.baseService.get<NotificationResDto[]>('notification')
     }
+
+    getTop3Notification() {
+        return this.baseService.get<NotificationResDto[]>('notification/top3')
+    }
 }

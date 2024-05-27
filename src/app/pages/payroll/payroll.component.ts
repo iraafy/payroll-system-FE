@@ -16,6 +16,8 @@ import { UserResDto } from "../../dto/user/user.res.dto";
 import { AuthService } from "../../services/auth.service";
 import { LoginResDto } from "../../dto/user/login.res.dto";
 import { RoleType } from "../../constants/role-type";
+import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
+import { NotificationService } from "../../services/notification.service";
 
 @Component({
 	selector: 'payroll-detail',
@@ -49,7 +51,8 @@ export class Payroll implements OnInit {
 		private companyService: CompanyService,
 		private datePipe: DatePipe,
 		private userService: UserService,
-		private authService: AuthService
+		private authService: AuthService,
+		private notificationService: NotificationService
 	) { }
 
 	ngOnInit(): void {

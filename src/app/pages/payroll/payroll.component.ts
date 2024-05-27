@@ -37,8 +37,6 @@ export class Payroll implements OnInit {
 	backButton: string | null = null;
 	loginData: LoginResDto | undefined = undefined;
 	eventsOnCalendar: EventInput[] = [];
-	payrollOnCalendar: EventInput[] = [];
-	payrollDetailOnCalendar: EventInput[] = [];
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -100,17 +98,14 @@ export class Payroll implements OnInit {
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
 				res => {
 					this.payrolls = res;
-					this.payrollOnCalendar = [];
+					this.eventsOnCalendar = [];
 
 					this.payrolls.forEach((payroll) => {
 						const formattedDate = this.formatDate(payroll.scheduleDate);
 						payroll.scheduleDate = formattedDate;
 						const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
-						this.payrollOnCalendar.push(event);
 						this.eventsOnCalendar.push(event);
 					})
-
-					// this.calendarOptions.events = this.payrollOnCalendar;
 				}
 			);
 
@@ -118,11 +113,10 @@ export class Payroll implements OnInit {
 				res => {
 					this.clientPayrollDetails = res;
 
-					this.clientPayrollDetails.forEach((payroll) => {
-						const formattedDate = this.formatDate(payroll.maxUploadDate);
-						payroll.maxUploadDate = formattedDate;
-						const event = { title: payroll.description, start: formattedDate, className: 'payroll-detail-event' };
-						this.payrollDetailOnCalendar.push(event);
+					this.clientPayrollDetails.forEach((detail) => {
+						const formattedDate = this.formatDate(detail.maxUploadDate);
+						detail.maxUploadDate = formattedDate;
+						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
 						this.eventsOnCalendar.push(event);
 					})
 					this.calendarOptions.events = this.eventsOnCalendar;
@@ -143,7 +137,8 @@ export class Payroll implements OnInit {
 		plugins: [dayGridPlugin],
 		initialView: 'dayGridMonth',
 		weekends: false,
-		events: this.payrollOnCalendar
+		events: this.eventsOnCalendar,
+		
 	};
 
 	private formatDate(date: string | Date): string {

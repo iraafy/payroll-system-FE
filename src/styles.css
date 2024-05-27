@@ -85,13 +85,13 @@ textarea:focus-visible {
 }
 
 .payroll-event {
-    background-color: #ff9999 !important;
-    border-color: #ff0000 !important;
-    color: #fff !important;
+    background-color: #0E8DC4;
+    border-color: #0E8DC4;
+    color: #fff;
 }
 
 .payroll-detail-event {
-    background-color: #99ccff !important;
-    border-color: #3399ff !important;
-    color: #fff !important;
+    background-color: #D6823C;
+    border-color: #D6823C;
+    color: black;   
 }

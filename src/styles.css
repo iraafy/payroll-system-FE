@@ -40,11 +40,11 @@ body {
 }
 
 .custom-shadow {
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.35);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.35);
 }
 
 .custom-small-shadow {
-    box-shadow: 0px 0px 7px 2px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.15);
 }
 
 textarea:focus-visible {
@@ -82,4 +82,16 @@ textarea:focus-visible {
 
 .custom-border {
     border: 1px solid #012B30;
+}
+
+.payroll-event {
+    background-color: #ff9999 !important;
+    border-color: #ff0000 !important;
+    color: #fff !important;
+}
+
+.payroll-detail-event {
+    background-color: #99ccff !important;
+    border-color: #3399ff !important;
+    color: #fff !important;
 }

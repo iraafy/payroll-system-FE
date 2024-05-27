@@ -56,6 +56,7 @@ export class ClientAssignment implements OnInit {
                     this.clientAssignmentReqDtoFormGroup.reset(),
                     this.displayModal = false,
                     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Penugasan berhasil terbuat' });
+                    this.init()
                 }
             )
         }

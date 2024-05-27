@@ -16,6 +16,8 @@ import { UserResDto } from "../../dto/user/user.res.dto";
 import { AuthService } from "../../services/auth.service";
 import { LoginResDto } from "../../dto/user/login.res.dto";
 import { RoleType } from "../../constants/role-type";
+import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
+import { NotificationService } from "../../services/notification.service";
 
 @Component({
 	selector: 'payroll-detail',
@@ -32,6 +34,7 @@ export class Payroll implements OnInit {
 	payrolls: PayrollResDto[] = [];
 	backButton: string | null = null;
 	loginData: LoginResDto | undefined = undefined;
+	eventsOnCalendar: { title: string; start: string; }[] = [];
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -48,7 +51,8 @@ export class Payroll implements OnInit {
 		private companyService: CompanyService,
 		private datePipe: DatePipe,
 		private userService: UserService,
-		private authService: AuthService
+		private authService: AuthService,
+		private notificationService: NotificationService
 	) { }
 
 	ngOnInit(): void {
@@ -83,34 +87,35 @@ export class Payroll implements OnInit {
 		if (this.loginData?.roleCode == RoleType.PS) {
 			this.backButton = '/clients'
 		} else if (this.loginData?.roleCode == RoleType.CLIENT) {
-            this.backButton = '/homepage'
+			this.backButton = '/homepage'
 		}
 
 
 	}
 
 	init(): void {
-		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
-		if (this.clientId != null) {
+        this.clientId = this.activeRoute.snapshot.paramMap.get('id');
+        if (this.clientId != null) {
+            firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
+                res => {
+                    this.payrolls = res;
+                    this.eventsOnCalendar = [];
 
-
-
-			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
-				res => {
-					this.payrolls = res
 					this.payrolls.forEach((payroll) => {
-						const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
-						payroll.scheduleDate = formattedDate;
-					})
-				}
-			)
-		} else {
+                        const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
+                        payroll.scheduleDate = formattedDate;
+                        this.eventsOnCalendar.push({ title: payroll.title, start: formattedDate });
+                    })
 
-			if (this.loginData) {
-				this.clientId = this.loginData?.id;
-			}
-		}
-	}
+                    this.calendarOptions.events = this.eventsOnCalendar;
+                }
+            );
+        } else {
+            if (this.loginData) {
+                this.clientId = this.loginData.id;
+            }
+        }
+    }
 
 	showDialogPayroll() {
 		this.createPayrollVisible = true;
@@ -120,9 +125,7 @@ export class Payroll implements OnInit {
 		plugins: [dayGridPlugin],
 		initialView: 'dayGridMonth',
 		weekends: false,
-		events: [
-			{ title: 'Meeting', start: new Date() }
-		]
+		events: this.eventsOnCalendar
 	};
 
 	onSubmit() {
@@ -131,7 +134,7 @@ export class Payroll implements OnInit {
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(
 				res => {
-					this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Company berhasil terbuat' });
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
 					this.createPayrollVisible = false;
 					this.init();
 

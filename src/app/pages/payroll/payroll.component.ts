@@ -168,8 +168,9 @@ export class Payroll implements OnInit {
 		const value: string = event.target.value
 		if (value === "") {
 			this.init()
-		} else {
-			firstValueFrom(this.payrollService.searchPayroll(value)).then(
+		}else{
+			this.clientId = this.activeRoute.snapshot.paramMap.get('id')
+			firstValueFrom(this.payrollService.searchPayroll(this.clientId, value)).then(
 				res => {
 					this.payrolls = res
 					this.payrolls.forEach((payroll) => {

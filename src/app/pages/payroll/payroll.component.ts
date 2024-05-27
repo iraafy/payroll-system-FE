@@ -138,7 +138,7 @@ export class Payroll implements OnInit {
 		initialView: 'dayGridMonth',
 		weekends: false,
 		events: this.eventsOnCalendar,
-		
+
 	};
 
 	private formatDate(date: string | Date): string {
@@ -164,11 +164,11 @@ export class Payroll implements OnInit {
 		}
 	}
 
-	onKeyUp(event : any) {
-		const value : string = event.target.value
-		if(value === ""){
+	onKeyUp(event: any) {
+		const value: string = event.target.value
+		if (value === "") {
 			this.init()
-		}else{
+		} else {
 			firstValueFrom(this.payrollService.searchPayroll(value)).then(
 				res => {
 					this.payrolls = res
@@ -179,6 +179,6 @@ export class Payroll implements OnInit {
 				}
 			)
 		}
-		
+
 	}
 }

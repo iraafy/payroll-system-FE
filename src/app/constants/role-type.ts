@@ -1,5 +1,5 @@
 export enum RoleType {
-    SUPER_ADMIN = 'SA001',
-    PS = 'PS001',
-    CLIENT = 'CLNT1'
+    SUPER_ADMIN = 'SAD',
+    PS = 'PRS',
+    CLIENT = 'CLN'
 }

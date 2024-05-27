@@ -37,6 +37,10 @@ export class PayrollService {
         return this.baseService.get<PayrollResDto>(`payrolls/${id}`)
     }
 
+    searchPayroll(value : string) {
+        return this.baseService.get<PayrollResDto[]>(`payrolls/search/${value}`)
+    }
+
     getPayrollDetailsByClientId(id: string) {
         return this.baseService.get<PayrollDetailResDto[]>(`payrolls/details/client/${id}`)
     }

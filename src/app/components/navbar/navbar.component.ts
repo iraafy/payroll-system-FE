@@ -176,7 +176,7 @@ export class Navbar {
             const newMessage : any = JSON.parse(message.body)
             newMessage.createdAt = createdDate+" "+createdTime
             that.received.push(newMessage);
-            that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
+            // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
           })
         })
     }

@@ -57,7 +57,7 @@
             <full-calendar class="h-40rem" [options]="calendarOptions"></full-calendar>
         </div>
         <div class="md:col-6 col-12 p-5 overflow-auto h-40rem">
-            <input type="text" pInputText class="mb-5 w-full" placeholder="Cari Payroll" />
+            <input type="text" pInputText class="mb-5 w-full" placeholder="Cari Payroll" (keyup)="onKeyUp($event)" />
             <div class="grid">
                 <div *ngFor="let payroll of payrolls" class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/payrolls/{{payroll.id}}">
                     <div class="content p-3 pb-2 custom-small-shadow">

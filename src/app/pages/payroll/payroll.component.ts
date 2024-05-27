@@ -143,4 +143,18 @@ export class Payroll implements OnInit {
 			);
 		}
 	}
+
+	onKeyUp(event : any) {
+		const value : string = event.target.value
+		
+		firstValueFrom(this.payrollService.searchPayroll(value)).then(
+			res => {
+				this.payrolls = res
+				this.payrolls.forEach((payroll) => {
+					const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
+					payroll.scheduleDate = formattedDate;
+				})
+			}
+		)
+	}
 }

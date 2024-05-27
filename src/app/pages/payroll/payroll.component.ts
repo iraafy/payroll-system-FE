@@ -120,8 +120,10 @@ export class Payroll implements OnInit {
 						this.eventsOnCalendar.push(event);
 					})
 					this.calendarOptions.events = this.eventsOnCalendar;
+					console.log(this.eventsOnCalendar)
 				}
 			);
+
 		} else {
 			if (this.loginData) {
 				this.clientId = this.loginData.id;

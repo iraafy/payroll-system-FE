@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
-import { CalendarOptions } from "@fullcalendar/core";
+import { CalendarOptions, EventInput } from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { PayrollReqDto } from "../../dto/payroll/payroll.req.dto";
 import { firstValueFrom } from "rxjs";
@@ -18,6 +18,7 @@ import { LoginResDto } from "../../dto/user/login.res.dto";
 import { RoleType } from "../../constants/role-type";
 import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
 import { NotificationService } from "../../services/notification.service";
+import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
 
 @Component({
 	selector: 'payroll-detail',
@@ -32,9 +33,10 @@ export class Payroll implements OnInit {
 	client: UserResDto | null = null;
 	company: CompanyResDto | null = null;
 	payrolls: PayrollResDto[] = [];
+	clientPayrollDetails: PayrollDetailResDto[] = [];
 	backButton: string | null = null;
 	loginData: LoginResDto | undefined = undefined;
-	eventsOnCalendar: { title: string; start: string; }[] = [];
+	eventsOnCalendar: EventInput[] = [];
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
@@ -56,7 +58,6 @@ export class Payroll implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-
 		this.loginData = this.authService.getLoginData();
 		this.init();
 		const currentDate = new Date();
@@ -69,7 +70,7 @@ export class Payroll implements OnInit {
 					const companyPayrollDate = new Date(currentDate);
 					companyPayrollDate.setDate(this.company.payrollDate);
 
-					const formattedDate = this.datePipe.transform(companyPayrollDate, 'yyyy-MM-dd')!;
+					const formattedDate = this.formatDate(companyPayrollDate);
 					this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 
 					this.currentCompanyPayroll = formattedDate
@@ -89,33 +90,44 @@ export class Payroll implements OnInit {
 		} else if (this.loginData?.roleCode == RoleType.CLIENT) {
 			this.backButton = '/homepage'
 		}
-
-
 	}
 
 	init(): void {
-        this.clientId = this.activeRoute.snapshot.paramMap.get('id');
-        if (this.clientId != null) {
-            firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
-                res => {
-                    this.payrolls = res;
-                    this.eventsOnCalendar = [];
+		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
+		if (this.clientId != null) {
+			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
+				res => {
+					this.payrolls = res;
+					this.eventsOnCalendar = [];
 
 					this.payrolls.forEach((payroll) => {
-                        const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
-                        payroll.scheduleDate = formattedDate;
-                        this.eventsOnCalendar.push({ title: payroll.title, start: formattedDate });
-                    })
+						const formattedDate = this.formatDate(payroll.scheduleDate);
+						payroll.scheduleDate = formattedDate;
+						const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
+						this.eventsOnCalendar.push(event);
+					})
+				}
+			);
 
-                    this.calendarOptions.events = this.eventsOnCalendar;
-                }
-            );
-        } else {
-            if (this.loginData) {
-                this.clientId = this.loginData.id;
-            }
-        }
-    }
+			firstValueFrom(this.payrollService.getPayrollDetailsByClientId(this.clientId)).then(
+				res => {
+					this.clientPayrollDetails = res;
+
+					this.clientPayrollDetails.forEach((detail) => {
+						const formattedDate = this.formatDate(detail.maxUploadDate);
+						detail.maxUploadDate = formattedDate;
+						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
+						this.eventsOnCalendar.push(event);
+					})
+					this.calendarOptions.events = this.eventsOnCalendar;
+				}
+			);
+		} else {
+			if (this.loginData) {
+				this.clientId = this.loginData.id;
+			}
+		}
+	}
 
 	showDialogPayroll() {
 		this.createPayrollVisible = true;
@@ -125,8 +137,13 @@ export class Payroll implements OnInit {
 		plugins: [dayGridPlugin],
 		initialView: 'dayGridMonth',
 		weekends: false,
-		events: this.eventsOnCalendar
+		events: this.eventsOnCalendar,
+		
 	};
+
+	private formatDate(date: string | Date): string {
+		return this.datePipe.transform(date, 'yyyy-MM-dd')!;
+	}
 
 	onSubmit() {
 		if (this.payrollReqDtoFg.valid) {

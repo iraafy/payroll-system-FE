@@ -120,8 +120,10 @@ export class Payroll implements OnInit {
 						this.eventsOnCalendar.push(event);
 					})
 					this.calendarOptions.events = this.eventsOnCalendar;
+					console.log(this.eventsOnCalendar)
 				}
 			);
+
 		} else {
 			if (this.loginData) {
 				this.clientId = this.loginData.id;
@@ -142,7 +144,7 @@ export class Payroll implements OnInit {
 		initialView: 'dayGridMonth',
 		weekends: false,
 		events: this.eventsOnCalendar,
-		
+
 	};
 
 	private formatDate(date: string | Date): string {
@@ -168,12 +170,13 @@ export class Payroll implements OnInit {
 		}
 	}
 
-	onKeyUp(event : any) {
-		const value : string = event.target.value
-		if(value === ""){
+	onKeyUp(event: any) {
+		const value: string = event.target.value
+		if (value === "") {
 			this.init()
 		}else{
-			firstValueFrom(this.payrollService.searchPayroll(value)).then(
+			this.clientId = this.activeRoute.snapshot.paramMap.get('id')
+			firstValueFrom(this.payrollService.searchPayroll(this.clientId, value)).then(
 				res => {
 					this.payrolls = res
 					this.payrolls.forEach((payroll) => {
@@ -183,6 +186,6 @@ export class Payroll implements OnInit {
 				}
 			)
 		}
-		
+
 	}
 }

@@ -41,7 +41,7 @@
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">
-                <p-stepperPanel *ngFor="let payroll of pd; let i = index" header="{{payroll.description}}">
+                <p-stepperPanel *ngFor="let payroll of pd; let i = index" header="{{payroll.description}} [{{payroll.maxUploadDate}}]">
                     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
                         <div class="flex flex-column">
                             <div

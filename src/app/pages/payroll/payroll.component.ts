@@ -129,6 +129,10 @@ export class Payroll implements OnInit {
 		}
 	}
 
+	get isPS () {
+        return this.loginData?.roleCode == RoleType.PS
+    }
+
 	showDialogPayroll() {
 		this.createPayrollVisible = true;
 	}

@@ -21,10 +21,13 @@ import { ChatResDto } from "../../dto/chat/chat.res.dto"
 import { MessageService } from "primeng/api"
 import { ChatReqDto } from "../../dto/chat/chat.req.dto"
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
-
+import { DialogModule } from 'primeng/dialog';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { NotificationService } from "../../services/notification.service";
 import { NotificationResDto } from "../../dto/notification/notification.res.dto";
 import { ChatService } from "../../services/chat.service"
+import { CalendarOptions, EventInput } from "@fullcalendar/core";
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 @Component({
     selector: 'app-navbar',
@@ -40,7 +43,9 @@ import { ChatService } from "../../services/chat.service"
         InputGroupAddonModule,
         InputTextModule,
         ChipsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DialogModule,
+        FullCalendarModule
     ],
     providers: [
         DatePipe
@@ -62,6 +67,8 @@ export class Navbar {
     username? : string | null | undefined
     text? : string | null
     sent? : ChatReqDto[] | null;
+    visible: boolean = false;
+    eventsOnCalendar: EventInput[] = [];
 
     chat: FormGroup = this.fb.group({
         message : ['', [Validators.required]],
@@ -108,6 +115,10 @@ export class Navbar {
 
     get sessionId() {
         return this.loginData?.id
+    }
+    
+    showDialog() {
+        this.visible = true;
     }
 
     openChat(client : ClientAssignmentResDto) {
@@ -163,6 +174,13 @@ export class Navbar {
             }
         );
     }
+
+    calendarOptions: CalendarOptions = {
+		plugins: [dayGridPlugin],
+		initialView: 'dayGridMonth',
+		weekends: false,
+		events: this.eventsOnCalendar,
+	};
 
     connect(id : string | undefined) {
         const ws = new SockJS(this.websocketService.url)

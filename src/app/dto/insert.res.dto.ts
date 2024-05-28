@@ -1,4 +1,4 @@
 export interface InsertResDto {
-    id: number;
+    id: string;
     message: string;
 }

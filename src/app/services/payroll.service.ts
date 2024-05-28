@@ -5,6 +5,7 @@ import { InsertResDto } from "../dto/insert.res.dto";
 import { PayrollDetailReqDto } from "../dto/payroll-detail/payroll-detail.req.dto";
 import { PayrollDetailResDto } from "../dto/payroll-detail/payroll-detail.res.dto";
 import { PayrollResDto } from "../dto/payroll/payroll.res.dto";
+import { UpdateResDto } from "../dto/update.res.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -51,5 +52,9 @@ export class PayrollService {
 
     getAllPayrollDetail() {
         return this.baseService.get<PayrollDetailResDto[]>('payrolls/payroll-details')
+    }
+
+    setPayrollDetailFile(detailId: string, fileId: string) {
+        return this.baseService.patch<UpdateResDto>(`payrolls/${detailId}/set-file/${fileId}`, {})
     }
 }

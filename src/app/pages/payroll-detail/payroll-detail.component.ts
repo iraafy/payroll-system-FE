@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { RoleType } from "../../constants/role-type";
 import { ActivatedRoute, Route, Router } from "@angular/router";
@@ -13,13 +13,14 @@ import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
 import { NotificationService } from "../../services/notification.service";
 import { BASE_URL } from "../../constants/global";
+import SignaturePad from "signature_pad";
 
 @Component({
     selector: 'payroll-detail',
     templateUrl: './payroll-detail.component.html',
 })
 
-export class PayrollDetail {
+export class PayrollDetail implements OnInit {
     signatureVisible: boolean = false;
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
@@ -73,6 +74,16 @@ export class PayrollDetail {
         }
     }
 
+    ngAfterViewInit(){
+        const canvas : HTMLCanvasElement | null= document.querySelector("canvas")
+        if(canvas != null){
+            const signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                penColor: 'rgb(0, 0, 0)'
+            })
+        }
+    }
+    
     loginData = this.authService.getLoginData();
 
     get isPS() {

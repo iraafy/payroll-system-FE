@@ -41,7 +41,8 @@
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">
-                <p-stepperPanel *ngFor="let payroll of pd; let i = index" header="{{payroll.description}}">
+                <p-stepperPanel *ngFor="let payroll of pd; let i = index"
+                    header="{{payroll.description}} [{{payroll.maxUploadDate}}]">
                     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
                         <div class="flex flex-column">
                             <div
@@ -61,8 +62,8 @@
                                                 styleClass="bg-color-primary rounded-3 border-none font-bold">
                                                 Download / TTD
                                             </p-button>
-                                            <p-dialog header="Tanda Tangani" [(visible)]="signatureVisible" [modal]="true"
-                                                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                                            <p-dialog header="Tanda Tangani" [(visible)]="signatureVisible"
+                                                [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
                                                 [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
                                                 <p>
                                                     Digital Signature Here
@@ -89,7 +90,8 @@
                                             <div class="flex justify-content-end">
                                                 <p-button label="Batal" severity="secondary"
                                                     (click)="pingVisible = false" />
-                                                <p-button label="Ya" (click)="pingSubmit()" styleClass="ml-2 bg-color-primary" />
+                                                <p-button label="Ya" (click)="pingSubmit()"
+                                                    styleClass="ml-2 bg-color-primary" />
                                             </div>
                                         </p-dialog>
                                     </div>
@@ -98,21 +100,28 @@
                                 <div class="grid" *ngIf="isClient">
                                     <div class="col-10">
                                         <!-- BELUM UPLOAD -->
-                                        <p-fileUpload mode="basic" styleClass="bg-color-primary" chooseLabel="Unggah"
-                                            name="file" maxFileSize="1000000" />
+                                        <!-- <p-fileUpload mode="basic" styleClass="bg-color-primary" chooseLabel="Unggah"
+                                            name="file" maxFileSize="1000000" /> -->
+
+                                        <p-fileUpload url="https://www.primefaces.org/cdn/api/upload.php"
+                                            (onUpload)="fileUpload($event, payroll.id)" [multiple]="false"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx" [maxFileSize]="3145728">
+                                        </p-fileUpload>
                                         <!-- SUDAH UPLOAD -->
                                         <div>
                                             <div class="grid mt-2 pl-2">
                                                 <div class="col-auto">
                                                     <p-fileUpload mode="basic" styleClass="bg-gray-500 mr-3"
-                                                        chooseLabel="Unggah" name="file" maxFileSize="1000000" />
+                                                        chooseLabel="Unggah" name="file" maxFileSize="3145728" />
                                                 </div>
                                                 <div class="col-auto">
-                                                    <p-button (click)="showDialogSignature()" styleClass="bg-color-primary"
-                                                        label="Tanda Tangan" />
+                                                    <p-button (click)="showDialogSignature()"
+                                                        styleClass="bg-color-primary" label="Tanda Tangan" />
                                                     <p-dialog header="Tanda Tangani" [(visible)]="signatureVisible"
-                                                        [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-                                                        [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+                                                        [modal]="true"
+                                                        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                                                        [style]="{ width: '50vw' }" [draggable]="false"
+                                                        [resizable]="false">
                                                         <p>
                                                             Digital Signature Here
                                                         </p>
@@ -124,8 +133,8 @@
                                                 Data_Karyawan.xlsx
                                                 <span>
                                                     <p-chip styleClass="bg-green-700 text-white text-xs ml-2 py-1 px-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="1rem"
-                                                            height="1rem" viewBox="0 0 24 24">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2"
+                                                            width="1rem" height="1rem" viewBox="0 0 24 24">
                                                             <path fill="currentColor"
                                                                 d="m23 12l-2.44-2.78l.34-3.68l-3.61-.82l-1.89-3.18L12 3L8.6 1.54L6.71 4.72l-3.61.81l.34 3.68L1 12l2.44 2.78l-.34 3.69l3.61.82l1.89 3.18L12 21l3.4 1.46l1.89-3.18l3.61-.82l-.34-3.68zm-13 5l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9z" />
                                                         </svg>
@@ -147,15 +156,16 @@
                                         <p-dialog header="Reschedule" [(visible)]="rescheduleVisible" [modal]="true"
                                             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
                                             [style]="{ width: '30vw' }" [draggable]="false" [resizable]="false">
-                                            <form [formGroup]="rescheduleReqDtoFg" (ngSubmit)="onSubmitCreateReschdule()">
+                                            <form [formGroup]="rescheduleReqDtoFg"
+                                                (ngSubmit)="onSubmitCreateReschdule()">
                                                 <div class="mb-3">
                                                     <div class="mb-2">
                                                         <label for="date" class="form-label fw-semibold">Jadwal Saat
                                                             Ini</label>
                                                     </div>
                                                     <div>
-                                                        <input type="date" id="date" class="w-full bg-gray-100" pInputText
-                                                            disabled value="{{payroll.maxUploadDate}}"/>
+                                                        <input type="date" id="date" class="w-full bg-gray-100"
+                                                            pInputText disabled value="{{payroll.maxUploadDate}}" />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
@@ -165,13 +175,14 @@
                                                     </div>
                                                     <div>
                                                         <input type="date" id="date" class="w-full bg-gray-100"
-                                                            pInputText formControlName="newScheduleDate"/>
+                                                            pInputText formControlName="newScheduleDate" />
                                                     </div>
                                                 </div>
                                                 <div class="mt- flex justify-content-end">
                                                     <p-button label="Batal" severity="secondary"
                                                         (click)="rescheduleVisible = false" />
-                                                    <p-button type="submit" label="Simpan" styleClass="ml-2 bg-color-primary" />
+                                                    <p-button type="submit" label="Simpan"
+                                                        styleClass="ml-2 bg-color-primary" />
                                                 </div>
                                             </form>
                                         </p-dialog>
@@ -180,7 +191,8 @@
                             </div>
                         </div>
                         <div class="flex py-4">
-                            <p-button label="Selanjutnya" styleClass="bg-color-primary" (onClick)="nextCallback.emit()" />
+                            <p-button label="Selanjutnya" styleClass="bg-color-primary"
+                                (onClick)="nextCallback.emit()" />
                         </div>
                     </ng-template>
                 </p-stepperPanel>

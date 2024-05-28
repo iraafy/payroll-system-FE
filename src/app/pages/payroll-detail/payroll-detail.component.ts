@@ -13,6 +13,8 @@ import { PayrollResDto } from "../../dto/payroll/payroll.res.dto";
 import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
 import { NotificationService } from "../../services/notification.service";
 import { BASE_URL } from "../../constants/global";
+import { FileService } from "../../services/file.service";
+import { FtpReqDto } from "../../dto/ftp/ftp.req.dto";
 
 @Component({
     selector: 'payroll-detail',
@@ -30,6 +32,11 @@ export class PayrollDetail {
     payrollLoop = [1]
     companyLogos: string[] = [];
     data: NotificationReqDto | null = null
+    ftpReqDtoFg = this.fb.group({
+        fileContent: ['', Validators.required],
+        fileExt: ['', Validators.required],
+        detailId: ['', Validators.required]
+    })
 
     rescheduleReqDtoFg = this.fb.group({
         newScheduleDate: ['', Validators.required],
@@ -45,7 +52,8 @@ export class PayrollDetail {
         private reschduleService: ReschduleService,
         private messageService: MessageService,
         private notificationService: NotificationService,
-        private router: Router
+        private router: Router,
+        private fileService: FileService
     ) { }
 
     ngOnInit(): void {
@@ -131,4 +139,40 @@ export class PayrollDetail {
         }
 		
 	}
+
+    fileUpload(event: any, id: string) {
+        const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (typeof reader.result === "string") resolve(reader.result);
+            };
+            reader.onerror = error => reject(error);
+        });
+    
+        const files: File[] = event.files;
+    
+        for (let file of files) {
+            toBase64(file).then(result => {
+                const resultBase64 = result.substring(result.indexOf(",") + 1, result.length);
+                const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length);
+    
+                this.ftpReqDtoFg.get('fileContent')?.patchValue(resultBase64);
+                this.ftpReqDtoFg.get('fileExt')?.patchValue(resultExtension);
+                this.ftpReqDtoFg.get('detailId')?.patchValue(id);
+    
+                if (this.ftpReqDtoFg.valid) {
+                    const newFile = this.ftpReqDtoFg.getRawValue();
+                    firstValueFrom(this.fileService.uploadFileFtp(newFile)).then(
+                        res => {
+                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                        }
+                    )
+                    
+                    console.log(newFile);
+                }
+            });
+        }
+    }
+    
 }

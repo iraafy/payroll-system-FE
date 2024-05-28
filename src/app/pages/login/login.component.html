@@ -1,9 +1,8 @@
-
 <div class="md:grid flex w-full vh-100 align-items-center justify-content-center">
     <div class="md:col-6 bg-login"></div>
-    <div class="md:col-6">
+    <div class="md:col-6 responsiv-bg col-12 p-5 custom-flex">
         <form [formGroup]="loginReqDtoFg" (ngSubmit)="onSubmit()">
-            <div class="w-full bg-white p-4" >
+            <div class="w-full bg-white md:shadow-none shadow-3 md:p-0 p-4">
                 <div class="text-content line-height-1">
                     <h1 class="fw-bold responsive-text text-color-primary">
                         LOGIN
@@ -14,7 +13,7 @@
                     <div class="mb-2">
                         <label for="email" class="form-label fw-semibold">Email</label>
                     </div>
-                    <input type="email" pInputText id="email" class="w-full" formControlName="email"/>
+                    <input type="email" pInputText id="email" class="w-full" formControlName="email" />
                 </div>
                 <div class="mb-3">
                     <div class="mb-2">
@@ -23,7 +22,7 @@
                     <input type="password" pInputText id="password" class="w-full" formControlName="password">
                 </div>
                 <div class="pt-2">
-                    <p-toast/>
+                    <p-toast />
                     <p-button label="Login" type="submit" styleClass="px-5 bg-color-primary" />
                 </div>
             </div>

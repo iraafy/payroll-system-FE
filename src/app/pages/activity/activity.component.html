@@ -6,15 +6,14 @@
             </p-button>
         </div>
         <div class="col-auto ml-3">
-            <b class="">
-                {{payroll?.title}}
-            </b>
-            <p class="text-sm">{{payroll?.companyName}} <span class="font-bold">(Payment Date : {{payrollDate}})</span> </p>
+            <b>{{payroll?.title}}</b>
+            <p class="text-sm">{{payroll?.companyName}} </p>
         </div>
     </div>
-    <div class="grid mt-7 justify-content-center">
-        <div class="md:col-6 col-12 flex align-items-center">
-            <div class="w-full shadow-3 p-4">
+    <div class="grid md:my-7 my-4 justify-content-center">
+        <div class="lg:col-6 col-12 flex align-items-center">
+            <div class="w-full shadow-3 p-4 pt-2">
+                <p class="font-bold">(Payment Date : {{payrollDate}})</p>
                 <form [formGroup]="activityReqDtoFg" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <div class="mb-2">
@@ -32,22 +31,24 @@
                             <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="maxUploadDate" />
                         </div>
                     </div>
-                    <div class="mb-5">
+                    <div class="mb-5 mt-3 inline-flex">
                         <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" formControlName="forClient"/>
-                        <label for="switch">
+                        <label for="switch" class="ml-2 pt-1">
                             Unggahan Klien
                         </label>
                     </div>
-                    <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" severity="secondary">
-                        Batal
-                    </p-button>
-                    <p-button type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
-                        Simpan
-                    </p-button>
+                    <div class="grid pl-2">
+                        <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" severity="secondary">
+                            Batal
+                        </p-button>
+                        <p-button type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
+                            Simpan
+                        </p-button>
+                    </div>
                 </form>
             </div>
         </div>
-        <div class="md:col-6 col-12 flex justify-content-center">
+        <div class="md:col-6 col-12 lg:flex justify-content-center hidden">
             <img src="./assets/images/klien.svg" class="w-26rem" alt="add-account-image">
         </div>
     </div>

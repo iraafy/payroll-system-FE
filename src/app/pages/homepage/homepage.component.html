@@ -1,25 +1,26 @@
 <div class="mx-4 md:mx-8 mt-7">
-    <div class="shadow-3 border-round-xl h-24rem">
-        <div class="grid">
-            <div class="col-6 flex align-items-center">
-                <div class="row pl-5">
+    <div class="md:shadow-3 shadow-none border-round-xl h-24rem">
+        <div class="grid shadow-3 md:shadow-none">
+            <div class="md:col-6 col-12 flex align-items-center md:flex-order-0 flex-order-1">
+                <div class="row md:pl-5 pl-3 pb-5">
                     <h1 class="font-medium">
                         Hai, <span class="font-bold"> {{loginData?.fullName}} </span>
                     </h1>
                     <p>
-                        Selamat datang di Payroll System
+                        Selamat datang di <span class="text-color-primary font-bold">SalarySync</span>
                     </p>
-                    <p-button *ngIf="isPS" routerLink="/clients" class="rounded-3" styleClass="bg-white text-black-alpha-90 custom-border">
+                    <p-button *ngIf="isPS" routerLink="/clients" class="rounded-3" styleClass="mt-3 bg-white text-black-alpha-90 custom-border">
                         Lihat Klien
                     </p-button>
-                    <p-button *ngIf="isClient" routerLink="/clients/{{loginData?.id}}"  class="rounded-3" styleClass="bg-white text-black-alpha-90 custom-border">
+                    <p-button *ngIf="isClient" routerLink="/clients/{{loginData?.id}}" class="rounded-3" styleClass="mt-3 bg-white text-black-alpha-90 custom-border">
                         Lihat Aktivitas
                     </p-button>
                 </div>
             </div>
-            <div class="col-6 p-0 m-0">
-                <img src="./assets/images/payroll-home.svg" alt="payroll home image"
-                    class="hero-img w-full border-round-right-xl">
+            <div class="md:col-6 col-12 p-0 m-0">
+                <img *ngIf="isPS" src="./assets/images/payroll-home.svg" alt="payroll-image" class="hero-img w-full md:border-round-right-xl border-round-xl">
+                <img *ngIf="isClient" src="./assets/images/client-home.svg" alt="client-image" class="hero-img w-full md:border-round-right-xl border-round-xl">
+                <img *ngIf="isAdmin" src="./assets/images/superadmin-home.svg" alt="super-admin-image" class="hero-img w-full md:border-round-right-xl border-round-xl">
             </div>
         </div>
     </div>

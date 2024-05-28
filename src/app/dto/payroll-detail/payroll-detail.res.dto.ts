@@ -1,4 +1,5 @@
 export interface PayrollDetailResDto {
+    color: any
 	id: string
 	description: string
 	fileContent: string

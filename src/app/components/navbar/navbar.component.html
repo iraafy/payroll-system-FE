@@ -109,8 +109,8 @@
     </div>
 </p-overlayPanel>
 
-<p-dialog header="Jadwal" [(visible)]="visible" [style]="{ width: '35rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-    <full-calendar class="h-20rem" [options]="calendarOptions"></full-calendar>
+<p-dialog header="Jadwal" #calendarDialog [(visible)]="visible" [style]="{ width: '35rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onShow)="onDialogShow()">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
 </p-dialog>
 
 <router-outlet></router-outlet>

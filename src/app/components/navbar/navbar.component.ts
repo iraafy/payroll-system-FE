@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from "@angular/common"
-import { Component } from "@angular/core"
-import { Router, RouterModule, Routes } from "@angular/router"
+import { Component, ViewChild } from "@angular/core"
+import { ActivatedRoute, Router, RouterModule, Routes } from "@angular/router"
 import { MenubarModule } from 'primeng/menubar'
 import { SidebarModule } from 'primeng/sidebar'
 import { ButtonModule } from 'primeng/button'
@@ -22,12 +22,15 @@ import { MessageService } from "primeng/api"
 import { ChatReqDto } from "../../dto/chat/chat.req.dto"
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
 import { DialogModule } from 'primeng/dialog';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { NotificationService } from "../../services/notification.service";
 import { NotificationResDto } from "../../dto/notification/notification.res.dto";
 import { ChatService } from "../../services/chat.service"
 import { CalendarOptions, EventInput } from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { PayrollService } from "../../services/payroll.service"
+import { PayrollResDto } from "../../dto/payroll/payroll.res.dto"
+import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto"
 
 @Component({
     selector: 'app-navbar',
@@ -69,6 +72,9 @@ export class Navbar {
     sent? : ChatReqDto[] | null;
     visible: boolean = false;
     eventsOnCalendar: EventInput[] = [];
+    clientId: string | null = null;
+    payrolls: PayrollResDto[] = [];
+	clientPayrollDetails: PayrollDetailResDto[] = [];
 
     chat: FormGroup = this.fb.group({
         message : ['', [Validators.required]],
@@ -79,7 +85,9 @@ export class Navbar {
     constructor(
         private clientAssignmentService : ClientAssignmentService,
         private authService : AuthService,
+        private payrollService: PayrollService,
         private chatService : ChatService,
+        private activeRoute: ActivatedRoute,
         private notificationService : NotificationService,
         private router : Router,
         private websocketService : WebsocketService,
@@ -116,9 +124,19 @@ export class Navbar {
     get sessionId() {
         return this.loginData?.id
     }
-    
+
+    @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
+
     showDialog() {
         this.visible = true;
+    }
+
+    onDialogShow() {
+        setTimeout(() => {
+            if (this.calendarComponent) {
+                this.calendarComponent.getApi().updateSize();
+            }
+        }, 0);
     }
 
     openChat(client : ClientAssignmentResDto) {
@@ -171,6 +189,36 @@ export class Navbar {
                 this.notification.forEach((item) => {
                     item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
                 })
+            }
+        );
+
+        firstValueFrom(this.payrollService.getAllPayroll()).then(
+            res => {
+                this.payrolls = res;
+                console.log(this.payrolls);
+                this.eventsOnCalendar = [];
+
+                this.payrolls.forEach((payroll) => {
+                    const formattedDate = this.formatDateWithoutHours(payroll.scheduleDate);
+                    payroll.scheduleDate = formattedDate;
+                    const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
+                    this.eventsOnCalendar.push(event);
+                })
+            }
+        );
+
+        firstValueFrom(this.payrollService.getAllPayrollDetail()).then(
+            res => {
+                this.clientPayrollDetails = res;
+                console.log(this.clientPayrollDetails);
+                this.clientPayrollDetails.forEach((detail) => {
+                    const formattedDate = this.formatDateWithoutHours(detail.maxUploadDate);
+                    detail.maxUploadDate = formattedDate;
+                    const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
+                    this.eventsOnCalendar.push(event);
+                })
+                this.calendarOptions.events = this.eventsOnCalendar;
+                console.log(this.eventsOnCalendar)
             }
         );
     }
@@ -236,4 +284,9 @@ export class Navbar {
     private formatDate(date: string | Date, format: string): string {
 		return this.datePipe.transform(date, format)!;
 	}
+
+    private formatDateWithoutHours(date: string | Date): string {
+		return this.datePipe.transform(date, 'yyyy-MM-dd')!;
+	}
+
 }

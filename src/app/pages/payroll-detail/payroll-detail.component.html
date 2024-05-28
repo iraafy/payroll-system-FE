@@ -43,7 +43,7 @@
             <p-stepper orientation="vertical">
                 <p-stepperPanel *ngFor="let payroll of pd; let i = index"
                     header="{{payroll.description}} [{{payroll.maxUploadDate}}]">
-                    <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+                    <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index" >
                         <div class="flex flex-column">
                             <div
                                 class="border-2 shadow-3 border-dashed p-4 surface-border border-round surface-ground font-medium">
@@ -104,7 +104,7 @@
 
                                         <p-fileUpload url="https://www.primefaces.org/cdn/api/upload.php"
                                             (onUpload)="fileUpload($event, payroll.id)" [multiple]="false"
-                                            accept=".pdf,.doc,.docx,.xls,.xlsx" [maxFileSize]="3145728">
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx" [maxFileSize]="3145728" *ngIf="payroll.filePath">
                                         </p-fileUpload>
                                         <!-- SUDAH UPLOAD -->
                                         <div>

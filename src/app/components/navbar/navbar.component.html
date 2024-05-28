@@ -13,6 +13,7 @@
     </ng-template>
     <ng-template pTemplate="end">
         <ng-container>
+            <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5" *ngIf="isPS">
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5" *ngIf="!isAdmin">
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5" *ngIf="!isAdmin">
             <img src="assets/images/icon/user.svg" (click)="profile.toggle($event)" class="nav-icon md:mr-7 mr-3">
@@ -107,5 +108,9 @@
         </div>
     </div>
 </p-overlayPanel>
+
+<p-dialog header="Jadwal" #calendarDialog [(visible)]="visible" [style]="{ width: '35rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onShow)="onDialogShow()">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+</p-dialog>
 
 <router-outlet></router-outlet>

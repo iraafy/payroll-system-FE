@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 flex justify-content-end">
+        <div class="col-6 flex justify-content-end" *ngIf="isPS">
             <p-button (click)="showDialogPayroll()" class="rounded-3" styleClass="custom-small-shadow border-none bg-color-primary">
                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 256 256"><path fill="#ffffff" d="M228 128a12 12 0 0 1-12 12h-76v76a12 12 0 0 1-24 0v-76H40a12 12 0 0 1 0-24h76V40a12 12 0 0 1 24 0v76h76a12 12 0 0 1 12 12"/></svg> Tambah Data Payroll
             </p-button>

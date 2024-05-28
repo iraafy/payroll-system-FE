@@ -61,63 +61,65 @@ export class Navbar {
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
     navlinks: any = []
-    clients : ClientAssignmentResDto[]  = []
-    notification : NotificationResDto[] = [];
-    pickedClient? : any
-    sockClient : any
-    received : ChatResDto[] = []
-    connected? : Boolean | null | undefined
-    username? : string | null | undefined
-    text? : string | null
-    sent? : ChatReqDto[] | null;
+    clients: ClientAssignmentResDto[] = []
+    notification: NotificationResDto[] = [];
+    pickedClient?: any
+    sockClient: any
+    received: ChatResDto[] = []
+    connected?: Boolean | null | undefined
+    username?: string | null | undefined
+    text?: string | null
+    sent?: ChatReqDto[] | null;
     visible: boolean = false;
     eventsOnCalendar: EventInput[] = [];
     clientId: string | null = null;
     payrolls: PayrollResDto[] = [];
-	clientPayrollDetails: PayrollDetailResDto[] = [];
+    clientPayrollDetails: PayrollDetailResDto[] = [];
+
+    payrollIds: any[] = [];
 
     chat: FormGroup = this.fb.group({
-        message : ['', [Validators.required]],
-        recipientId : [this.pickedClient?.id, [Validators.required]],
-        senderId : [this.authService.getLoginData()?.id, [Validators.required]]
+        message: ['', [Validators.required]],
+        recipientId: [this.pickedClient?.id, [Validators.required]],
+        senderId: [this.authService.getLoginData()?.id, [Validators.required]]
     });
 
     constructor(
-        private clientAssignmentService : ClientAssignmentService,
-        private authService : AuthService,
+        private clientAssignmentService: ClientAssignmentService,
+        private authService: AuthService,
         private payrollService: PayrollService,
-        private chatService : ChatService,
+        private chatService: ChatService,
         private activeRoute: ActivatedRoute,
-        private notificationService : NotificationService,
-        private router : Router,
-        private websocketService : WebsocketService,
-        private messageService : MessageService,
-        private fb : NonNullableFormBuilder,
+        private notificationService: NotificationService,
+        private router: Router,
+        private websocketService: WebsocketService,
+        private messageService: MessageService,
+        private fb: NonNullableFormBuilder,
         private datePipe: DatePipe
-    ) {}
-    
+    ) { }
+
     ngOnInit() {
         this.navlinks = [
-            {image: 'assets/images/icon/logo.svg', route: '/homepage'},
-            {label: 'Pengguna', route: '/users'},
-            {label: 'Perusahaan', route: '/companies'},
-            {label: 'Klien', route: '/client/assignment'},
+            { image: 'assets/images/icon/logo.svg', route: '/homepage' },
+            { label: 'Pengguna', route: '/users' },
+            { label: 'Perusahaan', route: '/companies' },
+            { label: 'Klien', route: '/client/assignment' },
         ]
 
         this.init()
     }
-    
+
     loginData = this.authService.getLoginData()
 
-    get isAdmin () {
+    get isAdmin() {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN
     }
 
-    get isPS () {
+    get isPS() {
         return this.loginData?.roleCode == RoleType.PS
     }
 
-    get isClient () {
+    get isClient() {
         return this.loginData?.roleCode == RoleType.CLIENT
     }
 
@@ -139,25 +141,25 @@ export class Navbar {
         }, 0);
     }
 
-    openChat(client : ClientAssignmentResDto) {
+    openChat(client: ClientAssignmentResDto) {
         this.chatListVisible = false
         this.chatDetailVisible = true
         this.pickedClient = client
-        if(this.isPS){
+        if (this.isPS) {
             this.connect(client.id)
             this.chat.get('recipientId')?.patchValue(client.id)
-        }else{
-            const id : string | undefined = this.authService.getLoginData()?.id
+        } else {
+            const id: string | undefined = this.authService.getLoginData()?.id
             this.connect(id)
             this.chat.get('recipientId')?.patchValue(client.id)
         }
         firstValueFrom(this.chatService.getChats()).then(
             res => {
-                for(let item of res) {
-                    var createdAt : string = item.createdAt
-                    var createdDate : string = createdAt.split('T')[0]
-                    var createdTime : string = createdAt.split('T')[1]
-                    item.createdAt = createdDate+" "+createdTime
+                for (let item of res) {
+                    var createdAt: string = item.createdAt
+                    var createdDate: string = createdAt.split('T')[0]
+                    var createdTime: string = createdAt.split('T')[1]
+                    item.createdAt = createdDate + " " + createdTime
                 }
                 this.received = res
             }
@@ -175,105 +177,100 @@ export class Navbar {
         this.router.navigateByUrl('/login');
     }
 
-    init() {
-        firstValueFrom(this.clientAssignmentService.getAllClientAssignment()).then(
-            res => {
-                this.clients = res
-                console.log(res)
-            }
-        )
+    async init() {
+        try {
+            this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
+            console.log(this.clients);
 
-        firstValueFrom(this.notificationService.getTop3Notification()).then(
-            res => {
-                this.notification = res;
-                this.notification.forEach((item) => {
-                    item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
-                })
-            }
-        );
+            this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
+            this.notification.forEach((item) => {
+                item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
+            });
 
-        firstValueFrom(this.payrollService.getAllPayroll()).then(
-            res => {
-                this.payrolls = res;
-                console.log(this.payrolls);
-                this.eventsOnCalendar = [];
+            this.payrolls = await firstValueFrom(this.payrollService.getAllPayroll());
+            this.eventsOnCalendar = [];
 
-                this.payrolls.forEach((payroll) => {
-                    const formattedDate = this.formatDateWithoutHours(payroll.scheduleDate);
-                    payroll.scheduleDate = formattedDate;
-                    const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
-                    this.eventsOnCalendar.push(event);
-                })
-            }
-        );
+            for (const payroll of this.payrolls) {
+                const calendarColor = this.getRandomColor();
+                this.payrollIds.push({ color: calendarColor, id: payroll.id });
 
-        firstValueFrom(this.payrollService.getAllPayrollDetail()).then(
-            res => {
-                this.clientPayrollDetails = res;
-                console.log(this.clientPayrollDetails);
-                this.clientPayrollDetails.forEach((detail) => {
+                const formattedDate = this.formatDateWithoutHours(payroll.scheduleDate);
+                payroll.scheduleDate = formattedDate;
+                const event = { title: payroll.title, start: formattedDate, color: calendarColor };
+                this.eventsOnCalendar.push(event);
+
+                const details = await firstValueFrom(this.payrollService.getAllPayrollDetailByPayrollId(payroll.id));
+                details.forEach((detail) => {
                     const formattedDate = this.formatDateWithoutHours(detail.maxUploadDate);
                     detail.maxUploadDate = formattedDate;
-                    const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
+                    const event = { title: detail.description, start: formattedDate, color: calendarColor };
                     this.eventsOnCalendar.push(event);
-                })
-                this.calendarOptions.events = this.eventsOnCalendar;
-                console.log(this.eventsOnCalendar)
+                });
             }
-        );
+
+            this.calendarOptions.events = this.eventsOnCalendar;
+        } catch (error) {
+            console.error('Error initializing data:', error);
+        }
     }
 
-    calendarOptions: CalendarOptions = {
-		plugins: [dayGridPlugin],
-		initialView: 'dayGridMonth',
-		weekends: false,
-		events: this.eventsOnCalendar,
-	};
 
-    connect(id : string | undefined) {
+    calendarOptions: CalendarOptions = {
+        plugins: [dayGridPlugin],
+        initialView: 'dayGridMonth',
+        weekends: false,
+        events: this.eventsOnCalendar,
+        eventContent: function (arg) {
+            return {
+                html: `<div style="background-color: ${arg.event.extendedProps["color"]}; color: #fff; padding: 5px; border-radius: 5px;">${arg.event.title}</div>`
+            }
+        }
+    };
+
+    connect(id: string | undefined) {
         const ws = new SockJS(this.websocketService.url)
         this.sockClient = Stomp.over(ws)
         const that = this
         this.received = []
-    
+
         this.sockClient.connect({}, function () {
-          console.log('Connected!')
-          that.connected = true
-          that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
-            // tslint:disable-next-line:triple-equals
-            // if (that.username != JSON.parse(message.body).name) {
-            // }
-            var createdAt : string = JSON.parse(message.body).createdAt
-            var createdDate : string = createdAt.split('T')[0]
-            var createdTime : string = createdAt.split('T')[1]
-            const newMessage : any = JSON.parse(message.body)
-            newMessage.createdAt = createdDate+" "+createdTime
-            that.received.push(newMessage);
-            // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
-          })
+            console.log('Connected!')
+            that.connected = true
+            that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
+                // tslint:disable-next-line:triple-equals
+                // if (that.username != JSON.parse(message.body).name) {
+                // }
+                var createdAt: string = JSON.parse(message.body).createdAt
+                var createdDate: string = createdAt.split('T')[0]
+                var createdTime: string = createdAt.split('T')[1]
+                const newMessage: any = JSON.parse(message.body)
+                newMessage.createdAt = createdDate + " " + createdTime
+                that.received.push(newMessage);
+                // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
+            })
         })
     }
 
     disconnect() {
         if (this.connected) {
-          this.connected = false
-          this.sent = []
-          this.received = []
-          this.username = undefined
-          this.text = undefined
-          console.log('Disconnected!')
-          this.sockClient.disconnect()
+            this.connected = false
+            this.sent = []
+            this.received = []
+            this.username = undefined
+            this.text = undefined
+            console.log('Disconnected!')
+            this.sockClient.disconnect()
         }
     }
-    
+
     sendMessage() {
-        const newChat : ChatReqDto = this.chat.getRawValue()
+        const newChat: ChatReqDto = this.chat.getRawValue()
         this.sent?.push(newChat)
 
-        if(this.isPS){
+        if (this.isPS) {
             this.sockClient.send(this.websocketService.topicChat + newChat.recipientId, {}, JSON.stringify(newChat))
-        }else{
-            const id : string | undefined = this.authService.getLoginData()?.id
+        } else {
+            const id: string | undefined = this.authService.getLoginData()?.id
             this.sockClient.send(this.websocketService.topicChat + id, {}, JSON.stringify(newChat))
         }
 
@@ -282,11 +279,20 @@ export class Navbar {
     }
 
     private formatDate(date: string | Date, format: string): string {
-		return this.datePipe.transform(date, format)!;
-	}
+        return this.datePipe.transform(date, format)!;
+    }
 
     private formatDateWithoutHours(date: string | Date): string {
-		return this.datePipe.transform(date, 'yyyy-MM-dd')!;
-	}
+        return this.datePipe.transform(date, 'yyyy-MM-dd')!;
+    }
+
+    private getRandomColor(): string {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 8)];
+        }
+        return color;
+    }
 
 }

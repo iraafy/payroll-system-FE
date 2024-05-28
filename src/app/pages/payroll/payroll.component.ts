@@ -96,19 +96,6 @@ export class Payroll implements OnInit {
 		this.clientId = this.activeRoute.snapshot.paramMap.get('id');
 		if (this.clientId != null) {
 
-			firstValueFrom(this.payrollService.getPayrollDetailsByClientId(this.clientId)).then(
-				res => {
-					this.clientPayrollDetails = res;
-					
-					this.clientPayrollDetails.forEach((detail) => {
-						const formattedDate = this.formatDate(detail.maxUploadDate);
-						detail.maxUploadDate = formattedDate;
-						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
-						this.eventsOnCalendar.push(event);
-					})
-					console.log(this.eventsOnCalendar)
-				}
-			);
 			
 			firstValueFrom(this.payrollService.getPayrollByClientId(this.clientId)).then(
 				res => {
@@ -120,13 +107,26 @@ export class Payroll implements OnInit {
 						payroll.scheduleDate = formattedDate;
 						const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
 						this.eventsOnCalendar.push(event);
-						this.calendarOptions.events = this.eventsOnCalendar;
 					})
 				}
 			);
 			
+			firstValueFrom(this.payrollService.getPayrollDetailsByClientId(this.clientId)).then(
+				res => {
+					this.clientPayrollDetails = res;
+					
+					this.clientPayrollDetails.forEach((detail) => {
+						const formattedDate = this.formatDate(detail.maxUploadDate);
+						detail.maxUploadDate = formattedDate;
+						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
+						this.eventsOnCalendar.push(event);
+					})
+					console.log(this.eventsOnCalendar)
+					this.calendarOptions.events = this.eventsOnCalendar;
+				}
+			);
 			
-
+			
 		} else {
 			if (this.loginData) {
 				this.clientId = this.loginData.id;

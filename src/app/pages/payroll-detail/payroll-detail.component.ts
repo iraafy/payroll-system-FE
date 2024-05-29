@@ -173,14 +173,14 @@ export class PayrollDetail {
                     firstValueFrom(this.fileService.uploadFileFtp(newFile)).then(
                         res => {
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
-                            firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id))
+                            firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id));
+                            this.init();
                         }
 
                     )
                 }
             });
         }
-
 
     }
 

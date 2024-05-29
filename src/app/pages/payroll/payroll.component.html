@@ -29,7 +29,7 @@
             <full-calendar class="h-30rem" [options]="calendarOptions"></full-calendar>
         </div>
         <div class="md:col-6 col-12 p-0 h-30rem md:pl-5 pl-0">
-            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-100" placeholder="Cari Payroll" (keyup)="onKeyUp($event)" />
+            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-50" placeholder="Cari Payroll" (keyup)="onKeyUp($event)" />
             <div class="grid">
                 <div *ngFor="let payroll of payrolls" class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/payrolls/{{payroll.id}}">
                     <div class="content p-3 pb-2 custom-small-shadow">
@@ -56,7 +56,7 @@
                     <label for="title" class="form-label fw-semibold">Judul Payroll <span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <input type="text" id="title" class="w-full bg-gray-100" pInputText formControlName="title"/>
+                    <input type="text" id="title" class="w-full bg-gray-50" pInputText formControlName="title"/>
                 </div>
             </div>
             <div class="mb-3">
@@ -64,10 +64,10 @@
                     <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <input type="date" id="date" class="w-full bg-gray-100" value="25" pInputText formControlName="scheduledDate"/>
+                    <p-calendar showIcon="true" iconDisplay="input" formControlName="scheduledDate" appendTo="body" class="bg-gray-100" styleClass="bg-gray-50 w-full"/>
                 </div>
             </div>
-            <div class="mt- flex justify-content-end">
+            <div class="mt-5 flex justify-content-end">
                 <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
                 <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" />
             </div>

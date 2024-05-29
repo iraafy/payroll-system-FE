@@ -17,6 +17,7 @@ export class ClientAssignment implements OnInit {
     payrollServices : UserResDto[] = []
     clients : ClientDropdownResDto[] = []
     displayModal: boolean = false
+    confirmationModal: boolean = false
 
     constructor(
         private userService: UserService, 

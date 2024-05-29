@@ -123,6 +123,14 @@ textarea:focus-visible {
     margin-bottom: 0.5rem;
 }
 
+.responsive-img {
+    width: 24rem;
+}
+
+.p-inputtext {
+    background-color: #f6f6f6;
+}
+
 @media screen and (max-width: 767px) {
     .responsiv-bg {
         background-image: url(./assets/images/login-img.svg);
@@ -142,5 +150,10 @@ textarea:focus-visible {
 
     .responsive-file-upload {
         width: 100%;
+    }
+
+    .responsive-img {
+        width: 100%;
+        height: auto;
     }
 }

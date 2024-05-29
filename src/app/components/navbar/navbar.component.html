@@ -15,7 +15,7 @@
         <ng-container>
             <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5" *ngIf="isPS">
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5" *ngIf="!isAdmin">
-            <i class="text-2xl" severity="warning" pBadge value={{notification.length}}></i>
+            <i class="text-2xl" severity="warning" pBadge value={{notification.length}} *ngIf="!isAdmin"></i>
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5" *ngIf="!isAdmin">
             <img src="assets/images/icon/user.svg" (click)="profile.toggle($event)" class="nav-icon md:mr-7 mr-3 cursor-pointer">
         </ng-container>

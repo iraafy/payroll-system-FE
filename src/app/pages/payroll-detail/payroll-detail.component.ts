@@ -25,6 +25,7 @@ export class PayrollDetail {
     signatureVisible: boolean = false;
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
+    downloadVisible: boolean = false;
     payrollId: string | null = '';
     clientId: string | null = '';
     payrollDetails?: Observable<PayrollDetailResDto[]>;
@@ -83,8 +84,6 @@ export class PayrollDetail {
                         console.log(items)
                     })
                 );
-
-                
         }
     }
 
@@ -124,7 +123,6 @@ export class PayrollDetail {
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'harap cek tanggal reschedule dan approval reschedule' });
                 }
             )
-
             this.rescheduleVisible = false;
         }
     }
@@ -144,7 +142,6 @@ export class PayrollDetail {
                 })
             console.log(this.activeRoute.snapshot.url[0].path)
         }
-
     }
 
     fileUpload(event: any, id: string) {
@@ -181,7 +178,10 @@ export class PayrollDetail {
                 }
             });
         }
-
     }
 
+    downloadFileSubmit(fileName: string) {
+        window.location.href = `http://localhost:8080/files/ftp/${fileName}`;
+        this.downloadVisible = false;
+    }
 }

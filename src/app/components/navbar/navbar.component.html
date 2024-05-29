@@ -22,7 +22,7 @@
     </ng-template>
 </p-menubar>
 
-<p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="w-30rem">
+<p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="md:w-30rem w-full">
     <ng-template pTemplate="header">
         <div class="flex align-items-center gap-2">
             <h3 class="font-bold text-color-primary" *ngIf="!chatDetailVisible">
@@ -76,8 +76,11 @@
         <p class="text-sm font-semibold mb-1">{{notif.createdAt}}</p>
         <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
     </div>
-    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer" routerLink="/notification">
+    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer" routerLink="/notification" *ngIf="notification.length > 0">
         Lihat Semua Notifikasi
+    </p>
+    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0" *ngIf="notification.length == 0">
+        Belum Ada Notifikasi
     </p>
 </p-overlayPanel>
 

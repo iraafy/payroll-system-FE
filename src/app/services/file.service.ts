@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { FtpReqDto } from "../dto/ftp/ftp.req.dto";
 import { InsertResDto } from "../dto/insert.res.dto";
+import { Router } from "@angular/router";
+import { BASE_URL } from "../constants/global";
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +11,8 @@ import { InsertResDto } from "../dto/insert.res.dto";
 export class FileService{
 
     constructor(
-        private baseService: BaseService
+        private baseService: BaseService,
+        private router: Router
     ) { }
 
     uploadFileFtp(data: FtpReqDto){

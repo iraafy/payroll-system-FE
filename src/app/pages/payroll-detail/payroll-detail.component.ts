@@ -25,6 +25,7 @@ export class PayrollDetail {
     signatureVisible: boolean = false;
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
+    downloadVisible: boolean = false;
     payrollId: string | null = '';
     clientId: string | null = '';
     payrollDetails?: Observable<PayrollDetailResDto[]>;
@@ -177,6 +178,10 @@ export class PayrollDetail {
                 }
             });
         }
+    }
 
+    downloadFileSubmit(fileName: string) {
+        window.location.href = `http://localhost:8080/files/ftp/${fileName}`;
+        this.downloadVisible = false;
     }
 }

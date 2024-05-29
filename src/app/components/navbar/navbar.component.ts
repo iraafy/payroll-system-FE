@@ -31,6 +31,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { PayrollService } from "../../services/payroll.service"
 import { PayrollResDto } from "../../dto/payroll/payroll.res.dto"
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto"
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
     selector: 'app-navbar',
@@ -48,7 +49,8 @@ import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res
         ChipsModule,
         ReactiveFormsModule,
         DialogModule,
-        FullCalendarModule
+        FullCalendarModule,
+        BadgeModule
     ],
     providers: [
         DatePipe

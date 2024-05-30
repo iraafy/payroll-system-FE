@@ -17,12 +17,15 @@ import { Router } from "@angular/router";
 
 export class UserAdd implements OnInit {
     userForm: FormGroup = this.fb.group({
-        email: ['', [Validators.required]],
+        email: ['', [
+            Validators.required,
+            Validators.email
+        ]],
         fullName: ['', [Validators.required]],
         roleId: ['', [Validators.required]],
         companyId: ['', [Validators.required]],
-        fileContent: ['', [Validators.required]],
-        fileExt: ['', [Validators.required]]
+        fileContent: [''],
+        fileExt: ['']
     })
 
     displayModal: boolean = false;

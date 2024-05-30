@@ -20,15 +20,35 @@
                             <label for="activity" class="form-label fw-semibold">Aktivitas <span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <textarea pInputTextarea rows="4" class="p-2 w-full bg-gray-100 border-gray-300 border-round-md" id="activity" formControlName="description"></textarea>
+                            <textarea 
+                                pInputTextarea 
+                                rows="4" 
+                                [ngClass]="{
+                                    'border-red-500': activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty, 
+                                    'border-black-alpha-20': activityReqDtoFg.controls['description'].valid || activityReqDtoFg.controls['description'].untouched || !activityReqDtoFg.controls['description'].touched
+                                }" 
+                                class="p-2 w-full bg-gray-50 border-round-md" 
+                                id="activity" 
+                                formControlName="description">
+                            </textarea>
+                            <div *ngIf="activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty" class="text-red-500 text-xs">
+                                <p *ngIf="activityReqDtoFg.controls['description'].errors">
+                                    {{activityReqDtoFg.controls['description'].hasError('required') ? 'Deskripsi aktivitas wajib diisi' : ''}}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="mb-2">
-                            <label for="date" class="form-label fw-semibold">Maksimal Unggah<span class="text-red-500">*</span></label>
+                            <label for="date" class="form-label fw-semibold">Maksimal Unggah <span class="text-red-500">*</span></label>
                         </div>
                         <div>
                             <p-calendar showIcon="true" iconDisplay="input" formControlName="maxUploadDate" appendTo="body" class="bg-gray-50" styleClass="w-full"/>
+                            <div *ngIf="activityReqDtoFg.controls['maxUploadDate'].invalid && activityReqDtoFg.controls['maxUploadDate'].dirty" class="text-red-500 text-xs">
+                                <p *ngIf="activityReqDtoFg.controls['maxUploadDate'].errors">
+                                    {{activityReqDtoFg.controls['maxUploadDate'].hasError('required') ? 'Maksimal unggah wajib diisi' : ''}}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-5 mt-3 inline-flex">

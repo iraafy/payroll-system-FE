@@ -151,8 +151,7 @@
                                                 (ngSubmit)="onSubmitCreateReschdule()">
                                                 <div class="mb-3">
                                                     <div class="mb-2">
-                                                        <label for="date" class="form-label fw-semibold">Jadwal Saat
-                                                            Ini</label>
+                                                        <label for="date" class="form-label fw-semibold">Jadwal Saat Ini</label>
                                                     </div>
                                                     <div>
                                                         <input type="date" id="date" class="w-full bg-gray-100"
@@ -161,19 +160,20 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="mb-2">
-                                                        <label for="date" class="form-label fw-semibold">Jadwal Baru
-                                                            <span class="text-red-500">*</span></label>
+                                                        <label for="date" class="form-label fw-semibold">Jadwal Baru <span class="text-red-500">*</span></label>
                                                     </div>
                                                     <div>
-                                                        <input type="date" id="date" class="w-full bg-gray-100"
-                                                            pInputText formControlName="newScheduleDate" />
+                                                        <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="newScheduleDate" />
+                                                        <div *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].invalid && rescheduleReqDtoFg.controls['newScheduleDate'].dirty" class="text-red-500 text-xs">
+                                                            <p *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].errors">
+                                                                {{rescheduleReqDtoFg.controls['newScheduleDate'].hasError('required') ? 'Jadwal baru wajib diisi' : ''}}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="mt- flex justify-content-end">
-                                                    <p-button label="Batal" severity="secondary"
-                                                        (click)="rescheduleVisible = false" />
-                                                    <p-button type="submit" label="Simpan"
-                                                        styleClass="ml-2 bg-color-primary" />
+                                                    <p-button label="Batal" severity="secondary" (click)="rescheduleVisible = false" />
+                                                    <p-button type="submit" label="Simpan" [disabled]="rescheduleReqDtoFg.invalid" styleClass="ml-2 bg-color-primary" />
                                                 </div>
                                             </form>
                                         </p-dialog>

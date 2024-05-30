@@ -29,7 +29,7 @@
                     <label for="ps" class="form-label fw-semibold">Payroll Service<span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-dropdown styleClass="w-full bg-gray-100" appendTo="body" [options]="payrollServices" optionValue="id" optionLabel="fullName" id="ps" formControlName="psId" />
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="payrollServices" optionValue="id" optionLabel="fullName" id="ps" formControlName="psId" />
                 </div>
             </div>
             <div class="mb-4">
@@ -37,7 +37,7 @@
                     <label for="client" class="form-label fw-semibold">Klien<span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-dropdown styleClass="w-full bg-gray-100" appendTo="body" [options]="clients" optionValue="id" optionLabel="clientName" id="client" formControlName="clientId">
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="clients" optionValue="id" optionLabel="clientName" id="client" formControlName="clientId">
                         <ng-template let-client pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ client.clientName }}</div>
@@ -49,7 +49,7 @@
             </div>
             <div class="flex justify-content-end">
                 <p-button (click)="displayModal=false" severity="secondary" styleClass="mr-2">Batal</p-button>
-                <p-button (click)="confirmationModal=true; displayModal=false" styleClass="bg-color-primary">Simpan</p-button>
+                <p-button [disabled]="clientAssignmentReqDtoFormGroup.invalid" (click)="confirmationModal=true; displayModal=false" styleClass="bg-color-primary">Simpan</p-button>
             </div>
         </form>
     </div>

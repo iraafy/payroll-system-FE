@@ -11,20 +11,31 @@
                         <div class="col-12 md:col-6">
                             <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="name" class="form-label fw-semibold">Nama Lengkap<span class="text-red-500">*</span></label>
+                                    <label for="name" class="form-label fw-semibold">Nama Lengkap <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="text" class="w-full bg-gray-50" id="name" pInputText formControlName="fullName">
+                                    <input type="text" class="w-full" id="name" pInputText formControlName="fullName">
+                                    <div *ngIf="userForm.controls['fullName'].invalid && userForm.controls['fullName'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['fullName'].errors">
+                                            {{userForm.controls['fullName'].hasError('required') ? 'Nama wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-6">
                             <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="email" class="form-label fw-semibold">Email<span class="text-red-500">*</span></label>
+                                    <label for="email" class="form-label fw-semibold">Email <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="email" class="w-full bg-gray-50" id="email" pInputText formControlName="email">
+                                    <input type="email" class="w-full" id="email" pInputText formControlName="email">
+                                    <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['email'].errors">
+                                            {{userForm.controls['email'].hasError('required') ? 'Email wajib diisi' : ''}}
+                                            {{userForm.controls['email'].hasError('email') ? 'Email tidak valid' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -33,24 +44,34 @@
                         <div class="col-12 md:col-6">
                             <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="company" class="form-label fw-semibold">Perusahaan<span class="text-red-500">*</span></label>
+                                    <label for="company" class="form-label fw-semibold">Perusahaan <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <p-dropdown styleClass="w-full bg-gray-50" [options]="companies"
+                                    <p-dropdown styleClass="w-full" [options]="companies"
                                         optionLabel="companyName" optionValue="id" [filter]="true"
                                         filterBy="companyName" [showClear]="true" id="company"
                                         formControlName="companyId" 
                                     />
+                                    <div *ngIf="userForm.controls['companyId'].invalid && userForm.controls['companyId'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['companyId'].errors">
+                                            {{userForm.controls['companyId'].hasError('required') ? 'Perusahaan wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 md:col-6">
                             <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="role" class="form-label fw-semibold">Role<span class="text-red-500">*</span></label>
+                                    <label for="role" class="form-label fw-semibold">Role <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <p-dropdown styleClass="w-full bg-gray-50" [options]="roles" optionValue="id" optionLabel="roleName" id="role" formControlName="roleId" />
+                                    <p-dropdown styleClass="w-full" [options]="roles" optionValue="id" optionLabel="roleName" id="role" formControlName="roleId" />
+                                    <div *ngIf="userForm.controls['roleId'].invalid && userForm.controls['roleId'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['roleId'].errors">
+                                            {{userForm.controls['roleId'].hasError('required') ? 'roleId wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -61,11 +82,11 @@
                             <label for="file" class="form-label fw-semibold">Foto Profil</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-50" pInputText (change)="fileUpload($event)" />
+                            <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" />
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>
-                    <p-button (click)="displayModal=true" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button [disabled]="userForm.invalid" (click)="displayModal=true" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>

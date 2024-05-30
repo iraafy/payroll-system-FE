@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
-import { CalendarOptions, EventInput } from "@fullcalendar/core";
+import { CalendarOptions, DateInput, EventInput } from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { PayrollReqDto } from "../../dto/payroll/payroll.req.dto";
 import { firstValueFrom } from "rxjs";
@@ -38,6 +38,9 @@ export class Payroll implements OnInit {
 	loginData: LoginResDto | undefined = undefined;
 	eventsOnCalendar: EventInput[] = [];
 
+	currentDate: DateInput | null = null
+	
+
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', Validators.required],
 		title: ['', Validators.required],
@@ -74,6 +77,7 @@ export class Payroll implements OnInit {
 					this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 
 					this.currentCompanyPayroll = formattedDate
+					this.defaultPayment.initialDate = formattedDate;
 				})
 
 			this.payrollReqDtoFg.get('clientId')?.patchValue(this.clientId);
@@ -146,7 +150,15 @@ export class Payroll implements OnInit {
 		plugins: [dayGridPlugin],
 		initialView: 'dayGridMonth',
 		weekends: false,
-		events: this.eventsOnCalendar,
+		events: this.eventsOnCalendar
+
+	};
+
+	defaultPayment: CalendarOptions = {
+		plugins: [dayGridPlugin],
+		initialView: 'dayGridMonth',
+		weekends: false,
+		initialDate: new Date
 
 	};
 

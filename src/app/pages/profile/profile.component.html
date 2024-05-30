@@ -3,6 +3,14 @@
         <div class="grid">
             <div class="col-12 md:col-3">
                 <div class="flex align-items-center justify-content-center shadow-3 h-25rem">
+                    <p-fileUpload 
+                    mode="basic" 
+                    chooseIcon="pi pi-upload"
+                    name="demo[]" 
+                    url="https://www.primefaces.org/cdn/api/upload.php" 
+                    accept="image/*" 
+                    maxFileSize="1000000" 
+                    (onUpload)="fileUpload($event)" />
                     <img [src]="photoProfile" class="w-15rem h-15rem" alt="login-image">
                 </div>
             </div>
@@ -14,22 +22,30 @@
                         </h2>
                         <div class="mb-3">
                             <label for="name" class="form-label fw-semibold mb-2">Nama</label>
-                            <div class="mt-2">
-                                <input type="name" pInputText class="form-control bg-gray-50 w-full" id="name" aria-describedby="nameHelp" [value]="name" disabled>
+                            <div class="mt-2 grid">
+                                <div class="col">
+                                    <input type="name" pInputText class="form-control bg-gray-50 w-full" id="name"
+                                        aria-describedby="nameHelp" [value]="name" disabled>
+                                </div>
+                                <div class="col-1">
+                                    <p-button icon="pi pi-check" />
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="company" class="form-label fw-semibold mb-2 mt-3">Perusahaan</label>
                             <div class="mt-2">
-                                <input type="company" pInputText class="form-control bg-gray-50 w-full" id="company" aria-describedby="companyHelp" [value]="company" disabled>
+                                <input type="company" pInputText class="form-control bg-gray-50 w-full" id="company"
+                                    aria-describedby="companyHelp" [value]="company" disabled>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="role" class="form-label fw-semibold mb-2 mt-3">Role</label>
                             <div class="mt-2">
-                                <input type="role" pInputText class="form-control bg-gray-50 w-full" id="role" aria-describedby="roleHelp" [value]="roleName" disabled>
+                                <input type="role" pInputText class="form-control bg-gray-50 w-full" id="role"
+                                    aria-describedby="roleHelp" [value]="roleName" disabled>
                             </div>
                         </div>
                     </div>

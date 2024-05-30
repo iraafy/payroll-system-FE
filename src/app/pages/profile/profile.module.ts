@@ -4,6 +4,8 @@ import { ProfileRouting } from "./profile.routing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from "primeng/button";
+import { FileUploadModule } from "primeng/fileupload";
 
 @NgModule({
     declarations: [
@@ -14,7 +16,9 @@ import { InputTextModule } from 'primeng/inputtext';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        InputTextModule
+        InputTextModule,
+        ButtonModule,
+        FileUploadModule
     ]
 })
 

@@ -8,15 +8,29 @@
         <p-button label="Buat Penugasan" styleClass="bg-color-primary" (click)="displayModal = true"></p-button>
     </div>
     <div class="grid">
-        <ng-container *ngFor="let client of clients; let i = index">
-          <div class="md:col-4 col-12">
-            <div class="shadow-3 bg-white p-4 text-center mb-4">
-                <b class="m-0">{{ client.psName }}</b>
-                <p class="m-0">{{ client.clientName }}</p>
+        <!-- <ng-container *ngFor="let ps of payrollServices; let i = index">
+            <div class="md:col-4 col-12">
+                <div class="shadow-3 bg-white p-4 text-center mb-4">
+                    <b class="m-0">{{ ps.fullName }}</b>
+                    <p *ngFor="let cl of clientsByPsId; let j = index" class="m-0">
+                        {{ clientsByPsId[i][j].fullName }}
+                    </p>
+                </div>
             </div>
-          </div>
+        </ng-container> -->
+        <ng-container *ngFor="let ps of payrollServices; let i = index">
+            <div class="md:col-4 col-12">
+                <div class="shadow-3 bg-white p-4 text-center mb-4">
+                    <b class="m-0">{{ ps.fullName }}</b>
+                    <div *ngFor="let cl of clientsByPsId; let j = index">
+                        <p *ngIf="i < clientsByPsId.length && j < clientsByPsId[i].length" class="m-0">
+                            {{ clientsByPsId[i][j].fullName }}
+                        </p>
+                    </div>
+                </div>
+            </div>
         </ng-container>
-      </div>      
+    </div>
 </div>
 
 <p-dialog header="Penugasan" [(visible)]="displayModal" [modal]="true"
@@ -26,7 +40,8 @@
         <form [formGroup]="clientAssignmentReqDtoFormGroup">
             <div class="mb-3">
                 <div class="mb-2">
-                    <label for="ps" class="form-label fw-semibold">Payroll Service<span class="text-red-500">*</span></label>
+                    <label for="ps" class="form-label fw-semibold">Payroll Service<span
+                            class="text-red-500">*</span></label>
                 </div>
                 <div>
                     <p-dropdown styleClass="w-full" appendTo="body" [options]="payrollServices" optionValue="id" optionLabel="fullName" id="ps" formControlName="psId" />
@@ -55,20 +70,14 @@
     </div>
 </p-dialog>
 
-<p-dialog 
-    header="Konfirmasi" 
-    [(visible)]="confirmationModal"
-    [modal]="true" 
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-    [style]="{ width: '35vw' }"
-    [draggable]="false" 
-    closable="false"
-    [resizable]="false">
-        <p class="m-0">
-            Apakah anda yakin ingin membuat penugasan ini?
-        </p>
-        <div class="grid justify-content-end mt-5">
-            <p-button label="Batal" severity="secondary" (click)="confirmationModal = false; displayModal = true" />
-            <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="onSubmit()" />
-        </div>
+<p-dialog header="Konfirmasi" [(visible)]="confirmationModal" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
+    closable="false" [resizable]="false">
+    <p class="m-0">
+        Apakah anda yakin ingin membuat penugasan ini?
+    </p>
+    <div class="grid justify-content-end mt-5">
+        <p-button label="Batal" severity="secondary" (click)="confirmationModal = false; displayModal = true" />
+        <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="onSubmit()" />
+    </div>
 </p-dialog>

@@ -57,6 +57,11 @@
                 </div>
                 <div>
                     <input type="text" id="title" class="w-full bg-gray-50" pInputText formControlName="title"/>
+                    <div *ngIf="payrollReqDtoFg.controls['title'].invalid && payrollReqDtoFg.controls['title'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="payrollReqDtoFg.controls['title'].errors">
+                            {{payrollReqDtoFg.controls['title'].hasError('required') ? 'Judul payroll wajib diisi' : ''}}
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
@@ -64,7 +69,12 @@
                     <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-calendar showIcon="true" iconDisplay="input" formControlName="scheduledDate" appendTo="body" class="bg-gray-100" styleClass="bg-gray-50 w-full"/>
+                    <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="scheduledDate"/>
+                    <div *ngIf="payrollReqDtoFg.controls['scheduledDate'].invalid && payrollReqDtoFg.controls['scheduledDate'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="payrollReqDtoFg.controls['scheduledDate'].errors">
+                            {{payrollReqDtoFg.controls['scheduledDate'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="mt-5 flex justify-content-end">

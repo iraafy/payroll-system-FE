@@ -11,8 +11,7 @@ import { BASE_URL } from "../constants/global";
 export class FileService{
 
     constructor(
-        private baseService: BaseService,
-        private router: Router
+        private baseService: BaseService
     ) { }
 
     uploadFileFtp(data: FtpReqDto){

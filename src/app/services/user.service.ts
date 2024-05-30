@@ -38,4 +38,8 @@ export class UserService {
     getUserByid(id : string){
         return this.base.get<UserResDto>(`users/${id}`);
     }
+
+    getClientsByPsId(psId : string){
+        return this.base.get<UserResDto[]>(`users/${psId}/clients`);
+    }
 }

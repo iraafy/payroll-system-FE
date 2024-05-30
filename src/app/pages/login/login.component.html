@@ -14,16 +14,27 @@
                         <label for="email" class="form-label fw-semibold">Email</label>
                     </div>
                     <input type="email" pInputText id="email" class="w-full" formControlName="email" />
+                    <div *ngIf="loginReqDtoFg.controls['email'].invalid && loginReqDtoFg.controls['email'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="loginReqDtoFg.controls['email'].errors">
+                            {{loginReqDtoFg.controls['email'].hasError('required') ? 'Email wajib diisi' : ''}}
+                            {{loginReqDtoFg.controls['email'].hasError('email') ? 'Email tidak valid' : ''}}
+                        </p>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <div class="mb-2">
                         <label for="email" class="form-label fw-semibold">Password</label>
                     </div>
                     <input type="password" pInputText id="password" class="w-full" formControlName="password">
+                    <div *ngIf="loginReqDtoFg.controls['password'].invalid && loginReqDtoFg.controls['password'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="loginReqDtoFg.controls['password'].errors">
+                            {{loginReqDtoFg.controls['password'].hasError('required') ? 'Password wajib diisi' : ''}}
+                        </p>
+                    </div>
                 </div>
                 <div class="pt-2 text-right">
                     <p-toast />
-                    <p-button label="Login" type="submit" styleClass="w-full bg-color-primary" />
+                    <p-button label="Login" [disabled]="loginReqDtoFg.invalid" type="submit" styleClass="w-full bg-color-primary" />
                 </div>
             </div>
         </form>

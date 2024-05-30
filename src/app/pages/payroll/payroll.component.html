@@ -55,28 +55,36 @@
 <p-dialog header="Tambah Data Payroll" [(visible)]="createPayrollVisible" [modal]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false"
     [resizable]="false">
-    <form [formGroup]="payrollReqDtoFg" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <div class="mb-2">
-                <label for="title" class="form-label fw-semibold">Judul Payroll <span
-                        class="text-red-500">*</span></label>
+        <form [formGroup]="payrollReqDtoFg" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <div class="mb-2">
+                    <label for="title" class="form-label fw-semibold">Judul Payroll <span class="text-red-500">*</span></label>
+                </div>
+                <div>
+                    <input type="text" id="title" class="w-full bg-gray-50" pInputText formControlName="title"/>
+                    <div *ngIf="payrollReqDtoFg.controls['title'].invalid && payrollReqDtoFg.controls['title'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="payrollReqDtoFg.controls['title'].errors">
+                            {{payrollReqDtoFg.controls['title'].hasError('required') ? 'Judul payroll wajib diisi' : ''}}
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input type="text" id="title" class="w-full bg-gray-50" pInputText formControlName="title" />
+            <div class="mb-3">
+                <div class="mb-2">
+                    <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
+                </div>
+                <div>
+                    <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="scheduledDate"/>
+                    <div *ngIf="payrollReqDtoFg.controls['scheduledDate'].invalid && payrollReqDtoFg.controls['scheduledDate'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="payrollReqDtoFg.controls['scheduledDate'].errors">
+                            {{payrollReqDtoFg.controls['scheduledDate'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <div class="mb-2">
-                <label for="date" class="form-label fw-semibold">Tanggal Payroll <span
-                        class="text-red-500">*</span></label>
+            <div class="mt-5 flex justify-content-end">
+                <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
+                <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" />
             </div>
-            <p-calendar showIcon="true" iconDisplay="input" formControlName="scheduledDate" appendTo="body"
-                class="bg-gray-100" styleClass="bg-gray-50 w-full">
-            </p-calendar>
-        </div>
-        <div class="mt-5 flex justify-content-end">
-            <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
-            <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" />
-        </div>
-    </form>
+        </form>
 </p-dialog>

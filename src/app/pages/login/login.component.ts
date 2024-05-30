@@ -16,8 +16,13 @@ import { MessageService } from "primeng/api";
 export class Login {
 
     loginReqDtoFg = this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]]
+        email: ['', [
+            Validators.required, 
+            Validators.email
+        ]],
+        password: ['', [
+            Validators.required
+        ]]
     })
 
     constructor(

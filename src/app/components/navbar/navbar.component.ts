@@ -77,6 +77,7 @@ export class Navbar {
     clientId: string | null = null;
     payrolls: PayrollResDto[] = [];
     clientPayrollDetails: PayrollDetailResDto[] = [];
+    notificationCount: number = 0;
 
     payrollIds: any[] = [];
 
@@ -182,7 +183,6 @@ export class Navbar {
     async init() {
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
-            // console.log(this.clients);
 
             this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
             this.notification.forEach((item) => {
@@ -210,9 +210,14 @@ export class Navbar {
                 });
             }
 
+            firstValueFrom(this.notificationService.getUnreadCount()).then(
+                res => {
+                    this.notificationCount = res
+                }
+            )
+
             this.calendarOptions.events = this.eventsOnCalendar;
         } catch (error) {
-            // console.error('Error initializing data:', error);
         }
     }
 
@@ -236,19 +241,12 @@ export class Navbar {
         this.received = []
 
         this.sockClient.connect({}, function () {
-            // console.log('Connected!')
             that.connected = true
             that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
-                // tslint:disable-next-line:triple-equals
-                // if (that.username != JSON.parse(message.body).name) {
-                // }
                 var createdAt: string = JSON.parse(message.body).createdAt
-                // var createdDate: string = createdAt.split('T')[0]
-                // var createdTime: string = createdAt.split('T')[1]
                 const newMessage: any = JSON.parse(message.body)
                 newMessage.createdAt = that.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 that.received.push(newMessage);
-                // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
             })
         })
     }
@@ -260,7 +258,6 @@ export class Navbar {
             this.received = []
             this.username = undefined
             this.text = undefined
-            // console.log('Disconnected!')
             this.sockClient.disconnect()
         }
     }

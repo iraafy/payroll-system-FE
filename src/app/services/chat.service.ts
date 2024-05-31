@@ -11,4 +11,5 @@ export class ChatService {
     getChats(id: string) {
         return this.baseService.get<any>(`chats/${id}`)
     }
+    
 }

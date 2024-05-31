@@ -81,7 +81,7 @@ export class PayrollDetail {
                             const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
                             item.maxUploadDate = formattedDate;
                         });
-                        console.log(items)
+                        // console.log(items)
                     })
                 );
         }
@@ -140,7 +140,7 @@ export class PayrollDetail {
                     this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Berhasil mengirimkan ping ke klien' })
                     this.pingVisible = false
                 })
-            console.log(this.activeRoute.snapshot.url[0].path)
+            // console.log(this.activeRoute.snapshot.url[0].path)
         }
     }
 

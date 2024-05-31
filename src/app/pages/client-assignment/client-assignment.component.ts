@@ -38,15 +38,12 @@ export class ClientAssignment implements OnInit {
             res => {
                 this.payrollServices = res
 
-                console.log(res)
-
                 res.forEach(ps => {
                     firstValueFrom(this.userService.getClientsByPsId(ps.id)).then(
                         res => {
                             this.clientsByPsId.push(res)
                         })
                 })
-                console.log(this.clientsByPsId)
             }
         )
         firstValueFrom(this.userService.getAllClient()).then(

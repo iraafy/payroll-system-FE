@@ -8,16 +8,6 @@
         <p-button label="Buat Penugasan" styleClass="bg-color-primary" (click)="displayModal = true"></p-button>
     </div>
     <div class="grid">
-        <!-- <ng-container *ngFor="let ps of payrollServices; let i = index">
-            <div class="md:col-4 col-12">
-                <div class="shadow-3 bg-white p-4 text-center mb-4">
-                    <b class="m-0">{{ ps.fullName }}</b>
-                    <p *ngFor="let cl of clientsByPsId; let j = index" class="m-0">
-                        {{ clientsByPsId[i][j].fullName }}
-                    </p>
-                </div>
-            </div>
-        </ng-container> -->
         <ng-container *ngFor="let ps of payrollServices; let i = index">
             <div class="md:col-4 col-12">
                 <div class="shadow-3 bg-white p-4 text-center mb-4">

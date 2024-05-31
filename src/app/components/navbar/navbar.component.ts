@@ -297,4 +297,8 @@ export class Navbar {
         return color;
     }
 
+    isRead(id: string){
+        firstValueFrom(this.notificationService.readNotification(id))    
+    }
+
 }

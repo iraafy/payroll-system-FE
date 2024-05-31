@@ -182,7 +182,7 @@ export class Navbar {
     async init() {
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
-            console.log(this.clients);
+            // console.log(this.clients);
 
             this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
             this.notification.forEach((item) => {
@@ -212,7 +212,7 @@ export class Navbar {
 
             this.calendarOptions.events = this.eventsOnCalendar;
         } catch (error) {
-            console.error('Error initializing data:', error);
+            // console.error('Error initializing data:', error);
         }
     }
 
@@ -236,7 +236,7 @@ export class Navbar {
         this.received = []
 
         this.sockClient.connect({}, function () {
-            console.log('Connected!')
+            // console.log('Connected!')
             that.connected = true
             that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
                 // tslint:disable-next-line:triple-equals
@@ -260,7 +260,7 @@ export class Navbar {
             this.received = []
             this.username = undefined
             this.text = undefined
-            console.log('Disconnected!')
+            // console.log('Disconnected!')
             this.sockClient.disconnect()
         }
     }
@@ -295,6 +295,10 @@ export class Navbar {
             color += letters[Math.floor(Math.random() * 8)];
         }
         return color;
+    }
+
+    isRead(id: string){
+        firstValueFrom(this.notificationService.readNotification(id))    
     }
 
 }

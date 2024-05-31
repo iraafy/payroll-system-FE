@@ -3,8 +3,12 @@
         <div class="md:col-6 col-12">
             <div class="grid">
                 <div class="col-auto">
-                    <p-button routerLink="{{backButton}}" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+                    <p-button routerLink="{{backButton}}" class="rounded-3"
+                        styleClass="custom-small-shadow border-none bg-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                            <path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="1.5" d="m14 7l-5 5l5 5" />
+                        </svg>
                     </p-button>
                 </div>
                 <div class="col-auto ml-3">
@@ -16,8 +20,12 @@
             </div>
         </div>
         <div class="md:col-6 col-12 flex justify-content-end p-0" *ngIf="isPS">
-            <p-button (click)="showDialogPayroll()" class="rounded-3" styleClass="custom-small-shadow border-none bg-color-primary">
-                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 256 256"><path fill="#ffffff" d="M228 128a12 12 0 0 1-12 12h-76v76a12 12 0 0 1-24 0v-76H40a12 12 0 0 1 0-24h76V40a12 12 0 0 1 24 0v76h76a12 12 0 0 1 12 12"/></svg>
+            <p-button (click)="showDialogPayroll()" class="rounded-3"
+                styleClass="custom-small-shadow border-none bg-color-primary">
+                <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 256 256">
+                    <path fill="#ffffff"
+                        d="M228 128a12 12 0 0 1-12 12h-76v76a12 12 0 0 1-24 0v-76H40a12 12 0 0 1 0-24h76V40a12 12 0 0 1 24 0v76h76a12 12 0 0 1 12 12" />
+                </svg>
                 <span class="text-sm">
                     Tambah Data Payroll
                 </span>
@@ -29,26 +37,23 @@
             <full-calendar class="h-30rem" [options]="calendarOptions"></full-calendar>
         </div>
         <div class="md:col-6 col-12 p-0 h-30rem md:pl-5 pl-0">
-            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-50" placeholder="Cari Payroll" (keyup)="onKeyUp($event)" />
+            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-50" placeholder="Cari Payroll"
+                (keyup)="onKeyUp($event)" />
             <div class="grid">
-                <div *ngFor="let payroll of payrolls" class="col-12 md:col-6 p-2 cursor-pointer " routerLink="/payrolls/{{payroll.id}}">
+                <div *ngFor="let payroll of payrolls" class="col-12 md:col-6 p-2 cursor-pointer "
+                    routerLink="/payrolls/{{payroll.id}}">
                     <div class="content p-3 pb-2 custom-small-shadow">
                         <b>{{payroll.title}}</b>
                         <p>{{payroll.scheduleDate}}</p>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<p-dialog 
-    header="Tambah Data Payroll" 
-    [(visible)]="createPayrollVisible" 
-    [modal]="true" 
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-    [style]="{ width: '30vw' }" 
-    [draggable]="false" 
+<p-dialog header="Tambah Data Payroll" [(visible)]="createPayrollVisible" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false"
     [resizable]="false">
         <form [formGroup]="payrollReqDtoFg" (ngSubmit)="onSubmit()">
             <div class="mb-3">

@@ -22,9 +22,6 @@ export class UserList implements OnInit {
         firstValueFrom(this.userService.getAllUser()).then(
             res => {
                 this.users = res
-            },
-            err => {
-                this.messageService.add({severity: 'error', summary: 'Error' ,detail: err})
             }
         )
     }

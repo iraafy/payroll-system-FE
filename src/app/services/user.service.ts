@@ -7,6 +7,7 @@ import { UserReqDto } from "../dto/user/user.req.dto"
 import { ClientDropdownResDto } from "../dto/user/client-dropdown.res.dto"
 import { UserUpdateReqDto } from "../dto/user/user-update.req.dto"
 import { UpdateResDto } from "../dto/update.res.dto"
+import { ChangeProfilePicReqDto } from "../dto/user/change-profile-pic.req.dto"
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +42,13 @@ export class UserService {
 
     getClientsByPsId(psId : string){
         return this.base.get<UserResDto[]>(`users/${psId}/clients`);
+    }
+
+    changeProfilePic(data: ChangeProfilePicReqDto){
+        return this.base.patch<UpdateResDto>('users/changeProfilePic', data)
+    }
+
+    changeUserName(newName: string){
+        return this.base.patch<UpdateResDto>(`users/changeName/${newName}`, {})
     }
 }

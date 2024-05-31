@@ -4,6 +4,11 @@ import { AuthService } from "../../services/auth.service";
 import { LoginResDto } from "../../dto/user/login.res.dto";
 import { BaseService } from "../../services/base.service";
 import { BASE_URL } from "../../constants/global";
+import { NonNullableFormBuilder, Validators } from "@angular/forms";
+import { ChangeProfilePicReqDto } from "../../dto/user/change-profile-pic.req.dto";
+import { firstValueFrom } from "rxjs";
+import { UserService } from "../../services/user.service";
+import { MessageService } from "primeng/api";
 
 @Component({
     selector: 'profile-app',
@@ -14,8 +19,20 @@ export class Profile implements OnInit {
     loginData: LoginResDto | undefined = this.authService.getLoginData();
     photoProfile: string | undefined = ''
 
+    changeProfilePicReqDtoFg = this.fb.group({
+        fileContent: ['', Validators.required],
+        fileExt: ['', Validators.required]
+    })
+
+    changeNameFb = this.fb.group({
+        newName: ['', Validators.required]
+    })
+
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private fb: NonNullableFormBuilder,
+        private userService: UserService,
+        private messageService: MessageService
     ) { }
 
     ngOnInit(): void {
@@ -40,5 +57,40 @@ export class Profile implements OnInit {
         } else {
             return 'Super Admin'
         }
+    }
+
+    fileUpload(event: any) {
+        const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (typeof reader.result === "string") resolve(reader.result);
+            };
+            reader.onerror = error => reject(error);
+        });
+
+        for (let file of event.target.files) {
+            toBase64(file).then(result => {
+                const resultBase64 = result.substring(result.indexOf(",") + 1, result.length);
+                const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length);
+
+                this.changeProfilePicReqDtoFg.get('fileContent')?.patchValue(resultBase64);
+                this.changeProfilePicReqDtoFg.get('fileExt')?.patchValue(resultExtension);
+            });
+        }
+    }
+
+    OnSubmitChangeName() {
+        const changeName = this.changeNameFb.getRawValue()
+        firstValueFrom(this.userService.changeUserName(changeName.newName))
+    }
+
+    OnSubmitProfile() {
+        const changeProfilePicReqDto: ChangeProfilePicReqDto = this.changeProfilePicReqDtoFg.getRawValue();
+        firstValueFrom(this.userService.changeProfilePic(changeProfilePicReqDto)).then(
+            res => {
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+            }
+        )
     }
 }

@@ -125,7 +125,7 @@ export class Payroll implements OnInit {
 						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
 						this.eventsOnCalendar.push(event);
 					})
-					console.log(this.eventsOnCalendar)
+					// console.log(this.eventsOnCalendar)
 					this.calendarOptions.events = this.eventsOnCalendar;
 				}
 			);

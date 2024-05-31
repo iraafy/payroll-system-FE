@@ -57,9 +57,9 @@ export class UserAdd implements OnInit {
             res => {
                 this.companies = res
             },
-            err => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
-            }
+            // err => {
+            //     this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
+            // }
         )
     }
 
@@ -68,9 +68,9 @@ export class UserAdd implements OnInit {
             res => {
                 this.roles = res
             },
-            err => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
-            }
+            // err => {
+            //     this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
+            // }
         )
     }
 

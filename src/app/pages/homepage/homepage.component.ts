@@ -20,7 +20,6 @@ export class Homepage implements OnInit {
     ngOnInit(): void {
         
         this.loginData = this.authService.getLoginData();
-        console.log(this.loginData?.id)
     }
 
     get isAdmin() {

@@ -5,4 +5,5 @@ export interface NotificationResDto {
 	contextUrl: string;
 	notificationContent: string;
 	createdAt: string;
+	isActive: boolean
 }

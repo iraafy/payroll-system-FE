@@ -8,20 +8,21 @@
             </div>
         </ng-container>
         <ng-container *ngIf="item.image">
-            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon ml-7 mr-5 hidden lg:inline">
+            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="nav-icon ml-7 mr-5 hidden lg:inline cursor-pointer">
         </ng-container>
     </ng-template>
     <ng-template pTemplate="end">
         <ng-container>
             <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5" *ngIf="isPS">
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5" *ngIf="!isAdmin">
+            <i class="text-2xl" severity="warning" pBadge value={{notification.length}} *ngIf="!isAdmin"></i>
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5" *ngIf="!isAdmin">
-            <img src="assets/images/icon/user.svg" (click)="profile.toggle($event)" class="nav-icon md:mr-7 mr-3">
+            <img src="assets/images/icon/user.svg" (click)="profile.toggle($event)" class="nav-icon md:mr-7 mr-3 cursor-pointer">
         </ng-container>
     </ng-template>
 </p-menubar>
 
-<p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="w-30rem">
+<p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="md:w-30rem w-full">
     <ng-template pTemplate="header">
         <div class="flex align-items-center gap-2">
             <h3 class="font-bold text-color-primary" *ngIf="!chatDetailVisible">
@@ -53,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="sticky z-5 w-full bottom-0 p-3 pb-2 bg-white custom-small-shadow">
+        <div class="absolute bottom-0 z-5 w-full bottom-0 p-3 pb-2 bg-white custom-small-shadow">
             <form [formGroup]="chat" (submit)="sendMessage()">
                 <div class="grid">
                     <div class="col-10">
@@ -75,8 +76,11 @@
         <p class="text-sm font-semibold mb-1">{{notif.createdAt}}</p>
         <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
     </div>
-    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer" routerLink="/notification">
+    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer" routerLink="/notification" *ngIf="notification.length > 0">
         Lihat Semua Notifikasi
+    </p>
+    <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0" *ngIf="notification.length == 0">
+        Belum Ada Notifikasi
     </p>
 </p-overlayPanel>
 

@@ -1,10 +1,8 @@
-<div class="mx-4 md:mx-8 mt-7">
-
-    <h1 class="text-center">
+<div class="mx-4 md:mx-8 md:mt-7 mt-5">
+    <h1 class="text-center title-text">
         Daftar Klien
     </h1>
-    <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-
+    
     <div class="grid mt-7">
         <div *ngFor="let client of clients; let i=index"  class="col-12 md:col-4 flex justify-content-center cursor-pointer">
             <div class="shadow-3 w-full text-center" routerLink="/clients/{{client.id}}" >

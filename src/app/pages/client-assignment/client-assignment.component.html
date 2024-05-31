@@ -1,72 +1,83 @@
-<div class="mx-4 md:mx-8 mt-7">
-    <h2 class="text-center">
-        Klien
-    </h2>
-    <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-    <div class="grid mt-7 justify-content-center">
-        <div class="md:col-4 col-12 flex align-items-center">
-            <div class="w-full">
-                <form [formGroup]="clientAssignmentReqDtoFormGroup">
-                    <div class="mb-3">
-                        <div class="mb-2">
-                            <label for="ps" class="form-label fw-semibold">Payroll Service<span class="text-red-500">*</span></label>
-                        </div>
-                        <div>
-                            <p-dropdown 
-                                styleClass="w-full bg-gray-100"
-                                [options]="payrollServices"
-                                optionValue="id"
-                                optionLabel="fullName" 
-                                id="ps"
-                                formControlName="psId"
-                            />
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="mb-2">
-                            <label for="client" class="form-label fw-semibold">Klien<span class="text-red-500">*</span></label>
-                        </div>
-                        <div>
-                            <p-dropdown 
-                                styleClass="w-full bg-gray-100"
-                                [options]="clients"
-                                optionValue="id"
-                                optionLabel="clientName"
-                                id="client"
-                                formControlName="clientId"
-                            >
-                                <ng-template let-client pTemplate="item">
-                                    <div class="flex align-items-center gap-2">
-                                        <div>{{ client.clientName }}</div>
-                                        <p-badge *ngIf="client.psName" [value]="client.psName" />
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                        </div>
-                    </div>
-                    <p-button (click)="displayModal=true" styleClass="bg-color-primary">Buat Penugasan</p-button>
-                </form>
+<div class="mx-5 md:mx-8 md:my-7 my-5">
+    <h2 class="ml-2 fw-bolder text-center">Daftar Penugasan</h2>
+    <p class="text-center">
+        Berikut adalah daftar penugasan klien dan payroll service.
+    </p>
+
+    <div class="mt-5 mb-3 mr-1 grid justify-content-end">
+        <p-button label="Buat Penugasan" styleClass="bg-color-primary" (click)="displayModal = true"></p-button>
+    </div>
+    <div class="grid">
+        <!-- <ng-container *ngFor="let ps of payrollServices; let i = index">
+            <div class="md:col-4 col-12">
+                <div class="shadow-3 bg-white p-4 text-center mb-4">
+                    <b class="m-0">{{ ps.fullName }}</b>
+                    <p *ngFor="let cl of clientsByPsId; let j = index" class="m-0">
+                        {{ clientsByPsId[i][j].fullName }}
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="md:col-5 col-12 flex justify-content-end">
-            <img src="./assets/images/client.svg" class="w-26rem" alt="add-account-image">
-        </div>
+        </ng-container> -->
+        <ng-container *ngFor="let ps of payrollServices; let i = index">
+            <div class="md:col-4 col-12">
+                <div class="shadow-3 bg-white p-4 text-center mb-4">
+                    <b class="m-0">{{ ps.fullName }}</b>
+                    <div *ngFor="let cl of clientsByPsId; let j = index">
+                        <p *ngIf="i < clientsByPsId.length && j < clientsByPsId[i].length" class="m-0">
+                            {{ clientsByPsId[i][j].fullName }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </div>
 
-<p-dialog 
-    header="Konfirmasi" 
-    [(visible)]="displayModal"
-    [modal]="true" 
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-    [style]="{ width: '35vw' }"
-    [draggable]="false" 
+<p-dialog header="Penugasan" [(visible)]="displayModal" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
     [resizable]="false">
-        <p class="m-0">
-            Apakah anda yakin ingin membuat penugasan ini?
-        </p>
-        <div class="grid justify-content-end mt-5">
-            <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
-            <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="onSubmit()" />
-        </div>
+    <div class="w-full">
+        <form [formGroup]="clientAssignmentReqDtoFormGroup">
+            <div class="mb-3">
+                <div class="mb-2">
+                    <label for="ps" class="form-label fw-semibold">Payroll Service<span
+                            class="text-red-500">*</span></label>
+                </div>
+                <div>
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="payrollServices" optionValue="id" optionLabel="fullName" id="ps" formControlName="psId" />
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="mb-2">
+                    <label for="client" class="form-label fw-semibold">Klien<span class="text-red-500">*</span></label>
+                </div>
+                <div>
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="clients" optionValue="id" optionLabel="clientName" id="client" formControlName="clientId">
+                        <ng-template let-client pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                                <div>{{ client.clientName }}</div>
+                                <p-badge *ngIf="client.psName" [value]="client.psName" />
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="flex justify-content-end">
+                <p-button (click)="displayModal=false" severity="secondary" styleClass="mr-2">Batal</p-button>
+                <p-button [disabled]="clientAssignmentReqDtoFormGroup.invalid" (click)="confirmationModal=true; displayModal=false" styleClass="bg-color-primary">Simpan</p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<p-dialog header="Konfirmasi" [(visible)]="confirmationModal" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
+    closable="false" [resizable]="false">
+    <p class="m-0">
+        Apakah anda yakin ingin membuat penugasan ini?
+    </p>
+    <div class="grid justify-content-end mt-5">
+        <p-button label="Batal" severity="secondary" (click)="confirmationModal = false; displayModal = true" />
+        <p-button label="Ya" styleClass="ml-2 bg-color-primary" (click)="onSubmit()" />
+    </div>
 </p-dialog>

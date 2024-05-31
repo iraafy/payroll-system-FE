@@ -26,6 +26,7 @@ export class PayrollDetail implements OnInit {
     signatureVisible: boolean = false;
     rescheduleVisible: boolean = false;
     pingVisible: boolean = false;
+    downloadVisible: boolean = false;
     payrollId: string | null = '';
     clientId: string | null = '';
     payrollDetails?: Observable<PayrollDetailResDto[]>;
@@ -33,6 +34,9 @@ export class PayrollDetail implements OnInit {
     payrollLoop = [1]
     companyLogos: string[] = [];
     data: NotificationReqDto | null = null
+
+    tempTest: PayrollDetailResDto[] = []
+
     ftpReqDtoFg = this.fb.group({
         fileContent: ['', Validators.required],
         fileExt: ['', Validators.required],
@@ -64,6 +68,7 @@ export class PayrollDetail implements OnInit {
     init(): void {
         this.payrollId = this.activeRoute.snapshot.paramMap.get('id');
         if (this.payrollId != null) {
+
             firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
                 res => {
                     this.payrolls = res;
@@ -77,6 +82,7 @@ export class PayrollDetail implements OnInit {
                             const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
                             item.maxUploadDate = formattedDate;
                         });
+                        // console.log(items)
                     })
                 );
         }
@@ -128,7 +134,6 @@ export class PayrollDetail implements OnInit {
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'harap cek tanggal reschedule dan approval reschedule' });
                 }
             )
-
             this.rescheduleVisible = false;
         }
     }
@@ -145,11 +150,10 @@ export class PayrollDetail implements OnInit {
                 res => {
                     this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Berhasil mengirimkan ping ke klien' })
                     this.pingVisible = false
-            })
-            console.log(this.activeRoute.snapshot.url[0].path)
+                })
+            // console.log(this.activeRoute.snapshot.url[0].path)
         }
-		
-	}
+    }
 
     fileUpload(event: any, id: string) {
         const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {
@@ -160,30 +164,35 @@ export class PayrollDetail implements OnInit {
             };
             reader.onerror = error => reject(error);
         });
-    
+
         const files: File[] = event.files;
-    
+
         for (let file of files) {
             toBase64(file).then(result => {
                 const resultBase64 = result.substring(result.indexOf(",") + 1, result.length);
                 const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length);
-    
+
                 this.ftpReqDtoFg.get('fileContent')?.patchValue(resultBase64);
                 this.ftpReqDtoFg.get('fileExt')?.patchValue(resultExtension);
                 this.ftpReqDtoFg.get('detailId')?.patchValue(id);
-    
+
                 if (this.ftpReqDtoFg.valid) {
                     const newFile = this.ftpReqDtoFg.getRawValue();
                     firstValueFrom(this.fileService.uploadFileFtp(newFile)).then(
                         res => {
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                            firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id));
+                            this.init();
                         }
+
                     )
-                    
-                    console.log(newFile);
                 }
             });
         }
     }
-    
+
+    downloadFileSubmit(fileName: string) {
+        window.location.href = `http://localhost:8080/files/ftp/${fileName}`;
+        this.downloadVisible = false;
+    }
 }

@@ -54,8 +54,6 @@ export class Reschedule implements OnInit {
 					this.payrollDetails.forEach((item) => {
 						item.maxUploadDate = this.formatDate(item.maxUploadDate, 'yyyy-MM-dd');
 					});
-
-					console.log(res)
 				}
 			)
 
@@ -66,8 +64,6 @@ export class Reschedule implements OnInit {
 						item.oldScheduleDate = this.formatDate(item.oldScheduleDate, 'yyyy-MM-dd');
 						item.newScheduleDate = this.formatDate(item.newScheduleDate, 'yyyy-MM-dd');
 					});
-
-					console.log(res)
 				}
 			)
 		}

@@ -14,8 +14,15 @@ body {
     background-repeat: no-repeat;
 }
 
-.bg-none {
-    background: none;
+.responsiv-bg {
+    background-image: none;
+    background-color: white;
+    height: 100vh;
+}
+
+.custom-flex {
+    display: grid;
+    align-items: center;
 }
 
 .bg-color-primary {
@@ -24,6 +31,10 @@ body {
 
 .text-color-primary {
     color: #0E8DC4;
+}
+
+.title-text {
+    font-size: 32px;
 }
 
 .nav-icon {
@@ -37,6 +48,12 @@ body {
 
 .p-menuitem-content:hover {
     background-color: transparent !important;
+    border: none !important;
+}
+
+.p-menuitem-content:focus-visible {
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .custom-shadow {
@@ -94,4 +111,53 @@ textarea:focus-visible {
     background-color: #D6823C;
     border-color: #D6823C;
     color: black;   
+}
+
+.responsive-file-upload {
+    width: 80%;
+    border: none !important;
+}
+
+.p-fileupload .p-fileupload-buttonbar .p-button {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.responsive-img {
+    width: 24rem;
+}
+
+.p-inputtext {
+    background-color: #f6f6f6;
+}
+
+.p-dropdown {
+    background-color: #f6f6f6;
+}
+
+@media screen and (max-width: 767px) {
+    .responsiv-bg {
+        background-image: url(./assets/images/login-img.svg);
+        object-fit: cover;
+        background-size: cover;
+        height: 100vh;
+        background-repeat: no-repeat;
+    }
+
+    .fc-toolbar-title {
+        font-size: 20px !important;
+    }
+
+    .title-text {
+        font-size: 24px;
+    }
+
+    .responsive-file-upload {
+        width: 100%;
+    }
+
+    .responsive-img {
+        width: 100%;
+        height: auto;
+    }
 }

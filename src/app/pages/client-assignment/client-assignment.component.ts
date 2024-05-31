@@ -14,17 +14,20 @@ import { ClientAssignmentService } from "../../services/client-assignment.servic
 })
 
 export class ClientAssignment implements OnInit {
-    payrollServices : UserResDto[] = []
-    clients : ClientDropdownResDto[] = []
+    payrollServices: UserResDto[] = []
+    clients: ClientDropdownResDto[] = []
     displayModal: boolean = false
+    confirmationModal: boolean = false
+
+    clientsByPsId: UserResDto[][] = []
 
     constructor(
-        private userService: UserService, 
-        private confirmationService: ConfirmationService, 
+        private userService: UserService,
+        private confirmationService: ConfirmationService,
         private messageService: MessageService,
         private fb: NonNullableFormBuilder,
         private clientAssignmentService: ClientAssignmentService
-    ){}
+    ) { }
 
     ngOnInit(): void {
         this.init()
@@ -34,6 +37,13 @@ export class ClientAssignment implements OnInit {
         firstValueFrom(this.userService.getAllPs()).then(
             res => {
                 this.payrollServices = res
+
+                res.forEach(ps => {
+                    firstValueFrom(this.userService.getClientsByPsId(ps.id)).then(
+                        res => {
+                            this.clientsByPsId.push(res)
+                        })
+                })
             }
         )
         firstValueFrom(this.userService.getAllClient()).then(
@@ -54,8 +64,8 @@ export class ClientAssignment implements OnInit {
             firstValueFrom(this.clientAssignmentService.save(clientAssignmentReqDto)).then(
                 res => {
                     this.clientAssignmentReqDtoFormGroup.reset(),
-                    this.displayModal = false,
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Penugasan berhasil terbuat' });
+                        this.displayModal = false,
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Penugasan berhasil terbuat' });
                     this.init()
                 }
             )

@@ -1,30 +1,40 @@
-
 <div class="md:grid flex w-full vh-100 align-items-center justify-content-center">
     <div class="md:col-6 bg-login"></div>
-    <div class="md:col-6">
+    <div class="md:col-6 responsiv-bg col-12 p-5 custom-flex">
         <form [formGroup]="loginReqDtoFg" (ngSubmit)="onSubmit()">
-            <div class="w-full bg-white p-4" >
+            <div class="w-full bg-white md:shadow-none shadow-3 md:p-0 p-4">
                 <div class="text-content line-height-1">
-                    <h1 class="fw-bold responsive-text text-color-primary">
+                    <h1 class="fw-bold responsive-text text-color-primary ">
                         LOGIN
                     </h1>
-                    <p>P A Y R O L L <span class="pr-2"></span> S Y S T E M</p>
+                    <p>S A L A R Y <span class="pr-3"></span> S Y N C</p>
                 </div>
                 <div class="mb-3 mt-6">
                     <div class="mb-2">
                         <label for="email" class="form-label fw-semibold">Email</label>
                     </div>
-                    <input type="email" pInputText id="email" class="w-full" formControlName="email"/>
+                    <input type="email" pInputText id="email" class="w-full" formControlName="email" />
+                    <div *ngIf="loginReqDtoFg.controls['email'].invalid && loginReqDtoFg.controls['email'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="loginReqDtoFg.controls['email'].errors">
+                            {{loginReqDtoFg.controls['email'].hasError('required') ? 'Email wajib diisi' : ''}}
+                            {{loginReqDtoFg.controls['email'].hasError('email') ? 'Email tidak valid' : ''}}
+                        </p>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <div class="mb-2">
                         <label for="email" class="form-label fw-semibold">Password</label>
                     </div>
                     <input type="password" pInputText id="password" class="w-full" formControlName="password">
+                    <div *ngIf="loginReqDtoFg.controls['password'].invalid && loginReqDtoFg.controls['password'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="loginReqDtoFg.controls['password'].errors">
+                            {{loginReqDtoFg.controls['password'].hasError('required') ? 'Password wajib diisi' : ''}}
+                        </p>
+                    </div>
                 </div>
-                <div class="pt-2">
-                    <p-toast/>
-                    <p-button label="Login" type="submit" styleClass="px-5 bg-color-primary" />
+                <div class="pt-2 text-right">
+                    <p-toast />
+                    <p-button label="Login" [disabled]="loginReqDtoFg.invalid" type="submit" styleClass="w-full bg-color-primary" />
                 </div>
             </div>
         </form>

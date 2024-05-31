@@ -1,62 +1,77 @@
-<div class="mx-4 md:mx-8 mt-7">
+<div class="mx-5 md:mx-8 md:my-7 my-5">
     <h2 class="text-center fw-bold">
         Tambah Pengguna
     </h2>
     <p class="text-center">Silahkan isi data pengguna sesuai dengan form dibawah ini</p>
-    <div class="grid mt-7 justify-content-center">
-        <div class="md:col-5 col-12 flex align-items-center">
-            <div class="w-full">
+    <div class="grid md:mt-7 mt-5 justify-content-center">
+        <div class="md:col-6 col-12 flex align-items-center flex-order-1 md:flex-order-0">
+            <div class="w-full mt-4 md:mt-0">
                 <form [formGroup]="userForm">
                     <div class="grid">
-                        <div class="col-6">
-                            <div class="mb-3">
+                        <div class="col-12 md:col-6">
+                            <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="name" class="form-label fw-semibold">Nama Lengkap<span
-                                            class="text-red-500">*</span></label>
+                                    <label for="name" class="form-label fw-semibold">Nama Lengkap <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="text" class="w-full bg-gray-100" id="name" pInputText
-                                        formControlName="fullName">
+                                    <input type="text" class="w-full" id="name" pInputText formControlName="fullName">
+                                    <div *ngIf="userForm.controls['fullName'].invalid && userForm.controls['fullName'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['fullName'].errors">
+                                            {{userForm.controls['fullName'].hasError('required') ? 'Nama wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
+                        <div class="col-12 md:col-6">
+                            <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="email" class="form-label fw-semibold">Email<span
-                                            class="text-red-500">*</span></label>
+                                    <label for="email" class="form-label fw-semibold">Email <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <input type="email" class="w-full bg-gray-100" id="email" pInputText
-                                        formControlName="email">
+                                    <input type="email" class="w-full" id="email" pInputText formControlName="email">
+                                    <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['email'].errors">
+                                            {{userForm.controls['email'].hasError('required') ? 'Email wajib diisi' : ''}}
+                                            {{userForm.controls['email'].hasError('email') ? 'Email tidak valid' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="grid">
-                        <div class="col-6">
-                            <div class="mb-3">
+                        <div class="col-12 md:col-6">
+                            <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="company" class="form-label fw-semibold">Perusahaan<span
-                                            class="text-red-500">*</span></label>
+                                    <label for="company" class="form-label fw-semibold">Perusahaan <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <p-dropdown styleClass="w-full bg-gray-100" [options]="companies"
+                                    <p-dropdown styleClass="w-full" [options]="companies"
                                         optionLabel="companyName" optionValue="id" [filter]="true"
                                         filterBy="companyName" [showClear]="true" id="company"
-                                        formControlName="companyId" />
+                                        formControlName="companyId" 
+                                    />
+                                    <div *ngIf="userForm.controls['companyId'].invalid && userForm.controls['companyId'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['companyId'].errors">
+                                            {{userForm.controls['companyId'].hasError('required') ? 'Perusahaan wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
+                        <div class="col-12 md:col-6">
+                            <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
-                                    <label for="role" class="form-label fw-semibold">Role<span
-                                            class="text-red-500">*</span></label>
+                                    <label for="role" class="form-label fw-semibold">Role <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
-                                    <p-dropdown styleClass="w-full bg-gray-100" [options]="roles" optionValue="id"
-                                        optionLabel="roleName" id="role" formControlName="roleId" />
+                                    <p-dropdown styleClass="w-full" [options]="roles" optionValue="id" optionLabel="roleName" id="role" formControlName="roleId" />
+                                    <div *ngIf="userForm.controls['roleId'].invalid && userForm.controls['roleId'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['roleId'].errors">
+                                            {{userForm.controls['roleId'].hasError('required') ? 'roleId wajib diisi' : ''}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,17 +82,16 @@
                             <label for="file" class="form-label fw-semibold">Foto Profil</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-100" pInputText
-                                (change)="fileUpload($event)" />
+                            <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" />
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>
-                    <p-button (click)="displayModal=true" styleClass="bg-color-primary ml-3">Simpan</p-button>
+                    <p-button [disabled]="userForm.invalid" (click)="displayModal=true" styleClass="bg-color-primary ml-3">Simpan</p-button>
                 </form>
             </div>
         </div>
-        <div class="md:col-5 col-12 flex justify-content-end">
-            <img src="./assets/images/users.svg" class="w-26rem" alt="add-account-image">
+        <div class="md:col-6 col-12 flex justify-content-center">
+            <img src="./assets/images/users.svg" class="responsive-img" alt="add-account-image">
         </div>
     </div>
 </div>

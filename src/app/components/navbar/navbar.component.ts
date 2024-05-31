@@ -161,7 +161,7 @@ export class Navbar {
                     var createdAt: string = item.createdAt
                     var createdDate: string = createdAt.split('T')[0]
                     var createdTime: string = createdAt.split('T')[1]
-                    item.createdAt = createdDate + " " + createdTime
+                    item.createdAt = this.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 }
                 this.received = res
             }
@@ -243,10 +243,10 @@ export class Navbar {
                 // if (that.username != JSON.parse(message.body).name) {
                 // }
                 var createdAt: string = JSON.parse(message.body).createdAt
-                var createdDate: string = createdAt.split('T')[0]
-                var createdTime: string = createdAt.split('T')[1]
+                // var createdDate: string = createdAt.split('T')[0]
+                // var createdTime: string = createdAt.split('T')[1]
                 const newMessage: any = JSON.parse(message.body)
-                newMessage.createdAt = createdDate + " " + createdTime
+                newMessage.createdAt = that.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 that.received.push(newMessage);
                 // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
             })
@@ -295,6 +295,10 @@ export class Navbar {
             color += letters[Math.floor(Math.random() * 8)];
         }
         return color;
+    }
+
+    isRead(id: string){
+        firstValueFrom(this.notificationService.readNotification(id))    
     }
 
 }

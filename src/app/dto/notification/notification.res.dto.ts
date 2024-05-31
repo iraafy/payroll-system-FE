@@ -1,4 +1,5 @@
 export interface NotificationResDto {
+	id: string;
     userId: string;
 	contextId: string;
 	contextUrl: string;

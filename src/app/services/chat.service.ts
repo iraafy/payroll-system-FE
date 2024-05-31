@@ -9,6 +9,6 @@ export class ChatService {
     constructor(private baseService: BaseService) {}
 
     getChats(id: string) {
-        return this.baseService.get<any>('chats'+id)
+        return this.baseService.get<any>(`chats/${id}`)
     }
 }

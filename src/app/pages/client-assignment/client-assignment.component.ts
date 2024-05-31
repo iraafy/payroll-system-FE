@@ -7,6 +7,9 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ClientAssignmentReqDto } from "../../dto/client-assignment/client-assignment.req.dto";
 import { ClientAssignmentService } from "../../services/client-assignment.service";
+import { AllAssignmentResDto } from "../../dto/client-assignment/all-assignment.res.dto";
+import { FileService } from "../../services/file.service";
+import { BASE_URL } from "../../constants/global";
 
 @Component({
     selector: 'client-assignment',
@@ -16,9 +19,10 @@ import { ClientAssignmentService } from "../../services/client-assignment.servic
 export class ClientAssignment implements OnInit {
     payrollServices: UserResDto[] = []
     clients: ClientDropdownResDto[] = []
+    assignments: AllAssignmentResDto[] = []
     displayModal: boolean = false
     confirmationModal: boolean = false
-
+    companyLogos: string[] = [];
     clientsByPsId: UserResDto[][] = []
 
     constructor(
@@ -26,7 +30,8 @@ export class ClientAssignment implements OnInit {
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
         private fb: NonNullableFormBuilder,
-        private clientAssignmentService: ClientAssignmentService
+        private clientAssignmentService: ClientAssignmentService,
+        private fileService: FileService
     ) { }
 
     ngOnInit(): void {
@@ -49,6 +54,15 @@ export class ClientAssignment implements OnInit {
         firstValueFrom(this.userService.getAllClient()).then(
             res => {
                 this.clients = res
+            }
+        )
+        firstValueFrom(this.clientAssignmentService.getAssignmentList()).then(
+            res => {
+                this.assignments = res;
+                res.forEach((assignment, i) => {
+                    this.companyLogos[i] = assignment.clients.map((client: { companyLogo: any; }) => 
+                        `${BASE_URL}/files/file/${client.companyLogo}`);
+                });
             }
         )
     }

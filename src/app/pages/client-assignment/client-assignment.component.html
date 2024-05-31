@@ -7,19 +7,25 @@
     <div class="mt-5 mb-3 mr-1 grid justify-content-end">
         <p-button label="Buat Penugasan" styleClass="bg-color-primary" (click)="displayModal = true"></p-button>
     </div>
-    <div class="grid">
-        <ng-container *ngFor="let ps of payrollServices; let i = index">
-            <div class="md:col-4 col-12">
-                <div class="shadow-3 bg-white p-4 text-center mb-4">
-                    <b class="m-0">{{ ps.fullName }}</b>
-                    <div *ngFor="let cl of clientsByPsId; let j = index">
-                        <p *ngIf="i < clientsByPsId.length && j < clientsByPsId[i].length" class="m-0">
-                            {{ clientsByPsId[i][j].fullName }}
-                        </p>
+    <div class="grid justify-content-start">
+        <div class="md:col-4 col-12" *ngFor="let assignment of assignments; let i = index">
+            <div class="shadow-3 bg-white p-3" [ngClass]="{'md:h-19rem h-fit': assignment.clients.length === 0, 'h-19rem': assignment.clients.length > 0}">
+                <p class="font-bold text-center">{{ assignment.psName }}</p>
+                <p *ngIf="assignment.clients.length === 0" class="mt-4 text-center text-black-alpha-90">
+                    Belum ada klien yang ditugaskan.
+                </p>
+                <div *ngIf="assignment.clients.length > 0" class="mt-4 p-2 h-14rem overflow-auto">
+                    <div *ngFor="let client of assignment.clients; let j = index" class="mb-2">
+                        <div class="w-full border-color-primary border-round-xl inline-flex align-items-center p-2">
+                            <img [src]="companyLogos[i][j]" alt="company-logo" class="assignment-img" />
+                            <p class="ml-2 text-xs">
+                                {{ client.companyName }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ng-container>
+            </div>            
+        </div>
     </div>
 </div>
 
@@ -34,7 +40,8 @@
                             class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-dropdown styleClass="w-full" appendTo="body" [options]="payrollServices" optionValue="id" optionLabel="fullName" id="ps" formControlName="psId" />
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="payrollServices" optionValue="id"
+                        optionLabel="fullName" id="ps" formControlName="psId" />
                 </div>
             </div>
             <div class="mb-4">
@@ -42,7 +49,8 @@
                     <label for="client" class="form-label fw-semibold">Klien<span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-dropdown styleClass="w-full" appendTo="body" [options]="clients" optionValue="id" optionLabel="clientName" id="client" formControlName="clientId">
+                    <p-dropdown styleClass="w-full" appendTo="body" [options]="clients" optionValue="id"
+                        optionLabel="clientName" id="client" formControlName="clientId">
                         <ng-template let-client pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ client.clientName }}</div>
@@ -54,7 +62,8 @@
             </div>
             <div class="flex justify-content-end">
                 <p-button (click)="displayModal=false" severity="secondary" styleClass="mr-2">Batal</p-button>
-                <p-button [disabled]="clientAssignmentReqDtoFormGroup.invalid" (click)="confirmationModal=true; displayModal=false" styleClass="bg-color-primary">Simpan</p-button>
+                <p-button [disabled]="clientAssignmentReqDtoFormGroup.invalid"
+                    (click)="confirmationModal=true; displayModal=false" styleClass="bg-color-primary">Simpan</p-button>
             </div>
         </form>
     </div>

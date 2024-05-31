@@ -28,6 +28,7 @@
     "rxjs": "~7.8.0",
     "signature_pad": "^5.0.1",
     "sockjs-client": "^1.6.1",
+    "pdfjs-dist": "^3.11.174",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

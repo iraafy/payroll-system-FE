@@ -40,6 +40,7 @@ export class BaseService {
     getFile<T>(path: string) {
         return this.http.get<T>(`${BASE_URL}/${path}`, { responseType: 'blob' as 'json', observe: 'response'})
     }
+    
     post<T>(path: string, body: any, withToken: boolean = true) {
         if (withToken) {
             return this.http.post<T>(`${BASE_URL}/${path}`, body, {

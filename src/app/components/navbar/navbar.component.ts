@@ -155,7 +155,7 @@ export class Navbar {
             this.connect(id)
             this.chat.get('recipientId')?.patchValue(client.id)
         }
-        firstValueFrom(this.chatService.getChats()).then(
+        firstValueFrom(this.chatService.getChats(client.id)).then(
             res => {
                 for (let item of res) {
                     var createdAt: string = item.createdAt

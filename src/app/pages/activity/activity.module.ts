@@ -45,3 +45,4 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 export class ActivityModule {
 
 }
+

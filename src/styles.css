@@ -135,6 +135,16 @@ textarea:focus-visible {
     background-color: #f6f6f6;
 }
 
+.assignment-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+}
+
+.border-color-primary {
+    border: 1px solid #0E8DC4;
+}
+
 @media screen and (max-width: 767px) {
     .responsiv-bg {
         background-image: url(./assets/images/login-img.svg);

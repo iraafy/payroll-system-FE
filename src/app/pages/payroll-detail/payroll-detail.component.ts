@@ -16,6 +16,9 @@ import { BASE_URL } from "../../constants/global";
 import { FileService } from "../../services/file.service";
 import { FtpReqDto } from "../../dto/ftp/ftp.req.dto";
 import SignaturePad from "signature_pad";
+import { HttpResponse } from "@angular/common/http";
+import { PDFDocumentProxy } from "pdfjs-dist";
+import { PdfService } from "../../services/pdf.service";
 
 @Component({
     selector: 'payroll-detail',
@@ -33,7 +36,11 @@ export class PayrollDetail implements OnInit {
     payrolls?: PayrollResDto;
     payrollLoop = [1]
     companyLogos: string[] = [];
-    data: NotificationReqDto | null = null
+    data: NotificationReqDto | null = null;
+    visible: boolean = false;
+    images: string[] = []
+    pages : number[] = []
+    uploadedFile? : HttpResponse<HttpResponse<Blob>>
 
     tempTest: PayrollDetailResDto[] = []
 
@@ -58,7 +65,8 @@ export class PayrollDetail implements OnInit {
         private messageService: MessageService,
         private notificationService: NotificationService,
         private router: Router,
-        private fileService: FileService
+        private fileService: FileService,
+        private pdfService : PdfService
     ) { }
 
     ngOnInit(): void {
@@ -194,5 +202,35 @@ export class PayrollDetail implements OnInit {
     downloadFileSubmit(fileName: string) {
         window.location.href = `http://localhost:8080/files/ftp/${fileName}`;
         this.downloadVisible = false;
+    }
+
+    async onPreview(id: string) {
+        this.showDialog()
+
+        this.uploadedFile = await firstValueFrom(this.fileService.previewFileFtp(`files/ftp/preview/${id}`))
+        console.log(this.uploadedFile.body)
+        const blobFile = this.uploadedFile.body
+        const uFIle = new File([blobFile as any], 'file', {
+            type: "application/pdf"
+        })
+
+        if(uFIle){
+            const pdf = await this.pdfService.loadPdf(uFIle)
+            this.pages = Array(pdf.numPages).fill(0).map((x, i) => i)
+            this.canvasLoad(pdf)
+        }
+    }
+
+    canvasLoad(pdf : PDFDocumentProxy) {
+        setTimeout( async () => {
+            for(let i = 0; i < this.pages?.length; i++){
+                const canvass = document.getElementById(`pdfCanvas-${i+1}`) as HTMLCanvasElement
+                await this.pdfService.renderPage(pdf, i+1, canvass)
+            }
+        }, 1)
+    }
+
+    showDialog() {
+        this.visible = true;
     }
 }

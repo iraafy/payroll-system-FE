@@ -109,9 +109,10 @@
                                         <!-- SUDAH UPLOAD -->
                                         <div *ngIf="isClient && payroll.forClient">
                                             <div class="grid mt-2 pl-2">
-                                                <div class="col-auto md:mb-0 mb-3">
-                                                    <p-fileUpload mode="basic" styleClass="bg-gray-500 mr-2"
-                                                        chooseLabel="Unggah" name="file" maxFileSize="3145728" />
+                                                <div class="col-auto md:mb-0 mb-3 mr-2">
+                                                    <!-- <p-fileUpload mode="basic" styleClass="bg-gray-500 mr-2"
+                                                        chooseLabel="Unggah" name="file" maxFileSize="3145728" /> -->
+                                                        <p-button (click)="onPreview(payroll.id)" severity="secondary" label="Preview" />
                                                 </div>
                                                 <div class="col-auto">
                                                     <p-button (click)="showDialogSignature()"
@@ -209,5 +210,11 @@
     <div class="flex justify-content-end">
         <p-button label="Batal" severity="secondary" (click)="pingVisible = false" />
         <p-button label="Ya" (click)="pingSubmit()" styleClass="ml-2 bg-color-primary" />
+    </div>
+</p-dialog>
+
+<p-dialog header="Preview" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }">
+    <div class="flex justify-content-center" *ngFor="let p of pages; let i = index">
+        <canvas class="flex "  id="{{'pdfCanvas-'+(i+1)}}"></canvas>
     </div>
 </p-dialog>

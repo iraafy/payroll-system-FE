@@ -14,6 +14,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'
 import { FullCalendarModule } from '@fullcalendar/angular'
 import { CommonModule, DatePipe } from "@angular/common"
 import { SignaturePadComponent } from "../../components/signature-pad/signature-pad.component"
+import { ProgressSpinnerModule } from 'primeng/progressspinner'
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { SignaturePadComponent } from "../../components/signature-pad/signature-
         FullCalendarModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ProgressSpinnerModule
     ],
     providers: [
         DatePipe

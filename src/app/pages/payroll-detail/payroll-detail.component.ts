@@ -30,6 +30,7 @@ export class PayrollDetail implements OnInit {
     rescheduleVisible: boolean = false
     pingVisible: boolean = false
     downloadVisible: boolean = false
+    spin : boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
     payrollDetails?: Observable<PayrollDetailResDto[]>
@@ -211,6 +212,7 @@ export class PayrollDetail implements OnInit {
 
     async onPreview(id: string) {
         this.showDialog()
+        this.spin = true
 
         this.uploadedFile = await firstValueFrom(this.fileService.previewFileFtp(`files/ftp/preview/${id}`))
         console.log(this.uploadedFile.body)
@@ -223,6 +225,7 @@ export class PayrollDetail implements OnInit {
             const pdf = await this.pdfService.loadPdf(uFIle)
             this.pages = Array(pdf.numPages).fill(0).map((x, i) => i)
             this.canvasLoad(pdf)
+            this.spin = false
         }
     }
 
@@ -254,7 +257,7 @@ export class PayrollDetail implements OnInit {
                     }
                 },
                 err => {
-                    
+
                 }
             )
         }

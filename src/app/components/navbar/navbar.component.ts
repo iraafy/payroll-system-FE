@@ -82,6 +82,7 @@ export class Navbar {
     clientId: string | null = null;
     payrolls: PayrollResDto[] = [];
     clientPayrollDetails: PayrollDetailResDto[] = [];
+    notificationCount: number = 0;
 
     payrollIds: any[] = [];
 
@@ -124,49 +125,6 @@ export class Navbar {
     fetchProfileImage() {
     }
     
-    async init() {
-        if (this.loginData?.imageProfile != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
-        } else {
-            this.photoProfile = 'assets/images/icon/logo.svg'
-        }
-        
-        try {
-            this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
-            // console.log(this.clients);
-
-            this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
-            this.notification.forEach((item) => {
-                item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
-            });
-
-            this.payrolls = await firstValueFrom(this.payrollService.getAllPayroll());
-            this.eventsOnCalendar = [];
-
-            for (const payroll of this.payrolls) {
-                const calendarColor = this.getRandomColor();
-                this.payrollIds.push({ color: calendarColor, id: payroll.id });
-
-                const formattedDate = this.formatDateWithoutHours(payroll.scheduleDate);
-                payroll.scheduleDate = formattedDate;
-                const event = { title: payroll.title, start: formattedDate, color: calendarColor };
-                this.eventsOnCalendar.push(event);
-
-                const details = await firstValueFrom(this.payrollService.getAllPayrollDetailByPayrollId(payroll.id));
-                details.forEach((detail) => {
-                    const formattedDate = this.formatDateWithoutHours(detail.maxUploadDate);
-                    detail.maxUploadDate = formattedDate;
-                    const event = { title: detail.description, start: formattedDate, color: calendarColor };
-                    this.eventsOnCalendar.push(event);
-                });
-            }
-
-            this.calendarOptions.events = this.eventsOnCalendar;
-        } catch (error) {
-            // console.error('Error initializing data:', error);
-        }
-    }
-
     get isAdmin() {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN
     }
@@ -209,13 +167,13 @@ export class Navbar {
             this.connect(id)
             this.chat.get('recipientId')?.patchValue(client.id)
         }
-        firstValueFrom(this.chatService.getChats()).then(
+        firstValueFrom(this.chatService.getChats(client.id)).then(
             res => {
                 for (let item of res) {
                     var createdAt: string = item.createdAt
                     var createdDate: string = createdAt.split('T')[0]
                     var createdTime: string = createdAt.split('T')[1]
-                    item.createdAt = createdDate + " " + createdTime
+                    item.createdAt = this.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 }
                 this.received = res
             }
@@ -232,6 +190,54 @@ export class Navbar {
         localStorage.removeItem('loginData');
         this.router.navigateByUrl('/login');
     }
+
+    async init() {
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+        } else {
+            this.photoProfile = 'assets/images/icon/logo.svg'
+        }
+
+        try {
+            this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
+
+            this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
+            this.notification.forEach((item) => {
+                item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
+            });
+
+            this.payrolls = await firstValueFrom(this.payrollService.getAllPayroll());
+            this.eventsOnCalendar = [];
+
+            for (const payroll of this.payrolls) {
+                const calendarColor = this.getRandomColor();
+                this.payrollIds.push({ color: calendarColor, id: payroll.id });
+
+                const formattedDate = this.formatDateWithoutHours(payroll.scheduleDate);
+                payroll.scheduleDate = formattedDate;
+                const event = { title: payroll.title, start: formattedDate, color: calendarColor };
+                this.eventsOnCalendar.push(event);
+
+                const details = await firstValueFrom(this.payrollService.getAllPayrollDetailByPayrollId(payroll.id));
+                details.forEach((detail) => {
+                    const formattedDate = this.formatDateWithoutHours(detail.maxUploadDate);
+                    detail.maxUploadDate = formattedDate;
+                    const event = { title: detail.description, start: formattedDate, color: calendarColor };
+                    this.eventsOnCalendar.push(event);
+                });
+            }
+
+            firstValueFrom(this.notificationService.getUnreadCount()).then(
+                res => {
+                    this.notificationCount = res
+                }
+            )
+
+            this.calendarOptions.events = this.eventsOnCalendar;
+        } catch (error) {
+        }
+    }
+
 
     calendarOptions: CalendarOptions = {
         plugins: [dayGridPlugin],
@@ -252,19 +258,12 @@ export class Navbar {
         this.received = []
 
         this.sockClient.connect({}, function () {
-            // console.log('Connected!')
             that.connected = true
             that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
-                // tslint:disable-next-line:triple-equals
-                // if (that.username != JSON.parse(message.body).name) {
-                // }
                 var createdAt: string = JSON.parse(message.body).createdAt
-                var createdDate: string = createdAt.split('T')[0]
-                var createdTime: string = createdAt.split('T')[1]
                 const newMessage: any = JSON.parse(message.body)
-                newMessage.createdAt = createdDate + " " + createdTime
+                newMessage.createdAt = that.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 that.received.push(newMessage);
-                // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
             })
         })
     }
@@ -276,7 +275,6 @@ export class Navbar {
             this.received = []
             this.username = undefined
             this.text = undefined
-            // console.log('Disconnected!')
             this.sockClient.disconnect()
         }
     }

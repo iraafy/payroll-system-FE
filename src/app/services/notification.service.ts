@@ -27,4 +27,8 @@ import { UpdateResDto } from "../dto/update.res.dto";
     readNotification(id: string) {
         return this.baseService.patch<UpdateResDto>(`notification/${id}/read`,{})
     }
+
+    getUnreadCount() {
+        return this.baseService.get<number>(`notification/unread`)
+    }
 }

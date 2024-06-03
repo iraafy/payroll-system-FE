@@ -95,7 +95,6 @@ export class PayrollDetail implements OnInit {
                             const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!
                             item.maxUploadDate = formattedDate
                         })
-                        // console.log(items)
                     })
                 )
         }
@@ -165,7 +164,6 @@ export class PayrollDetail implements OnInit {
                     this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Berhasil mengirimkan ping ke klien' })
                     this.pingVisible = false
                 })
-            // console.log(this.activeRoute.snapshot.url[0].path)
         }
     }
 
@@ -213,9 +211,9 @@ export class PayrollDetail implements OnInit {
     async onPreview(id: string) {
         this.showDialog()
         this.spin = true
+        this.pages = []
 
         this.uploadedFile = await firstValueFrom(this.fileService.previewFileFtp(`files/ftp/preview/${id}`))
-        console.log(this.uploadedFile.body)
         const blobFile = this.uploadedFile.body
         const uFIle = new File([blobFile as any], 'file', {
             type: "application/pdf"
@@ -252,7 +250,6 @@ export class PayrollDetail implements OnInit {
             firstValueFrom(this.payrollService.setSignatureOnPayrollDetail(this.pickedDetailId, this.signature)).then(
                 res => {
                     if(res.ver) {
-                        console.log(res.ver)
                         this.messageService.add({severity: 'success', summary:'success', detail: res.message})
                     }
                 },

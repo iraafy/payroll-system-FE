@@ -32,6 +32,9 @@ import { PayrollService } from "../../services/payroll.service"
 import { PayrollResDto } from "../../dto/payroll/payroll.res.dto"
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto"
 import { BadgeModule } from 'primeng/badge';
+import { LoginResDto } from "../../dto/user/login.res.dto"
+import { BASE_URL } from "../../constants/global"
+import { UserService } from "../../services/user.service"
 
 @Component({
     selector: 'app-navbar',
@@ -59,6 +62,8 @@ import { BadgeModule } from 'primeng/badge';
 })
 
 export class Navbar {
+    loginData: LoginResDto | undefined = this.authService.getLoginData();
+    photoProfile: string | undefined = ''
     sidebarVisible: boolean = false
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
@@ -77,6 +82,7 @@ export class Navbar {
     clientId: string | null = null;
     payrolls: PayrollResDto[] = [];
     clientPayrollDetails: PayrollDetailResDto[] = [];
+    notificationCount: number = 0;
 
     payrollIds: any[] = [];
 
@@ -97,10 +103,15 @@ export class Navbar {
         private websocketService: WebsocketService,
         private messageService: MessageService,
         private fb: NonNullableFormBuilder,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private userService: UserService
     ) { }
 
     ngOnInit() {
+        this.userService.currentProfileImage.subscribe(imageUrl => {
+            this.photoProfile = imageUrl;
+        });
+
         this.navlinks = [
             { image: 'assets/images/icon/logo.svg', route: '/homepage' },
             { label: 'Pengguna', route: '/users' },
@@ -110,8 +121,6 @@ export class Navbar {
 
         this.init()
     }
-
-    loginData = this.authService.getLoginData()
 
     get isAdmin() {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN
@@ -155,7 +164,7 @@ export class Navbar {
             this.connect(id)
             this.chat.get('recipientId')?.patchValue(client.id)
         }
-        firstValueFrom(this.chatService.getChats()).then(
+        firstValueFrom(this.chatService.getChats(client.id)).then(
             res => {
                 for (let item of res) {
                     var createdAt: string = item.createdAt
@@ -180,9 +189,14 @@ export class Navbar {
     }
 
     async init() {
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+        } else {
+            this.photoProfile = 'assets/images/icon/logo.svg'
+        }
+
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
-            // console.log(this.clients);
 
             this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
             this.notification.forEach((item) => {
@@ -210,9 +224,14 @@ export class Navbar {
                 });
             }
 
+            firstValueFrom(this.notificationService.getUnreadCount()).then(
+                res => {
+                    this.notificationCount = res
+                }
+            )
+
             this.calendarOptions.events = this.eventsOnCalendar;
         } catch (error) {
-            // console.error('Error initializing data:', error);
         }
     }
 
@@ -236,19 +255,12 @@ export class Navbar {
         this.received = []
 
         this.sockClient.connect({}, function () {
-            // console.log('Connected!')
             that.connected = true
             that.sockClient.subscribe(that.websocketService.topicMessage + id, (message: { body: any }) => {
-                // tslint:disable-next-line:triple-equals
-                // if (that.username != JSON.parse(message.body).name) {
-                // }
                 var createdAt: string = JSON.parse(message.body).createdAt
-                // var createdDate: string = createdAt.split('T')[0]
-                // var createdTime: string = createdAt.split('T')[1]
                 const newMessage: any = JSON.parse(message.body)
                 newMessage.createdAt = that.formatDate(createdAt, 'dd MMMM yyyy HH:mm a')
                 that.received.push(newMessage);
-                // that.messageService.add({severity: 'info', summary: 'New message from ' + JSON.parse(message.body).name, detail: JSON.parse(message.body).text});
             })
         })
     }
@@ -260,7 +272,6 @@ export class Navbar {
             this.received = []
             this.username = undefined
             this.text = undefined
-            // console.log('Disconnected!')
             this.sockClient.disconnect()
         }
     }

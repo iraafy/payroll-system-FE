@@ -13,12 +13,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'
 import { FullCalendarModule } from '@fullcalendar/angular'
 import { CommonModule, DatePipe } from "@angular/common"
+import { SignaturePadComponent } from "../../components/signature-pad/signature-pad.component"
 
 @NgModule({
     declarations: [
         PayrollDetail
     ],
     imports: [
+        SignaturePadComponent,
         PayrollDetailRouting,
         CardModule,
         ButtonModule,

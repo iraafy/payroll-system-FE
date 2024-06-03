@@ -6,6 +6,7 @@ import { PayrollDetailReqDto } from "../dto/payroll-detail/payroll-detail.req.dt
 import { PayrollDetailResDto } from "../dto/payroll-detail/payroll-detail.res.dto";
 import { PayrollResDto } from "../dto/payroll/payroll.res.dto";
 import { UpdateResDto } from "../dto/update.res.dto";
+import { SignatureReqDto } from "../dto/payroll-detail/signature.req.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -56,5 +57,9 @@ export class PayrollService {
 
     setPayrollDetailFile(detailId: string, fileId: string) {
         return this.baseService.patch<UpdateResDto>(`payrolls/${detailId}/set-file/${fileId}`, {})
+    }
+
+    setSignatureOnPayrollDetail(detailId : string, signature : SignatureReqDto){
+        return this.baseService.patch<UpdateResDto>(`payrolls/${detailId}/sign`, signature)
     }
 }

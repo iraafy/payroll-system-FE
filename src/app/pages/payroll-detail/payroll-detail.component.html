@@ -73,7 +73,7 @@
                                         <p-button severity="secondary" label="Pratinjau"
                                             styleClass="text-center mr-3 rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath || payroll.filePath && !payroll.forClient"></p-button>
-                                        <p-button (click)="showDialogSignature()" label="TTD"
+                                        <p-button (click)="showDialogSignature(payroll.id)" label="TTD"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath"></p-button>
                                         <p-button (click)="downloadVisible=true" label="Unduh"
@@ -115,7 +115,7 @@
                                                         <p-button (click)="onPreview(payroll.id)" severity="secondary" label="Preview" />
                                                 </div>
                                                 <div class="col-auto">
-                                                    <p-button (click)="showDialogSignature()"
+                                                    <p-button (click)="showDialogSignature(payroll.id)"
                                                         styleClass="bg-color-primary" label="Tanda Tangan" />
                                                 </div>
                                             </div>
@@ -199,6 +199,7 @@
     <p>
         Digital Signature Here
     </p>
+    <app-signature-pad (signature)="sign($event); signatureVisible = false;"></app-signature-pad>
 </p-dialog>
 
 <p-dialog header="Konfirmasi PING!!" [(visible)]="pingVisible" [modal]="true"
@@ -216,5 +217,17 @@
 <p-dialog header="Preview" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }">
     <div class="flex justify-content-center" *ngFor="let p of pages; let i = index">
         <canvas class="flex "  id="{{'pdfCanvas-'+(i+1)}}"></canvas>
+    </div>
+</p-dialog>
+
+<p-dialog header="Konfirmasi Tanda Tangan" [(visible)]="confirmSignVisible" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
+    [resizable]="false">
+    <p>
+        Apakah Anda yakin untuk menandatangani ?
+    </p>
+    <div class="flex justify-content-end">
+        <p-button label="Batal" severity="secondary" (click)="confirmSignVisible = false; signatureVisible = true;" />
+        <p-button label="Ya" (click)="submitSign(); confirmSignVisible= false;" styleClass="ml-2 bg-color-primary" />
     </div>
 </p-dialog>

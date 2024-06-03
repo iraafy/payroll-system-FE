@@ -215,6 +215,9 @@
 </p-dialog>
 
 <p-dialog header="Preview" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }">
+    <div class="flex justify-content-center" *ngIf="spin">
+        <p-progressSpinner ariaLabel="loading" />
+    </div>
     <div class="flex justify-content-center" *ngFor="let p of pages; let i = index">
         <canvas class="flex "  id="{{'pdfCanvas-'+(i+1)}}"></canvas>
     </div>

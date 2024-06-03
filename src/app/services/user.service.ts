@@ -8,6 +8,7 @@ import { ClientDropdownResDto } from "../dto/user/client-dropdown.res.dto"
 import { UserUpdateReqDto } from "../dto/user/user-update.req.dto"
 import { UpdateResDto } from "../dto/update.res.dto"
 import { ChangeProfilePicReqDto } from "../dto/user/change-profile-pic.req.dto"
+import { BehaviorSubject } from "rxjs"
 
 @Injectable({
     providedIn: 'root'
@@ -45,10 +46,16 @@ export class UserService {
     }
 
     changeProfilePic(data: ChangeProfilePicReqDto){
-        return this.base.patch<UpdateResDto>('users/changeProfilePic', data)
+        return this.base.patch<UpdateResDto>('users/changeProfilePicture', data)
     }
 
     changeUserName(newName: string){
-        return this.base.patch<UpdateResDto>(`users/changeName/${newName}`, {})
+        return this.base.patch<UpdateResDto>(`users/changeUserName/${newName}`, {})
+    }
+
+    private profileImageSource = new BehaviorSubject<string>('default-image-url');
+    currentProfileImage = this.profileImageSource.asObservable();
+    changeProfileImage(imageUrl: string) {
+        this.profileImageSource.next(imageUrl);
     }
 }

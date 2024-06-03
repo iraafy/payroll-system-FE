@@ -122,9 +122,6 @@ export class Navbar {
         this.init()
     }
 
-    fetchProfileImage() {
-    }
-    
     get isAdmin() {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN
     }

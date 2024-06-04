@@ -32,6 +32,9 @@ import { PayrollService } from "../../services/payroll.service"
 import { PayrollResDto } from "../../dto/payroll/payroll.res.dto"
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto"
 import { BadgeModule } from 'primeng/badge';
+import { LoginResDto } from "../../dto/user/login.res.dto"
+import { BASE_URL } from "../../constants/global"
+import { UserService } from "../../services/user.service"
 
 @Component({
     selector: 'app-navbar',
@@ -59,6 +62,8 @@ import { BadgeModule } from 'primeng/badge';
 })
 
 export class Navbar {
+    loginData: LoginResDto | undefined = this.authService.getLoginData();
+    photoProfile: string | undefined = ''
     sidebarVisible: boolean = false
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
@@ -98,10 +103,15 @@ export class Navbar {
         private websocketService: WebsocketService,
         private messageService: MessageService,
         private fb: NonNullableFormBuilder,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private userService: UserService
     ) { }
 
     ngOnInit() {
+        this.userService.currentProfileImage.subscribe(imageUrl => {
+            this.photoProfile = imageUrl;
+        });
+
         this.navlinks = [
             { image: 'assets/images/icon/logo.svg', route: '/homepage' },
             { label: 'Pengguna', route: '/users' },
@@ -111,8 +121,6 @@ export class Navbar {
 
         this.init()
     }
-
-    loginData = this.authService.getLoginData()
 
     get isAdmin() {
         return this.loginData?.roleCode == RoleType.SUPER_ADMIN
@@ -181,6 +189,12 @@ export class Navbar {
     }
 
     async init() {
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+        } else {
+            this.photoProfile = 'assets/images/icon/logo.svg'
+        }
+
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
 

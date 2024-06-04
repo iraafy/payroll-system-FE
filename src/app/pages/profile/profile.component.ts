@@ -9,6 +9,7 @@ import { ChangeProfilePicReqDto } from "../../dto/user/change-profile-pic.req.dt
 import { firstValueFrom } from "rxjs";
 import { UserService } from "../../services/user.service";
 import { MessageService } from "primeng/api";
+import { UploadEvent } from "primeng/fileupload";
 
 @Component({
     selector: 'profile-app',
@@ -17,7 +18,9 @@ import { MessageService } from "primeng/api";
 
 export class Profile implements OnInit {
     loginData: LoginResDto | undefined = this.authService.getLoginData();
+    fullName: string = this.loginData?.fullName || ''
     photoProfile: string | undefined = ''
+    displayModal = false;
 
     changeProfilePicReqDtoFg = this.fb.group({
         fileContent: ['', Validators.required],
@@ -25,7 +28,7 @@ export class Profile implements OnInit {
     })
 
     changeNameFb = this.fb.group({
-        newName: ['', Validators.required]
+        newName: [this.fullName, Validators.required]
     })
 
     constructor(
@@ -36,10 +39,15 @@ export class Profile implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.init()
+    }
+
+    init() {
+        this.name = this.loginData?.fullName;
         if (this.loginData?.imageProfile != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+          this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
         } else {
-            this.photoProfile = 'https://cdn-icons-png.flaticon.com/512/5987/5987424.png'
+          this.photoProfile = 'https://cdn-icons-png.flaticon.com/512/5987/5987424.png';
         }
     }
 
@@ -47,6 +55,7 @@ export class Profile implements OnInit {
     company = this.loginData?.companyName;
     role = this.loginData?.roleCode;
     file = this.loginData?.imageProfile
+    email = this.loginData?.email;
     roleName = this.checkRole();
 
     checkRole() {
@@ -69,28 +78,50 @@ export class Profile implements OnInit {
             reader.onerror = error => reject(error);
         });
 
-        for (let file of event.target.files) {
+        for (let file of event.files) {
             toBase64(file).then(result => {
-                const resultBase64 = result.substring(result.indexOf(",") + 1, result.length);
-                const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length);
+                const resultBase64 = result.substring(result.indexOf(",") + 1);
+                const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1);
 
                 this.changeProfilePicReqDtoFg.get('fileContent')?.patchValue(resultBase64);
                 this.changeProfilePicReqDtoFg.get('fileExt')?.patchValue(resultExtension);
-            });
+            })
         }
     }
 
     OnSubmitChangeName() {
         const changeName = this.changeNameFb.getRawValue()
-        firstValueFrom(this.userService.changeUserName(changeName.newName))
+        firstValueFrom(this.userService.changeUserName(changeName.newName)).then(
+            res => {
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                this.displayModal = false
+                this.setLocalStorage()
+            }
+        )
     }
 
-    OnSubmitProfile() {
-        const changeProfilePicReqDto: ChangeProfilePicReqDto = this.changeProfilePicReqDtoFg.getRawValue();
+    onBasicUploadAuto() {
+        const changeProfilePicReqDto = this.changeProfilePicReqDtoFg.getRawValue();
         firstValueFrom(this.userService.changeProfilePic(changeProfilePicReqDto)).then(
             res => {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                this.setLocalStorage();
             }
         )
+    }
+
+    setLocalStorage() {
+        if (this.loginData != null) {
+            firstValueFrom(this.userService.getUserByid(this.loginData.id)).then(
+                res => {
+                    this.authService.updateLoginData(res.fileId, res.fullName);
+                    this.loginData = this.authService.getLoginData();
+                    this.init();
+                    if (this.photoProfile != undefined) {
+                        this.userService.changeProfileImage(this.photoProfile);
+                    }
+                }
+            )
+        }
     }
 }

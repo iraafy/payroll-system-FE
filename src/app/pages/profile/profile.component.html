@@ -1,56 +1,64 @@
-<div class="container d-flex justify-content-center mt-5">
-    <div class="w-full responsive-shadow rounded-3 p-5">
-        <div class="grid">
-            <div class="col-12 md:col-3">
-                <div class="flex align-items-center justify-content-center shadow-3 h-25rem">
-                    <p-fileUpload 
-                    mode="basic" 
-                    chooseIcon="pi pi-upload"
-                    name="demo[]" 
-                    url="https://www.primefaces.org/cdn/api/upload.php" 
-                    accept="image/*" 
-                    maxFileSize="1000000" 
-                    (onUpload)="fileUpload($event)" />
-                    <img [src]="photoProfile" class="w-15rem h-15rem" alt="login-image">
+<div>
+    <div class="relative">
+        <img src="/assets/images/bg-profile.jpg" alt="bg-profile" class="w-full h-15rem z-0">
+        <div class="profile-image">
+            <img [src]="photoProfile" class="md:w-10rem md:h-10rem w-7rem h-7rem rounded-img" alt="profile-image">
+            <p-fileUpload 
+                mode="basic" 
+                name="demo[]" 
+                url="https://www.primefaces.org/cdn/api/upload.php" 
+                accept="image/*" 
+                maxFileSize="1000000" 
+                [auto]="true" 
+                styleClass="edit-icon"
+                chooseIcon="pi pi-pencil"
+                (onSelect)="fileUpload($event)"
+                (onUpload)="onBasicUploadAuto()" 
+            >
+            </p-fileUpload>
+        </div>
+    </div>
+    <div class="text-name text-center">
+        <h2>
+            {{ name }} <i class="ml-2 pi pi-pencil" (click)="displayModal = true"></i>
+        </h2>
+        <p>
+            {{ email }}
+        </p>
+        <p>
+            {{ roleName }}
+        </p>
+        <p>
+            {{ company }}
+        </p>
+    </div>
+</div>
+
+<p-dialog 
+    header="Ubah nama" 
+    [(visible)]="displayModal"
+    [modal]="true" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [style]="{ width: '35vw' }"
+    [draggable]="false" 
+    [resizable]="false">
+        <form [formGroup]="changeNameFb" (submit)="OnSubmitChangeName()">
+            <div class="mb-5">
+                <div class="mb-2">
+                    <label for="newName" class="form-label fw-semibold">Nama <span class="text-red-500">*</span></label>
                 </div>
-            </div>
-            <div class="col-12 md:col-9">
-                <div class="d-flex align-items-center shadow-3 p-4 h-25rem">
-                    <div class="w-full">
-                        <h2 class="fw-bold mb-4 responsive-text">
-                            Profile
-                        </h2>
-                        <div class="mb-3">
-                            <label for="name" class="form-label fw-semibold mb-2">Nama</label>
-                            <div class="mt-2 grid">
-                                <div class="col">
-                                    <input type="name" pInputText class="form-control bg-gray-50 w-full" id="name"
-                                        aria-describedby="nameHelp" [value]="name" disabled>
-                                </div>
-                                <div class="col-1">
-                                    <p-button icon="pi pi-check" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="company" class="form-label fw-semibold mb-2 mt-3">Perusahaan</label>
-                            <div class="mt-2">
-                                <input type="company" pInputText class="form-control bg-gray-50 w-full" id="company"
-                                    aria-describedby="companyHelp" [value]="company" disabled>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="role" class="form-label fw-semibold mb-2 mt-3">Role</label>
-                            <div class="mt-2">
-                                <input type="role" pInputText class="form-control bg-gray-50 w-full" id="role"
-                                    aria-describedby="roleHelp" [value]="roleName" disabled>
-                            </div>
-                        </div>
+                <div>
+                    <input type="text" id="newName" class="w-full" pInputText formControlName="newName" />
+                    <div *ngIf="changeNameFb.controls['newName'].invalid && changeNameFb.controls['newName'].dirty" class="text-red-500 text-xs">
+                        <p *ngIf="changeNameFb.controls['newName'].errors">
+                            {{changeNameFb.controls['newName'].hasError('required') ? 'Nama wajib diisi' : ''}}
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="grid justify-content-end mt-5">
+                <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
+                <p-button type="submit" label="Ya" styleClass="ml-2 bg-color-primary" />
+            </div>
+        </form>
+</p-dialog>

@@ -192,7 +192,7 @@ export class Navbar {
         if (this.loginData?.imageProfile != null) {
             this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
         } else {
-            this.photoProfile = 'assets/images/icon/logo.svg'
+            this.photoProfile = 'assets/images/icon/user.svg'
         }
 
         try {

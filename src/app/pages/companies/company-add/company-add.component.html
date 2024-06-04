@@ -15,7 +15,7 @@
                             <input formControlName="companyName" type="text" class="w-full bg-gray-100" id="name" pInputText>
                             <div *ngIf="companyReqDtoFg.controls['companyName'].invalid && companyReqDtoFg.controls['companyName'].dirty" class="text-red-500 text-xs">
                                 <p *ngIf="companyReqDtoFg.controls['companyName'].errors">
-                                    {{companyReqDtoFg.controls['companyName'].hasError('required') ? 'Nama perusahaan wajib diisi' : ''}}
+                                    {{companyReqDtoFg.controls['companyName'].hasError('required') ? 'Nama perusahaan wajib diisi' : (companyReqDtoFg.controls['companyName'].hasError('whitespace') ? 'Nama Perusahaan wajib berisi angka/huruf' : '')}}
                                 </p>
                             </div>
                         </div>

@@ -21,7 +21,7 @@ export class UserAdd implements OnInit {
             Validators.required,
             Validators.email
         ]],
-        fullName: ['', [Validators.required]],
+        fullName: ['', [Validators.required, this.noWhitespaceValidator]],
         roleId: ['', [Validators.required]],
         companyId: ['', [Validators.required]],
         fileContent: [''],
@@ -89,7 +89,6 @@ export class UserAdd implements OnInit {
                 const resultBase64 = result.substring(result.indexOf(",") + 1, result.length)
                 const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length)
 
-
                 this.userForm.get('fileContent')?.patchValue(resultBase64)
                 this.userForm.get('fileExt')?.patchValue(resultExtension)
             })
@@ -107,5 +106,11 @@ export class UserAdd implements OnInit {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: err['message'] })
             }
         )
+    }
+
+    noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
     }
 }

@@ -42,6 +42,10 @@ body {
     width: 1.5rem;
 }
 
+.home-icon {
+    width: 7rem;
+}
+
 .hero-img {
     height: 24rem;
     object-fit: cover;

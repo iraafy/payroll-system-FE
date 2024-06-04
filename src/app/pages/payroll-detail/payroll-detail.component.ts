@@ -251,6 +251,7 @@ export class PayrollDetail implements OnInit {
                 res => {
                     if(res.ver) {
                         this.messageService.add({severity: 'success', summary:'success', detail: res.message})
+                        this.init()
                     }
                 },
                 err => {

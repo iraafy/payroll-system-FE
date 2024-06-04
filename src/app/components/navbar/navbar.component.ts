@@ -113,7 +113,7 @@ export class Navbar {
         });
 
         this.navlinks = [
-            { image: 'assets/images/icon/logo.svg', route: '/homepage' },
+            { image: 'assets/images/logo.svg', route: '/homepage' },
             { label: 'Pengguna', route: '/users' },
             { label: 'Perusahaan', route: '/companies' },
             { label: 'Klien', route: '/client/assignment' },

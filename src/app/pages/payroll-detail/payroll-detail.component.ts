@@ -90,7 +90,6 @@ export class PayrollDetail implements OnInit {
                             const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
                             item.maxUploadDate = formattedDate;
                         });
-                        // console.log(items)
                     })
                 );
         }
@@ -232,5 +231,9 @@ export class PayrollDetail implements OnInit {
 
     showDialog() {
         this.visible = true;
+    }
+
+    exportFinalReport(){
+        // window.location.href = `http://localhost:8080/reports/ftp/${fileName}`;
     }
 }

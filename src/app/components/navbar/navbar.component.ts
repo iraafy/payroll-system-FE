@@ -113,7 +113,7 @@ export class Navbar {
         });
 
         this.navlinks = [
-            { image: 'assets/images/icon/logo.svg', route: '/homepage' },
+            { image: 'assets/images/logo.svg', route: '/homepage' },
             { label: 'Pengguna', route: '/users' },
             { label: 'Perusahaan', route: '/companies' },
             { label: 'Klien', route: '/client/assignment' },
@@ -192,7 +192,7 @@ export class Navbar {
         if (this.loginData?.imageProfile != null) {
             this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
         } else {
-            this.photoProfile = 'assets/images/icon/logo.svg'
+            this.photoProfile = 'assets/images/icon/user.svg'
         }
 
         try {

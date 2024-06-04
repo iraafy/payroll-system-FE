@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, NonNullableFormBuilder, Validators } from "@angular/forms";
 import { firstValueFrom } from "rxjs";
 import { CompanyService } from "../../../services/company.service";
 import { Router } from "@angular/router";
@@ -13,7 +13,7 @@ import { MessageService } from "primeng/api";
 export class CompanyAdd implements OnInit {
 
     companyReqDtoFg = this.fb.group({
-        companyName: ['', Validators.required],
+        companyName: ['', [Validators.required, this.noWhitespaceValidator]],
         defaultPaymentDay: [Validators.required],
         fileContent: [''],
         fileExtension: ['']
@@ -61,5 +61,11 @@ export class CompanyAdd implements OnInit {
                 }
             )
         }
+    }
+
+    noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
     }
 }

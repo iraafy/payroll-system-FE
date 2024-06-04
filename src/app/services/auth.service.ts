@@ -30,6 +30,15 @@ export class AuthService {
         return undefined
     }
 
+    updateLoginData(imageProfile: string, fullName: string) {
+        const dataLogin = this.getLoginData()
+        if (dataLogin) {
+            dataLogin.fullName = fullName
+            dataLogin.imageProfile = imageProfile
+            this.saveLoginData(dataLogin)
+        }
+    }
+
     getToken(): string | undefined {
         const dataLogin = this.getLoginData()
         if (dataLogin) {

@@ -1,4 +1,4 @@
 export interface UpdateResDto {
-    version: number;
+    ver: number;
     message: string;
 }

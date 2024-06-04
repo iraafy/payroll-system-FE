@@ -1,0 +1,14 @@
+<canvas
+  #canvas
+  (touchstart)="startDrawing($event)"
+  (touchmove)="moved($event)"
+  width="700"
+  height="200"
+  class="border-color-primary"
+></canvas>
+<p class="error-message" *ngIf="signatureNeeded">Signature is required</p>
+
+<div class="buttons flex justify-content-end mt-3">
+  <p-button label="Kosongkan" severity="secondary" (click)="clearPad()" styleClass="mx-2"></p-button>
+  <p-button label="Selesai" severity="primary" (click)="savePad()"></p-button>
+</div>

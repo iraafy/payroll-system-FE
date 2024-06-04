@@ -5,7 +5,7 @@ export interface PayrollDetailResDto {
 	fileContent: string
 	filePath: string,
 	maxUploadDate: string,
-	psAcknowledge: boolean,
-	clientAcknowledge: boolean,
+	psAcknowledge: string,
+	clientAcknowledge: string,
 	forClient: boolean
 }

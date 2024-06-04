@@ -92,9 +92,9 @@ export class PayrollDetail implements OnInit {
                 .pipe(
                     tap((items: PayrollDetailResDto[]) => {
                         items.forEach((item) => {
-                            const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!
-                            item.maxUploadDate = formattedDate
-                        })
+                            const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
+                            item.maxUploadDate = formattedDate;
+                        });
                     })
                 )
         }
@@ -258,5 +258,9 @@ export class PayrollDetail implements OnInit {
                 }
             )
         }
+    }
+
+    exportFinalReport(){
+        // window.location.href = `http://localhost:8080/reports/ftp/${fileName}`;
     }
 }

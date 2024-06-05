@@ -58,7 +58,7 @@ export class CompanyAdd implements OnInit {
             const newCompany = this.companyReqDtoFg.getRawValue() as any;
             firstValueFrom(this.companyService.createNewCompany(newCompany)).then(
                 res => {
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Company berhasil terbuat' });
+                    this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Company berhasil terbuat' });
                     this.router.navigate(['/companies'])
                 }
             )

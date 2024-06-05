@@ -7,7 +7,7 @@
     <div class="mt-5 mb-3 mr-1 grid justify-content-end">
         <p-button label="Buat Penugasan" styleClass="bg-color-primary" (click)="displayModal = true"></p-button>
     </div>
-    <div class="grid justify-content-start">
+    <div class="grid justify-content-start" *ngIf="assignments.length > 0">
         <div class="md:col-4 col-12" *ngFor="let assignment of assignments; let i = index">
             <div class="shadow-3 bg-white p-3" [ngClass]="{'md:h-19rem h-fit': assignment.clients.length === 0, 'h-19rem': assignment.clients.length > 0}">
                 <p class="font-bold text-center">{{ assignment.psName }}</p>
@@ -26,6 +26,9 @@
                 </div>
             </div>            
         </div>
+    </div>
+    <div class="grid justify-content-center align-items-center" *ngIf="assignments.length === 0">
+        <img src="assets/images/no-data.gif" width="30%" alt="">
     </div>
 </div>
 

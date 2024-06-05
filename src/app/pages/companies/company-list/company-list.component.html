@@ -12,7 +12,11 @@
         </a>
     </div>
     <div class="shadow-3 p-5 mb-5">
-        <p-table [value]="companies">
+        <p-table 
+            [value]="companies"
+            [paginator]="true" 
+            [rows]="5"    
+        >
             <ng-template pTemplate="header">
                 <tr>
                     <th>No.</th>
@@ -25,6 +29,13 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ company.companyName }}</td>
                     <td>{{ company.payrollDate }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="3" class="text-center">
+                        Tidak ada data perusahaan
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

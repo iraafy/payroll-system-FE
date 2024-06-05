@@ -25,27 +25,29 @@ import { SignatureReqDto } from "../../dto/payroll-detail/signature.req.dto"
 })
 
 export class PayrollDetail implements OnInit {
-    confirmSignVisible : boolean = false
+    confirmSignVisible: boolean = false
     signatureVisible: boolean = false
     rescheduleVisible: boolean = false
     pingVisible: boolean = false
     downloadVisible: boolean = false
-    spin : boolean = false
+    spin: boolean = false
+    showUpload: boolean = true
     showSign : boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
     payrollDetails?: Observable<PayrollDetailResDto[]>
+    payrollSize: number = 0
     payrolls?: PayrollResDto
     payrollLoop = [1]
     companyLogos: string[] = []
     data: NotificationReqDto | null = null
     visible: boolean = false
     images: string[] = []
-    pages : number[] = []
-    uploadedFile? : HttpResponse<HttpResponse<Blob>>
-    pickedDetailId? : string
-    signature : SignatureReqDto = {
-        signatureBase64 : ''
+    pages: number[] = []
+    uploadedFile?: HttpResponse<HttpResponse<Blob>>
+    pickedDetailId?: string
+    signature: SignatureReqDto = {
+        signatureBase64: ''
     }
 
     tempTest: PayrollDetailResDto[] = []
@@ -72,7 +74,7 @@ export class PayrollDetail implements OnInit {
         private notificationService: NotificationService,
         private router: Router,
         private fileService: FileService,
-        private pdfService : PdfService
+        private pdfService: PdfService
     ) { }
 
     ngOnInit(): void {
@@ -81,36 +83,41 @@ export class PayrollDetail implements OnInit {
 
     init(): void {
         this.payrollId = this.activeRoute.snapshot.paramMap.get('id')
-        if (this.payrollId != null) {
+        setTimeout(() => {
+            if (this.payrollId != null) {
 
-            firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
-                res => {
-                    this.payrolls = res
-                    this.clientId = res.clientId
-                }
-            )
-            this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId)
-                .pipe(
-                    tap((items: PayrollDetailResDto[]) => {
-                        items.forEach((item) => {
-                            const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
-                            item.maxUploadDate = formattedDate;
-                        });
-                    })
+                firstValueFrom(this.payrollService.getPayrollById(this.payrollId)).then(
+                    res => {
+                        this.payrolls = res
+                        this.clientId = res.clientId
+                    }
                 )
-        }
+
+                this.payrollDetails = this.payrollService.getAllPayrollDetailByPayrollId(this.payrollId)
+                    .pipe(
+                        tap((items: PayrollDetailResDto[]) => {
+                            items.forEach((item) => {
+                                const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
+                                item.maxUploadDate = formattedDate;
+                                this.payrollSize++;
+                        });
+                        })
+                    )
+            }
+        }, 1);
+
     }
 
-    ngAfterViewInit(){
-        const canvas : HTMLCanvasElement | null= document.querySelector("canvas")
-        if(canvas != null){
+    ngAfterViewInit() {
+        const canvas: HTMLCanvasElement | null = document.querySelector("canvas")
+        if (canvas != null) {
             const signaturePad = new SignaturePad(canvas, {
                 backgroundColor: 'rgba(255, 255, 255, 0)',
                 penColor: 'rgb(0, 0, 0)'
             })
         }
     }
-    
+
     loginData = this.authService.getLoginData()
 
     get isPS() {
@@ -121,7 +128,7 @@ export class PayrollDetail implements OnInit {
         return this.loginData?.roleCode == RoleType.CLIENT
     }
 
-    showDialogSignature(id : string) {
+    showDialogSignature(id: string) {
         this.signatureVisible = true
         this.pickedDetailId = id
     }
@@ -141,11 +148,11 @@ export class PayrollDetail implements OnInit {
 
             firstValueFrom(this.reschduleService.createNewReschdule(rescheduleDto)).then(
                 res => {
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
+                    this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
                     this.init()
                 },
                 err => {
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'harap cek tanggal reschedule dan approval reschedule' })
+                    this.messageService.add({ severity: 'error', summary: 'Gagal', detail: 'harap cek tanggal reschedule dan approval reschedule' })
                 }
             )
             this.rescheduleVisible = false
@@ -162,7 +169,7 @@ export class PayrollDetail implements OnInit {
             }
             firstValueFrom(this.notificationService.sendPing(this.data)).then(
                 res => {
-                    this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Berhasil mengirimkan ping ke klien' })
+                    this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Berhasil mengirimkan ping ke klien' })
                     this.pingVisible = false
                 })
         }
@@ -193,8 +200,11 @@ export class PayrollDetail implements OnInit {
                     const newFile = this.ftpReqDtoFg.getRawValue()
                     firstValueFrom(this.fileService.uploadFileFtp(newFile)).then(
                         res => {
-                            this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message })
+                            this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
                             firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id))
+
+                            this.showUpload = false
+
                             this.init()
                         }
 
@@ -220,7 +230,7 @@ export class PayrollDetail implements OnInit {
             type: "application/pdf"
         })
 
-        if(uFIle){
+        if (uFIle) {
             const pdf = await this.pdfService.loadPdf(uFIle)
             this.pages = Array(pdf.numPages).fill(0).map((x, i) => i)
             this.canvasLoad(pdf)
@@ -228,11 +238,11 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    canvasLoad(pdf : PDFDocumentProxy) {
-        setTimeout( async () => {
-            for(let i = 0; i < this.pages?.length; i++){
-                const canvass = document.getElementById(`pdfCanvas-${i+1}`) as HTMLCanvasElement
-                await this.pdfService.renderPage(pdf, i+1, canvass)
+    canvasLoad(pdf: PDFDocumentProxy) {
+        setTimeout(async () => {
+            for (let i = 0; i < this.pages?.length; i++) {
+                const canvass = document.getElementById(`pdfCanvas-${i + 1}`) as HTMLCanvasElement
+                await this.pdfService.renderPage(pdf, i + 1, canvass)
             }
         }, 1)
     }
@@ -241,17 +251,17 @@ export class PayrollDetail implements OnInit {
         this.visible = true
     }
 
-    sign(data : FormGroup) {
+    sign(data: FormGroup) {
         this.signature.signatureBase64 = data.get('signatureContent')?.getRawValue()
         this.confirmSignVisible = true
     }
 
     submitSign() {
-        if(this.pickedDetailId){
+        if (this.pickedDetailId) {
             firstValueFrom(this.payrollService.setSignatureOnPayrollDetail(this.pickedDetailId, this.signature)).then(
                 res => {
-                    if(res.ver) {
-                        this.messageService.add({severity: 'success', summary:'success', detail: res.message})
+                    if (res.ver) {
+                        this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
                         this.init()
                     }
                 }
@@ -268,7 +278,7 @@ export class PayrollDetail implements OnInit {
         }, 1);
     }
 
-    exportFinalReport(){
+    exportFinalReport() {
         window.location.href = `http://localhost:8080/reports/${this.payrollId}`;
     }
 }

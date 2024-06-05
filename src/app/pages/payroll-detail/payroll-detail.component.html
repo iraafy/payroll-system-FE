@@ -42,6 +42,9 @@
             </p-button>
         </div>
     </div>
+    <div class="grid justify-content-center align-items-center" *ngIf="payrollSize === 0">
+        <img src="assets/images/no-data.gif" width="30%" alt="">
+    </div>
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">
@@ -59,7 +62,7 @@
                                         </div>
                                         <div class="md:col-2 col-12 flex md:justify-content-end justify-content-start"
                                             *ngIf="isPS && payroll.forClient">
-                                            <p-button (click)="showDialogPing()" class="rounded-3"
+                                            <p-button *ngIf="!payroll.psAcknowledge" (click)="showDialogPing()" class="rounded-3"
                                                 styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-red-500 font-bold">
                                                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1rem"
                                                     height="1rem" viewBox="0 0 24 24">
@@ -77,14 +80,14 @@
                                             (click)="onPreview(payroll.id)"></p-button>
                                         <p-button (click)="showDialogSignature(payroll.id)" label="Tanda Tangan"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
-                                            *ngIf="isPS && payroll.filePath && !payroll.psAcknowledge"></p-button>
+                                            *ngIf="isPS && payroll.filePath && !payroll.psAcknowledge && payroll.clientAcknowledge"></p-button>
                                         <p-button (click)="downloadVisible=true" label="Unduh"
                                             styleClass="text-center mr-3 bg-color-primary rounded-3 border-none text-sm font-bold"
-                                            *ngIf="((isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)) && payroll.psAcknowledge"></p-button>
+                                            *ngIf="(isClient && payroll.filePath && !payroll.forClient) || (((isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)) && payroll.psAcknowledge)">
+                                        </p-button>
                                         <p-button (click)="showClientSignature(payroll.clientAcknowledge.toString())" label="Lihat Tanda Tangan"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="((isPS && payroll.clientAcknowledge) || (payroll.clientAcknowledge && !payroll.forClient))"></p-button>
-
                                         <p-dialog header="Konfirmasi" [(visible)]="downloadVisible"
                                             [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
                                             [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
@@ -108,7 +111,7 @@
                                                 (onUpload)="fileUpload($event, payroll.id)" [multiple]="false"
                                                 styleClass="responsive-file-upload" accept=".pdf,.doc,.docx,.xls,.xlsx"
                                                 [maxFileSize]="3145728"
-                                                *ngIf="isPS && !payroll.forClient && !payroll.filePath || isClient && !payroll.filePath && payroll.forClient">
+                                                *ngIf="isPS && !payroll.forClient && !payroll.filePath || isClient && !payroll.filePath && payroll.forClient && (payroll.filePath?false:true)">
                                             </p-fileUpload>
                                         </div>
                                         <!-- SUDAH UPLOAD -->
@@ -124,7 +127,8 @@
                                                         (click)="onPreview(payroll.id)"></p-button>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <p-button (click)="showDialogSignature(payroll.id)" [disabled]="payroll.psAcknowledge && payroll.clientAcknowledge"
+                                                    <p-button (click)="showDialogSignature(payroll.id)"
+                                                        [disabled]="payroll.psAcknowledge && payroll.clientAcknowledge"
                                                         styleClass="bg-color-primary" label="Tanda Tangan" />
                                                 </div>
                                             </div>
@@ -154,12 +158,8 @@
                                                     d="M928 224H768v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H548v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H328v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H96c-17.7 0-32 14.3-32 32v576c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V256c0-17.7-14.3-32-32-32M424 688c0 4.4-3.6 8-8 8H232c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h184c4.4 0 8 3.6 8 8zm0-136c0 4.4-3.6 8-8 8H232c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h184c4.4 0 8 3.6 8 8zm374.5-91.3l-165 228.7a15.9 15.9 0 0 1-25.8 0L493.5 531.2c-3.8-5.3 0-12.7 6.5-12.7h54.9c5.1 0 9.9 2.5 12.9 6.6l52.8 73.1l103.7-143.7c3-4.2 7.8-6.6 12.9-6.6H792c6.5.1 10.3 7.5 6.5 12.8" />
                                             </svg> Reschedule
                                         </p-button>
-                                        <!-- <p-button class="col" (click)="exportFinalReport()"
-                                            *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && payroll.forClient">Download
-                                            Report 
-                                        </p-button> -->
                                         <p-button
-                                            *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && payroll.forClient"
+                                            *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && !payroll.forClient"
                                             (click)="exportFinalReport()" class="rounded-3"
                                             styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-color-primary font-bold">
                                             Unduh Laporan

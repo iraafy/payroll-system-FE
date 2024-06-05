@@ -94,6 +94,18 @@ textarea:focus-visible {
     width: 40rem;
 }
 
+.mb-9 {
+    margin-bottom: 7rem;
+}
+
+.chat {
+    height: 100%;
+}
+
+/* .pr-chat {
+    padding-right: 65rem !important;
+} */
+
 .border-b {
     border-bottom: 0.5px solid rgb(203, 203, 203);
 }

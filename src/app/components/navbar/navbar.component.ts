@@ -180,6 +180,13 @@ export class Navbar {
                 this.received = res
             }
         )
+
+        setTimeout(() => {
+            document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+            document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+
+            console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
+        }, 1);
     }
 
     closeChat() {
@@ -297,6 +304,8 @@ export class Navbar {
 
         this.text = null
         this.chat.get('message')?.patchValue(null)
+        document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
     }
 
     private formatDate(date: string | Date, format: string): string {

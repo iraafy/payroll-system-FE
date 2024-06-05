@@ -56,10 +56,7 @@ export class UserAdd implements OnInit {
         firstValueFrom(this.companyService.getAllCompany()).then(
             res => {
                 this.companies = res
-            },
-            // err => {
-            //     this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
-            // }
+            }
         )
     }
 
@@ -67,10 +64,7 @@ export class UserAdd implements OnInit {
         firstValueFrom(this.rolesService.getAllRoles()).then(
             res => {
                 this.roles = res
-            },
-            // err => {
-            //     this.messageService.add({ severity: 'error', summary: 'Error', detail: err })
-            // }
+            }
         )
     }
 
@@ -99,11 +93,11 @@ export class UserAdd implements OnInit {
         const userReq: UserReqDto = this.userForm.getRawValue()
         firstValueFrom(this.userService.saveUser(userReq)).then(
             res => {
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Berhasil Menambahkan user' })
+                this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Berhasil Menambahkan user' })
                 this.router.navigateByUrl('/users')
             },
             err => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: err['message'] })
+                this.messageService.add({ severity: 'error', summary: 'Gagal', detail: err['message'] })
             }
         )
     }

@@ -75,14 +75,17 @@
                                             styleClass="text-center mr-3 rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath || payroll.filePath && !payroll.forClient"
                                             (click)="onPreview(payroll.id)"></p-button>
-                                        <p-button (click)="showDialogSignature(payroll.id)" label="TTD"
+                                        <p-button (click)="showDialogSignature(payroll.id)" label="Tanda Tangan"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath && !payroll.psAcknowledge"></p-button>
                                         <p-button (click)="downloadVisible=true" label="Unduh"
-                                            styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
+                                            styleClass="text-center mr-3 bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="((isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)) && payroll.psAcknowledge"></p-button>
+                                        <p-button (click)="showClientSignature(payroll.clientAcknowledge.toString())" label="Lihat Tanda Tangan"
+                                            styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
+                                            *ngIf="((isPS && payroll.clientAcknowledge) || (payroll.clientAcknowledge && !payroll.forClient))"></p-button>
 
-                                        <p-dialog header="Konfirmasi Download File!!" [(visible)]="downloadVisible"
+                                        <p-dialog header="Konfirmasi" [(visible)]="downloadVisible"
                                             [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
                                             [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
                                             <p>
@@ -159,7 +162,7 @@
                                             *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && payroll.forClient"
                                             (click)="exportFinalReport()" class="rounded-3"
                                             styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-color-primary font-bold">
-                                            Download Report
+                                            Unduh Laporan
                                         </p-button>
                                         <p-dialog header="Reschedule" [(visible)]="rescheduleVisible" [modal]="true"
                                             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
@@ -227,7 +230,7 @@
     <app-signature-pad (signature)="sign($event); signatureVisible = false;"></app-signature-pad>
 </p-dialog>
 
-<p-dialog header="Konfirmasi PING!!" [(visible)]="pingVisible" [modal]="true"
+<p-dialog header="Konfirmasi" [(visible)]="pingVisible" [modal]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
     [resizable]="false">
     <p>
@@ -248,8 +251,8 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Konfirmasi Tanda Tangan" [(visible)]="confirmSignVisible" [modal]="true"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
+<p-dialog header="Konfirmasi" [(visible)]="confirmSignVisible" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false" closable="false"
     [resizable]="false">
     <p>
         Apakah Anda yakin untuk menandatangani ?
@@ -257,5 +260,15 @@
     <div class="flex justify-content-end">
         <p-button label="Batal" severity="secondary" (click)="confirmSignVisible = false; signatureVisible = true;" />
         <p-button label="Ya" (click)="submitSign(); confirmSignVisible= false;" styleClass="ml-2 bg-color-primary" />
+    </div>
+</p-dialog>
+
+<p-dialog header="Tanda Tangan Client" [(visible)]="showSign" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
+    [resizable]="false">
+    <div class="flex justify-content-center">
+        <p>
+            <img id="clientSign">
+        </p>
     </div>
 </p-dialog>

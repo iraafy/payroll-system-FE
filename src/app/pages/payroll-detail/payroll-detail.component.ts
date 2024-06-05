@@ -31,6 +31,7 @@ export class PayrollDetail implements OnInit {
     pingVisible: boolean = false
     downloadVisible: boolean = false
     spin : boolean = false
+    showSign : boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
     payrollDetails?: Observable<PayrollDetailResDto[]>
@@ -253,12 +254,18 @@ export class PayrollDetail implements OnInit {
                         this.messageService.add({severity: 'success', summary:'success', detail: res.message})
                         this.init()
                     }
-                },
-                err => {
-
                 }
             )
         }
+    }
+
+    showClientSignature(data : string){
+        this.showSign = true
+        setTimeout(() => {
+            const img = document.getElementById("clientSign")
+            console.log(img)
+            img?.setAttribute("src", "data:image/png;base64, "+data)
+        }, 1);
     }
 
     exportFinalReport(){

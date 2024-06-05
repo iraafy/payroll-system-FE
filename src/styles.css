@@ -55,6 +55,10 @@ a > .p-icon-wrapper {
     width: 2rem;
 }
 
+.nav-icon-dd { 
+    width: 1.3rem;
+}
+
 .home-icon {
     width: 7rem;
 }

@@ -36,6 +36,7 @@ export class PayrollDetail implements OnInit {
     payrollId: string | null = ''
     clientId: string | null = ''
     payrollDetails?: Observable<PayrollDetailResDto[]>
+    payrollSize: number = 0
     payrolls?: PayrollResDto
     payrollLoop = [1]
     companyLogos: string[] = []
@@ -98,7 +99,8 @@ export class PayrollDetail implements OnInit {
                             items.forEach((item) => {
                                 const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
                                 item.maxUploadDate = formattedDate;
-                            });
+                                this.payrollSize++;
+                        });
                         })
                     )
             }

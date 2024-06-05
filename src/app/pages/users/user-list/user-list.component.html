@@ -13,10 +13,10 @@
     </div>
     <div class="shadow-3 p-5">
         <p-table 
-            [value]="users"
-            [paginator]="true"
+            [value]="users" 
+            [paginator]="true" 
             [rows]="5"
-            [tableStyle]="{ 'min-width': '50rem' , 'margin-bottom': '2rem'}"
+            [tableStyle]="{ 'min-width': '50rem', 'margin-bottom': '2rem' }"
         >
             <ng-template pTemplate="header">
                 <tr>
@@ -34,6 +34,13 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.companyName }}</td>
                     <td>{{ user.roleName }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Tidak ada data pengguna
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

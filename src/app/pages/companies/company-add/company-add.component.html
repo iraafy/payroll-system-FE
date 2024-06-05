@@ -40,7 +40,7 @@
                             <label for="file" class="form-label fw-semibold">Logo Perusahaan</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full bg-gray-100" pInputText (change)="fileUpload($event)" />
+                            <input type="file" id="file" class="w-full bg-gray-100" pInputText (change)="fileUpload($event)" accept=".jpg,.jpeg,.png" />
                         </div>
                     </div>
                     <p-button routerLink="/companies" type="button" severity="secondary">Batal</p-button>

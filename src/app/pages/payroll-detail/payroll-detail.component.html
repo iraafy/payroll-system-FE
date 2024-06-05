@@ -53,6 +53,7 @@
                                 class="border-2 shadow-3 border-dashed p-4 surface-border border-round surface-ground font-medium">
                                 <div>
                                     <div class="grid" *ngIf="isPS">
+
                                         <div class="md:mt-0 mt-3 md:col-10 col-12 md:flex-order-0 flex-order-1">
                                             <b>Data_Karyawan.xlsx</b>
                                         </div>
@@ -72,8 +73,9 @@
                                     <div class="grid mt-2 pl-1">
                                         <p-button severity="secondary" label="Pratinjau"
                                             styleClass="text-center mr-3 rounded-3 border-none text-sm font-bold"
-                                            *ngIf="(isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)" (click)="onPreview(payroll.id)"></p-button>
-                                        <p-button (click)="showDialogSignature(payroll.id)" label="Tanda Tangan"
+                                            *ngIf="isPS && payroll.filePath || payroll.filePath && !payroll.forClient"
+                                            (click)="onPreview(payroll.id)"></p-button>
+                                        <p-button (click)="showDialogSignature(payroll.id)" label="TTD"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath && !payroll.psAcknowledge"></p-button>
                                         <p-button (click)="downloadVisible=true" label="Unduh"
@@ -115,10 +117,11 @@
                                                 <div class="col-auto md:mb-0 mb-3 mr-2">
                                                     <!-- <p-fileUpload mode="basic" styleClass="bg-gray-500 mr-2"
                                                         chooseLabel="Unggah" name="file" maxFileSize="3145728" /> -->
-                                                        <!-- <p-button (click)="onPreview(payroll.id)" severity="secondary" label="Preview" /> -->
-                                                        <p-button severity="secondary" label="Pratinjau"
-                                                            styleClass="text-center mr-1"
-                                                            *ngIf="isClient && payroll.filePath || payroll.filePath && payroll.forClient" (click)="onPreview(payroll.id)"></p-button>
+                                                    <!-- <p-button (click)="onPreview(payroll.id)" severity="secondary" label="Preview" /> -->
+                                                    <p-button severity="secondary" label="Pratinjau"
+                                                        styleClass="text-center mr-2"
+                                                        *ngIf="isClient && payroll.filePath || payroll.filePath && payroll.forClient"
+                                                        (click)="onPreview(payroll.id)"></p-button>
                                                 </div>
                                                 <div class="col-auto">
                                                     <p-button (click)="showDialogSignature(payroll.id)" [disabled]="payroll.psAcknowledge && payroll.clientAcknowledge"
@@ -141,15 +144,25 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="md:col-2 col-12 flex md:justify-content-end justify-content-start"
-                                        *ngIf="isClient && payroll.forClient">
-                                        <p-button (click)="showDialogReschedule(payroll.id)" class="rounded-3"
+                                    <div class="md:col-2 col-12 flex md:justify-content-end justify-content-start">
+                                        <p-button *ngIf="isClient && payroll.forClient"
+                                            (click)="showDialogReschedule(payroll.id)" class="rounded-3"
                                             styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-color-primary font-bold">
                                             <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem"
                                                 height="1.5rem" viewBox="0 0 1024 1024">
                                                 <path fill="#012B30"
                                                     d="M928 224H768v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H548v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H328v-56c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v56H96c-17.7 0-32 14.3-32 32v576c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V256c0-17.7-14.3-32-32-32M424 688c0 4.4-3.6 8-8 8H232c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h184c4.4 0 8 3.6 8 8zm0-136c0 4.4-3.6 8-8 8H232c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h184c4.4 0 8 3.6 8 8zm374.5-91.3l-165 228.7a15.9 15.9 0 0 1-25.8 0L493.5 531.2c-3.8-5.3 0-12.7 6.5-12.7h54.9c5.1 0 9.9 2.5 12.9 6.6l52.8 73.1l103.7-143.7c3-4.2 7.8-6.6 12.9-6.6H792c6.5.1 10.3 7.5 6.5 12.8" />
                                             </svg> Reschedule
+                                        </p-button>
+                                        <!-- <p-button class="col" (click)="exportFinalReport()"
+                                            *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && payroll.forClient">Download
+                                            Report 
+                                        </p-button> -->
+                                        <p-button
+                                            *ngIf="isPS && !payroll.forClient && !payroll.filePath || isPS && !payroll.filePath && payroll.forClient"
+                                            (click)="exportFinalReport()" class="rounded-3"
+                                            styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-color-primary font-bold">
+                                            Download Report
                                         </p-button>
                                         <p-dialog header="Reschedule" [(visible)]="rescheduleVisible" [modal]="true"
                                             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
@@ -158,7 +171,8 @@
                                                 (ngSubmit)="onSubmitCreateReschdule()">
                                                 <div class="mb-3">
                                                     <div class="mb-2">
-                                                        <label for="date" class="form-label fw-semibold">Jadwal Saat Ini</label>
+                                                        <label for="date" class="form-label fw-semibold">Jadwal Saat
+                                                            Ini</label>
                                                     </div>
                                                     <div>
                                                         <input type="date" id="date" class="w-full bg-gray-100"
@@ -167,20 +181,28 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="mb-2">
-                                                        <label for="date" class="form-label fw-semibold">Jadwal Baru <span class="text-red-500">*</span></label>
+                                                        <label for="date" class="form-label fw-semibold">Jadwal Baru
+                                                            <span class="text-red-500">*</span></label>
                                                     </div>
                                                     <div>
-                                                        <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="newScheduleDate" />
-                                                        <div *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].invalid && rescheduleReqDtoFg.controls['newScheduleDate'].dirty" class="text-red-500 text-xs">
-                                                            <p *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].errors">
-                                                                {{rescheduleReqDtoFg.controls['newScheduleDate'].hasError('required') ? 'Jadwal baru wajib diisi' : ''}}
+                                                        <input type="date" id="date" class="w-full bg-gray-100"
+                                                            pInputText formControlName="newScheduleDate" />
+                                                        <div *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].invalid && rescheduleReqDtoFg.controls['newScheduleDate'].dirty"
+                                                            class="text-red-500 text-xs">
+                                                            <p
+                                                                *ngIf="rescheduleReqDtoFg.controls['newScheduleDate'].errors">
+                                                                {{rescheduleReqDtoFg.controls['newScheduleDate'].hasError('required')
+                                                                ? 'Jadwal baru wajib diisi' : ''}}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="mt- flex justify-content-end">
-                                                    <p-button label="Batal" severity="secondary" (click)="rescheduleVisible = false" />
-                                                    <p-button type="submit" label="Simpan" [disabled]="rescheduleReqDtoFg.invalid" styleClass="ml-2 bg-color-primary" />
+                                                    <p-button label="Batal" severity="secondary"
+                                                        (click)="rescheduleVisible = false" />
+                                                    <p-button type="submit" label="Simpan"
+                                                        [disabled]="rescheduleReqDtoFg.invalid"
+                                                        styleClass="ml-2 bg-color-primary" />
                                                 </div>
                                             </form>
                                         </p-dialog>
@@ -198,8 +220,6 @@
         </ng-container>
     </div>
 </div>
-
-<p-button>report</p-button>
 
 <p-dialog header="Tanda Tangani" [(visible)]="signatureVisible" [modal]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
@@ -227,7 +247,7 @@
         <p-progressSpinner ariaLabel="loading" />
     </div>
     <div class="flex justify-content-center" *ngFor="let p of pages; let i = index">
-        <canvas class="flex "  id="{{'pdfCanvas-'+(i+1)}}"></canvas>
+        <canvas class="flex " id="{{'pdfCanvas-'+(i+1)}}"></canvas>
     </div>
 </p-dialog>
 

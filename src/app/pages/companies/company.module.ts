@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CompanyAdd } from "./company-add/company-add.component";
+import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from "primeng/toast";
 import { MessageService } from "primeng/api";
 import { DialogModule } from "primeng/dialog";
@@ -27,6 +28,7 @@ import { DialogModule } from "primeng/dialog";
         ButtonModule,
         InputTextModule,
         InputNumberModule,
+        InputMaskModule,
         FileUploadModule,
         ToastModule,
         DialogModule

@@ -37,9 +37,8 @@
             <full-calendar class="h-30rem" [options]="calendarOptions"></full-calendar>
         </div>
         <div class="md:col-6 col-12 p-0 h-30rem md:pl-5 pl-0">
-            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-50" placeholder="Cari Payroll"
-                (keyup)="onKeyUp($event)" />
-            <div class="grid">
+            <input type="text" pInputText class="mb-5 md:mt-0 mt-5 w-full bg-gray-50" placeholder="Cari Payroll" (keyup)="onKeyUp($event)" />
+            <div class="grid" *ngIf="payrolls.length > 0">
                 <div *ngFor="let payroll of payrolls" class="col-12 md:col-6 p-2 cursor-pointer "
                     routerLink="/payrolls/{{payroll.id}}">
                     <div class="content p-3 pb-2 custom-small-shadow">
@@ -47,6 +46,9 @@
                         <p>{{payroll.scheduleDate}}</p>
                     </div>
                 </div>
+            </div>
+            <div class="grid justify-content-center align-items-center" *ngIf="payrolls.length === 0">
+                <img src="assets/images/no-data.gif" width="40%" alt="">
             </div>
         </div>
     </div>

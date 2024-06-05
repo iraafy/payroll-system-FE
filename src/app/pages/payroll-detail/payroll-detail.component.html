@@ -42,6 +42,9 @@
             </p-button>
         </div>
     </div>
+    <div class="grid justify-content-center align-items-center" *ngIf="payrollSize === 0">
+        <img src="assets/images/no-data.gif" width="30%" alt="">
+    </div>
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">

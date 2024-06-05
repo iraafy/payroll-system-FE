@@ -22,6 +22,7 @@ export class UserAdd implements OnInit {
             Validators.email
         ]],
         fullName: ['', [Validators.required, this.noWhitespaceValidator]],
+        phone: ['', [Validators.required]],
         roleId: ['', [Validators.required]],
         companyId: ['', [Validators.required]],
         fileContent: [''],
@@ -91,6 +92,7 @@ export class UserAdd implements OnInit {
 
     createUser() {
         const userReq: UserReqDto = this.userForm.getRawValue()
+        console.log(this.userForm.get('phone')?.getRawValue())
         firstValueFrom(this.userService.saveUser(userReq)).then(
             res => {
                 this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Berhasil Menambahkan user' })

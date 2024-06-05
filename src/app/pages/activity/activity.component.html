@@ -33,7 +33,7 @@
                             </textarea>
                             <div *ngIf="activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty" class="text-red-500 text-xs">
                                 <p *ngIf="activityReqDtoFg.controls['description'].errors">
-                                    {{activityReqDtoFg.controls['description'].hasError('required') ? 'Deskripsi aktivitas wajib diisi' : ''}}
+                                    {{activityReqDtoFg.controls['description'].hasError('required') ? 'Deskripsi aktivitas wajib diisi' : (activityReqDtoFg.controls['description'].hasError('whitespace') ? 'Deskripsi aktivitas wajib diisi dengan huruf/angka' : '')}}
                                 </p>
                             </div>
                         </div>

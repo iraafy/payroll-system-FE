@@ -61,7 +61,8 @@ export class ClientAssignment implements OnInit {
                 this.assignments = res;
                 res.forEach((assignment, i) => {
                     this.companyLogos[i] = assignment.clients.map((client: { companyLogo: any; }) => 
-                        `${BASE_URL}/files/file/${client.companyLogo}`);
+                        client.companyLogo? `${BASE_URL}/files/file/${client.companyLogo}` : 'assets/images/icon/company.svg'
+                );
                 });
             }
         )

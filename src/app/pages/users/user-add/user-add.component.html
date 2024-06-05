@@ -82,7 +82,7 @@
                             <label for="file" class="form-label fw-semibold">Foto Profil</label>
                         </div>
                         <div>
-                            <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" />
+                            <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" accept=".jpg,.jpeg,.png" />
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>

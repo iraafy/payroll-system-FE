@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="md:col-6 col-12 flex justify-content-end p-0" *ngIf="isPS">
+        <div class="md:col-6 col-12 flex justify-content-end p-0 md:mt-0 mt-4" *ngIf="isPS">
             <p-button (click)="showDialogPayroll()" class="rounded-3"
                 styleClass="custom-small-shadow border-none bg-color-primary">
                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 256 256">
@@ -84,7 +84,7 @@
             </div>
             <div class="mt-5 flex justify-content-end">
                 <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
-                <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" />
+                <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" [disabled]="payrollReqDtoFg.invalid" />
             </div>
         </form>
 </p-dialog>

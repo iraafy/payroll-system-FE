@@ -14,14 +14,14 @@
     </ng-template>
     <ng-template pTemplate="end">
         <ng-container>
-            <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5" *ngIf="isPS">
-            <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5"
+            <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5 cursor-pointer" *ngIf="isPS">
+            <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5 cursor-pointer"
                 *ngIf="!isAdmin">
             <i class="text-2xl" severity="warning" pBadge value={{notificationCount}} *ngIf="!isAdmin && notificationCount > 0"></i>
-            <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5"
+            <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5 cursor-pointer"
                 *ngIf="!isAdmin">
             <img [src]="photoProfile" (click)="profile.toggle($event)"
-                class="nav-icon md:mr-7 mr-3 cursor-pointer rounded-img">
+                class="nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
         </ng-container>
     </ng-template>
 </p-menubar>
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        <div class="sticky bottom-0 z-5 w-full bottom-0 p-3 pb-2 bg-white custom-small-shadow">
+        <div class="sticky bottom-0 z-5 w-full p-3 pb-2 bg-white custom-small-shadow">
             <form [formGroup]="chat" (submit)="sendMessage()">
                 <div class="grid">
                     <div class="col-10">

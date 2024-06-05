@@ -38,8 +38,21 @@ body {
     font-size: 32px;
 }
 
+a > .p-icon-wrapper {
+    color: white !important;
+}
+
+
+.p-menubar-button:hover {
+  background-color: transparent !important;
+}
+
+.p-menubar-button:focus {
+  box-shadow: none;
+}
+
 .nav-icon {
-    width: 1.5rem;
+    width: 2rem;
 }
 
 .home-icon {

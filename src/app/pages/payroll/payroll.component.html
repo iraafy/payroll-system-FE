@@ -86,7 +86,7 @@
             </div>
             <div class="mt-5 flex justify-content-end">
                 <p-button label="Batal" severity="secondary" (click)="createPayrollVisible = false" />
-                <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" />
+                <p-button label="Simpan" type="submit" styleClass="ml-2 bg-color-primary" [disabled]="payrollReqDtoFg.invalid" />
             </div>
         </form>
 </p-dialog>

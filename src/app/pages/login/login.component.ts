@@ -43,7 +43,7 @@ export class Login {
                 },
                 (err) => {
                     if (err['status']) {
-                        err['status'] === 403 && this.messageService.add({severity: 'warn', summary:'warn', detail: 'Email atau password salah'})
+                        err['status'] === 403 && this.messageService.add({severity: 'warn', summary:'Peringatan', detail: 'Email atau password salah'})
                     }
                 }
             )

@@ -172,7 +172,7 @@ export class Payroll implements OnInit {
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(
 				res => {
-					this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+					this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message });
 					this.createPayrollVisible = false;
 					this.init();
 

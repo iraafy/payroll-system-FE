@@ -93,7 +93,7 @@ export class Profile implements OnInit {
         const changeName = this.changeNameFb.getRawValue()
         firstValueFrom(this.userService.changeUserName(changeName.newName)).then(
             res => {
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message });
                 this.displayModal = false
                 this.setLocalStorage()
             }
@@ -104,7 +104,7 @@ export class Profile implements OnInit {
         const changeProfilePicReqDto = this.changeProfilePicReqDtoFg.getRawValue();
         firstValueFrom(this.userService.changeProfilePic(changeProfilePicReqDto)).then(
             res => {
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+                this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message });
                 this.setLocalStorage();
             }
         )

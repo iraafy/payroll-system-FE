@@ -41,15 +41,15 @@ export class ChangePassword {
                     };
                     firstValueFrom(this.userService.changePassword(userData)).then(res => {
                         if (res.message === 'Gagal mengubah kata sandi :(') {
-                            this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Kata Sandi Lama Tidak Sesuai' });
+                            this.messageService.add({ severity: 'warn', summary: 'Peringatan', detail: 'Kata Sandi Lama Tidak Sesuai' });
                         } else {
                             localStorage.clear();
                             this.router.navigateByUrl('/login');
-                            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Kata Sandi Berhasil Diubah' });
+                            this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Kata Sandi Berhasil Diubah' });
                         }
                     });
                 } else {
-                    this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Konfirmasi Kata Sandi Tidak Sesuai' });
+                    this.messageService.add({ severity: 'warn', summary: 'Peringatan', detail: 'Konfirmasi Kata Sandi Tidak Sesuai' });
                 }
             }
         }

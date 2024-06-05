@@ -49,6 +49,9 @@ export class Activity {
     });
 
     onSubmit(): void {
+        if(this.checked == false){
+            this.activityReqDtoFg.get('maxUploadDate')?.patchValue(new Date().toISOString());
+        }
         const payrollDetailReqDto = this.activityReqDtoFg.value as any;
         firstValueFrom(this.payrollService.createNewPayrollDetail(payrollDetailReqDto, this.payrollId)).then(
             res => {

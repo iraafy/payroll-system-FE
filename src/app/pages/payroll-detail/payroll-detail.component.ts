@@ -262,6 +262,6 @@ export class PayrollDetail implements OnInit {
     }
 
     exportFinalReport(){
-        // window.location.href = `http://localhost:8080/reports/ftp/${fileName}`;
+        window.location.href = `http://localhost:8080/reports/${this.payrollId}`;
     }
 }

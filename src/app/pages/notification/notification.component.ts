@@ -14,6 +14,8 @@ export class Notification implements OnInit{
 	confirmationVisible: boolean = false;
 	payrollId: string | null = '';
 	notification: NotificationResDto[] = []
+	newBadge: boolean[] = [];
+	notificationCount: number = 0;
 
 	constructor(
 		private activeRoute: ActivatedRoute,
@@ -27,13 +29,20 @@ export class Notification implements OnInit{
 	}
 
 	init() {
+		this.notificationService.currentNotificationCount.subscribe(notif => {
+            this.notificationCount = notif;
+        });
+
         firstValueFrom(this.notificationService.getAllNotification()).then(
             res => {
                 this.notification = res;
+				console.log(this.notification);
 				this.notification.forEach((item) => {
+					this.newBadge = this.notification.map((item) => {
+						return item.isActive;
+					});
 					item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
 				})
-				
             }
         );
     }
@@ -45,4 +54,14 @@ export class Notification implements OnInit{
 	private formatDate(date: string | Date, format: string): string {
 		return this.datePipe.transform(date, format)!;
 	}
+
+	isRead(id: string){
+		console.log(id);
+        firstValueFrom(this.notificationService.readNotification(id)).then(
+            res => {
+                this.notificationService.changeNotification(this.notificationCount - 1, true);
+				console.log(res);
+            }
+        )
+    }
 }

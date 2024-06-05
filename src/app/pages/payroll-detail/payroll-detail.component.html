@@ -77,10 +77,10 @@
                                             (click)="onPreview(payroll.id)"></p-button>
                                         <p-button (click)="showDialogSignature(payroll.id)" label="TTD"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
-                                            *ngIf="isPS && payroll.filePath"></p-button>
+                                            *ngIf="isPS && payroll.filePath && !payroll.psAcknowledge"></p-button>
                                         <p-button (click)="downloadVisible=true" label="Unduh"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
-                                            *ngIf="isPS && payroll.filePath || payroll.filePath && !payroll.forClient"></p-button>
+                                            *ngIf="((isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)) && payroll.psAcknowledge"></p-button>
 
                                         <p-dialog header="Konfirmasi Download File!!" [(visible)]="downloadVisible"
                                             [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
@@ -121,13 +121,13 @@
                                                         (click)="onPreview(payroll.id)"></p-button>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <p-button (click)="showDialogSignature(payroll.id)"
+                                                    <p-button (click)="showDialogSignature(payroll.id)" [disabled]="payroll.psAcknowledge && payroll.clientAcknowledge"
                                                         styleClass="bg-color-primary" label="Tanda Tangan" />
                                                 </div>
                                             </div>
                                             <p class="mt-4 font-bold">
                                                 Data_Karyawan.xlsx
-                                                <span>
+                                                <span *ngIf="payroll.psAcknowledge">
                                                     <p-chip
                                                         styleClass="bg-green-700 text-white text-xs ml-2 py-1 px-3 mt-3 mb:mt-0">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="mr-2"

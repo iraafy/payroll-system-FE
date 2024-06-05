@@ -2,8 +2,8 @@
     <h2 class="font-bold mb-5">
         Semua Notifikasi
     </h2>
-    <div class="border-b mt-3 cursor-pointer" routerLink="{{notif.contextUrl}}" *ngFor="let notif of notification">
-        <p class="text-sm font-semibold mb-1">{{notif.createdAt}} <span><p-badge *ngIf="notif.isActive" [value]="'Baru'" severity="info" /></span></p>
+        <div class="border-b mt-3 cursor-pointer" routerLink="{{notif.contextUrl}}" *ngFor="let notif of notification let i = index" (click)="isRead(notif.id)">
+        <p class="text-sm font-semibold mb-1">{{notif.createdAt}} <span><p-badge *ngIf="newBadge[i]" [value]="'Baru'" severity="info" /></span></p>
         <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
     </div>
 </div>

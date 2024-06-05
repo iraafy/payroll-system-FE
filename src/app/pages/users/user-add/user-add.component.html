@@ -17,7 +17,7 @@
                                     <input type="text" class="w-full" id="name" pInputText formControlName="fullName">
                                     <div *ngIf="userForm.controls['fullName'].invalid && userForm.controls['fullName'].dirty" class="text-red-500 text-xs">
                                         <p *ngIf="userForm.controls['fullName'].errors">
-                                            {{userForm.controls['fullName'].hasError('required') ? 'Nama wajib diisi' : ''}}
+                                            {{userForm.controls['fullName'].hasError('required') ? 'Nama wajib diisi' : (userForm.controls['fullName'].hasError('whitespace') ? 'Nama Lengkap wajib berisi angka/huruf' : '')}}
                                         </p>
                                     </div>
                                 </div>

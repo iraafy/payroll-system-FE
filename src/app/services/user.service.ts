@@ -14,6 +14,8 @@ import { BehaviorSubject } from "rxjs"
     providedIn: 'root'
 })
 export class UserService {
+    private profileImageSource = new BehaviorSubject<string>('https://cdn-icons-png.flaticon.com/512/5987/5987424.png');
+    currentProfileImage = this.profileImageSource.asObservable();
 
     constructor(private http: HttpClient, private base : BaseService) { }
 
@@ -53,8 +55,6 @@ export class UserService {
         return this.base.patch<UpdateResDto>(`users/changeUserName/${newName}`, {})
     }
 
-    private profileImageSource = new BehaviorSubject<string>('default-image-url');
-    currentProfileImage = this.profileImageSource.asObservable();
     changeProfileImage(imageUrl: string) {
         this.profileImageSource.next(imageUrl);
     }

@@ -17,8 +17,7 @@
             <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5" *ngIf="isPS">
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5"
                 *ngIf="!isAdmin">
-            <i class="text-2xl" severity="warning" pBadge value={{notificationCount}}
-                *ngIf="!isAdmin && notification.length > 0"></i>
+            <i class="text-2xl" severity="warning" pBadge value={{notificationCount}} *ngIf="!isAdmin && notificationCount > 0"></i>
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5"
                 *ngIf="!isAdmin">
             <img [src]="photoProfile" (click)="profile.toggle($event)"
@@ -86,8 +85,8 @@
 </p-sidebar>
 
 <p-overlayPanel #notif styleClass="w-20rem">
-    <div class="border-b mt-3 cursor-pointer" routerLink="/{{notif.contextUrl}}" *ngFor="let notif of notification" (click)="isRead(notif.id)">
-        <p class="text-sm font-semibold mb-1">{{notif.createdAt}} <span><p-badge *ngIf="notif.isActive" [value]="'Baru'" severity="info" /></span></p>
+    <div class="border-b mt-3 cursor-pointer" routerLink="/{{notif.contextUrl}}" *ngFor="let notif of notification let i = index" (click)="isRead(notif.id)">
+        <p class="text-sm font-semibold mb-1">{{notif.createdAt}} <span><p-badge *ngIf="newBadge[i]" [value]="'Baru'" severity="info" /></span></p>
         <p class="mt-0 text-sm">{{notif.notificationContent}}</p>
     </div>
     <p class="text-center font-bold text-color-primary text-sm no-underline pt-2 mt-2 mb-0 cursor-pointer"

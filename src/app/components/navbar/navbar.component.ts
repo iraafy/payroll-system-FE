@@ -83,6 +83,7 @@ export class Navbar {
     payrolls: PayrollResDto[] = [];
     clientPayrollDetails: PayrollDetailResDto[] = [];
     notificationCount: number = 0;
+    newBadge: boolean[] = [];
 
     payrollIds: any[] = [];
 
@@ -108,10 +109,6 @@ export class Navbar {
     ) { }
 
     ngOnInit() {
-        this.userService.currentProfileImage.subscribe(imageUrl => {
-            this.photoProfile = imageUrl;
-        });
-
         this.navlinks = [
             { image: 'assets/images/icon/logo.svg', route: '/homepage' },
             { label: 'Pengguna', route: '/users' },
@@ -120,6 +117,14 @@ export class Navbar {
         ]
 
         this.init()
+
+        this.userService.currentProfileImage.subscribe(imageUrl => {
+            this.photoProfile = imageUrl;
+        });
+
+        this.notificationService.currentNotificationCount.subscribe(notif => {
+            this.notificationCount = notif;
+        });
     }
 
     get isAdmin() {
@@ -201,6 +206,9 @@ export class Navbar {
             this.notification = await firstValueFrom(this.notificationService.getTop3Notification());
             this.notification.forEach((item) => {
                 item.createdAt = this.formatDate(item.createdAt, 'dd MMM yyyy HH:mm a');
+                this.newBadge = this.notification.map((item) => {
+                    return item.isActive
+                });
             });
 
             this.payrolls = await firstValueFrom(this.payrollService.getAllPayroll());
@@ -309,7 +317,10 @@ export class Navbar {
     }
 
     isRead(id: string){
-        firstValueFrom(this.notificationService.readNotification(id))    
+        firstValueFrom(this.notificationService.readNotification(id)).then(
+            res => {
+                this.notificationService.changeNotification(this.notificationCount - 1, true);
+            }
+        )
     }
-
 }

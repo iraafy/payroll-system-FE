@@ -15,6 +15,8 @@ export class CompanyAdd implements OnInit {
     companyReqDtoFg = this.fb.group({
         companyName: ['', [Validators.required, this.noWhitespaceValidator]],
         defaultPaymentDay: [Validators.required],
+        address : ['', [Validators.required]],
+        phone: ['', [Validators.required]],
         fileContent: [''],
         fileExtension: ['']
     });

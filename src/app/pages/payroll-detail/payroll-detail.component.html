@@ -123,6 +123,9 @@
                                     <div class="md:col-10 col-12 flex-order-1 md:flex-order-0">
                                         <!-- BELUM UPLOAD -->
                                         <div>
+                                            <div class="flex justify-content-center" *ngIf="spin">
+                                                <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+                                            </div>
                                             <p-fileUpload url="https://www.primefaces.org/cdn/api/upload.php"
                                                 (onUpload)="fileUpload($event, payroll.id)" [multiple]="false"
                                                 styleClass="responsive-file-upload" accept=".pdf,.doc,.docx,.xls,.xlsx"

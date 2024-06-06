@@ -36,7 +36,6 @@ export class Notification implements OnInit{
         firstValueFrom(this.notificationService.getAllNotification()).then(
             res => {
                 this.notification = res;
-				console.log(this.notification);
 				this.notification.forEach((item) => {
 					this.newBadge = this.notification.map((item) => {
 						return item.isActive;
@@ -56,11 +55,9 @@ export class Notification implements OnInit{
 	}
 
 	isRead(id: string){
-		console.log(id);
         firstValueFrom(this.notificationService.readNotification(id)).then(
             res => {
                 this.notificationService.changeNotification(this.notificationCount - 1, true);
-				console.log(res);
             }
         )
     }

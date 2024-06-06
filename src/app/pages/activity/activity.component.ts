@@ -48,10 +48,14 @@ export class Activity {
         forClient: [false],
     });
 
-    onSubmit(): void {
+    isChecked(test: boolean){
         if(this.checked == false){
             this.activityReqDtoFg.get('maxUploadDate')?.patchValue(new Date().toISOString());
         }
+    }
+
+    onSubmit(): void {
+        
         const payrollDetailReqDto = this.activityReqDtoFg.value as any;
         firstValueFrom(this.payrollService.createNewPayrollDetail(payrollDetailReqDto, this.payrollId)).then(
             res => {

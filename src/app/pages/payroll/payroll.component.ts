@@ -97,7 +97,6 @@ export class Payroll implements OnInit {
 						}
 					}else{
 						const companyPayrollDate = new Date(currentDate);
-						console.log(this.company.payrollDate);
 						companyPayrollDate.setDate(this.company.payrollDate);
 	
 						const formattedDate = this.formatDate(companyPayrollDate);
@@ -152,7 +151,6 @@ export class Payroll implements OnInit {
 						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
 						this.eventsOnCalendar.push(event);
 					})
-					// console.log(this.eventsOnCalendar)
 					this.calendarOptions.events = this.eventsOnCalendar;
 				}
 			);

@@ -1,4 +1,7 @@
 <div class="mx-4 md:mx-8 mt-7">
+    <pre>
+        {{activityReqDtoFg.value | json  }}
+    </pre>
     <div class="grid">
         <div class="col-auto">
             <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
@@ -52,7 +55,7 @@
                         </div>
                     </div>
                     <div class="mb-5 mt-3 inline-flex">
-                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" formControlName="forClient"/>
+                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" (onChange)="isChecked(checked)" formControlName="forClient"/>
                         <label for="switch" class="ml-2 pt-1">
                             Unggahan Klien
                         </label>

@@ -105,7 +105,6 @@ export class PayrollDetail implements OnInit {
 
                                 firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
                                     res => {
-                                        console.log(res)
                                         if ((res && (res.isApproved == false ))) {
                                             this.listReschedules.push(true)
                                         } else if (!res) {
@@ -116,7 +115,6 @@ export class PayrollDetail implements OnInit {
                                     }
                                 )
                             });
-                            console.log(this.listReschedules)
                         })
                     )
             }

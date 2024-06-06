@@ -73,6 +73,14 @@ a>.p-icon-wrapper {
     width: 7rem;
 }
 
+.width-700{
+    width: 700;
+}
+
+.width-300{
+    width: 300;
+}
+
 .hero-img {
     height: 24rem;
     object-fit: cover;

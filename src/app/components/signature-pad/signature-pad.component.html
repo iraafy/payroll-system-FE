@@ -2,7 +2,9 @@
   #canvas
   (touchstart)="startDrawing($event)"
   (touchmove)="moved($event)"
-  class="border-color-primary w-full h-10rem"
+  class="border-color-primary"
+  [width]="width"
+  (window:resize)="onResize()"
 ></canvas>
 <p class="error-message" *ngIf="signatureNeeded">Signature is required</p>
 

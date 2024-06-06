@@ -67,6 +67,7 @@ export class Navbar {
     sidebarVisible: boolean = false
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
+    showMessageInput : boolean = false
     navlinks: any = []
     clients: ClientAssignmentResDto[] = []
     notification: NotificationResDto[] = [];
@@ -181,18 +182,21 @@ export class Navbar {
             }
         )
 
-        setTimeout(() => {
-            document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
-            document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+        // setTimeout(() => {
+        //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+            
+        //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
+        // }, 1);
 
-            console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
-        }, 1);
+        this.showMessageInput = true
     }
 
     closeChat() {
         this.chatListVisible = true
         this.chatDetailVisible = false
         this.disconnect()
+        this.showMessageInput = false
     }
 
     logout() {
@@ -302,10 +306,10 @@ export class Navbar {
             this.sockClient.send(this.websocketService.topicChat + id, {}, JSON.stringify(newChat))
         }
 
-        this.text = null
-        this.chat.get('message')?.patchValue(null)
-        document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
-        document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+        // this.text = null
+        // this.chat.get('message')?.patchValue(null)
+        // document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        // document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
     }
 
     private formatDate(date: string | Date, format: string): string {

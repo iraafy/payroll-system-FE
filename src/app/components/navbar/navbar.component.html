@@ -62,7 +62,9 @@
                 </div>
             </div>
         </div>
-        <div class="bottom-0 z-5 w-full p-3 pb-2 pr-chat bg-white custom-small-shadow">
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="bottom-0 z-5 w-full pr-chat bg-white" *ngIf="showMessageInput">
             <form [formGroup]="chat" (submit)="sendMessage()">
                 <div class="grid">
                     <div class="col-10">
@@ -81,7 +83,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </ng-template>
 </p-sidebar>
 
 <p-overlayPanel #notif styleClass="w-20rem">

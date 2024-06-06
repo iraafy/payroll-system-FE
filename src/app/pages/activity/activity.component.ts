@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NonNullableFormBuilder, Validators } from "@angular/forms";
+import { FormControl, NonNullableFormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PayrollDetailReqDto } from "../../dto/payroll-detail/payroll-detail.req.dto";
 import { firstValueFrom } from "rxjs";
@@ -43,7 +43,7 @@ export class Activity {
 	}
 
     activityReqDtoFg = this.fb.group({
-        description: ['', Validators.required],
+        description: ['', [Validators.required, this.noWhitespaceValidator]],
         maxUploadDate: ['', Validators.required],
         forClient: [false],
     });
@@ -59,5 +59,11 @@ export class Activity {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Aktivitas berhasil terbuat' });
             }
         );
+    }
+
+    noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
     }
 }

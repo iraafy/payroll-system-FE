@@ -55,6 +55,13 @@ a>.p-icon-wrapper {
     width: 2rem;
 }
 
+.profile-nav-icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    background-color: black;
+}
+
 .home-icon {
     width: 7rem;
 }

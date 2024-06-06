@@ -21,7 +21,7 @@
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5 cursor-pointer"
                 *ngIf="!isAdmin">
             <img [src]="photoProfile" (click)="profile.toggle($event)"
-                class="nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
+                class="profile-nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
         </ng-container>
     </ng-template>
 </p-menubar>
@@ -105,7 +105,7 @@
     <div class="grid">
         <div class="col-12 p-1">
             <div class="inline-flex cursor-pointer" routerLink="/profile">
-                <img [src]="photoProfile" class="nav-icon mr-2 cursor-pointer rounded-img">
+                <img [src]="photoProfile" class="profile-nav-icon mr-2 cursor-pointer rounded-img">
                 <span>
                     Profil
                 </span>

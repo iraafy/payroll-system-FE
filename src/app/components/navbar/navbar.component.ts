@@ -333,6 +333,7 @@ export class Navbar {
         firstValueFrom(this.notificationService.readNotification(id)).then(
             res => {
                 this.notificationService.changeNotification(this.notificationCount - 1, true);
+                this.init()
             }
         )
     }

@@ -48,11 +48,11 @@
     <div class="stepper mt-5">
         <ng-container *ngIf="payrollDetails | async as pd">
             <p-stepper orientation="vertical">
-                <p-stepperPanel *ngFor="let payroll of pd; let i = index"
+                <p-stepperPanel *ngFor="let payroll of pd; let i = index" 
                     header="{{payroll.description}} [{{payroll.maxUploadDate}}]">
                     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
                         <div class="flex flex-column">
-                            <div
+                            <div 
                                 class="border-2 shadow-3 border-dashed p-4 surface-border border-round surface-ground font-medium">
                                 <div>
                                     <div class="grid" *ngIf="isPS">
@@ -149,7 +149,6 @@
                                                 </div>
                                             </div>
                                             <p class="mt-4 font-bold">
-                                                Data_Karyawan.xlsx
                                                 <span *ngIf="payroll.psAcknowledge">
                                                     <p-chip
                                                         styleClass="bg-green-700 text-white text-xs ml-2 py-1 px-3 mt-3 mb:mt-0">
@@ -165,7 +164,7 @@
                                         </div>
                                     </div>
                                     <div class="md:col-2 col-12 flex md:justify-content-end justify-content-start">
-                                        <p-button *ngIf="isClient && payroll.forClient && payroll"
+                                        <p-button *ngIf="(isClient && payroll.forClient) && (!listReschedules[i])"
                                             (click)="showDialogReschedule(payroll.id)" class="rounded-3"
                                             styleClass="shadow-3 rounded-3 border-none bg-gray-200 text-color-primary font-bold">
                                             <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="1.5rem"

@@ -22,16 +22,44 @@
                     </div>
                     <div class="mb-3">
                         <div class="mb-2">
-                            <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
+                            <label for="name" class="form-label fw-semibold">Alamat <span class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <input formControlName="defaultPaymentDay" type="number" id="date" class="w-full bg-gray-100" pInputText min="1" max="31">
-                            <div *ngIf="companyReqDtoFg.controls['defaultPaymentDay'].invalid && companyReqDtoFg.controls['defaultPaymentDay'].dirty" class="text-red-500 text-xs">
-                                <p *ngIf="companyReqDtoFg.controls['defaultPaymentDay'].errors">
-                                    {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}
-                                    {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('max') ? 'Tanggal payroll hanya bisa diisi 1-31' : ''}}
-                                    {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('min') ? 'Tanggal payroll hanya bisa diisi 1-31' : ''}}
+                            <textarea formControlName="address" class="w-full bg-gray-100" id="address" pInputText></textarea>
+                            <div *ngIf="companyReqDtoFg.controls['address'].invalid && companyReqDtoFg.controls['address'].dirty" class="text-red-500 text-xs">
+                                <p *ngIf="companyReqDtoFg.controls['address'].errors">
+                                    {{companyReqDtoFg.controls['address'].hasError('required') ? 'Nama perusahaan wajib diisi' : (companyReqDtoFg.controls['address'].hasError('whitespace') ? 'Nama Perusahaan wajib berisi angka/huruf' : '')}}
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 grid">
+                        <div class="md:col-6 col-12">
+                            <div class="mb-2">
+                                <label for="name" class="form-label fw-semibold">Nomor Telepon <span class="text-red-500">*</span></label>
+                            </div>
+                            <div>
+                                <input formControlName="phone" class="w-full bg-gray-100" id="phone" type="number" pInputText/>
+                                <div *ngIf="companyReqDtoFg.controls['phone'].invalid && companyReqDtoFg.controls['phone'].dirty" class="text-red-500 text-xs">
+                                    <p *ngIf="companyReqDtoFg.controls['phone'].errors">
+                                        {{companyReqDtoFg.controls['phone'].hasError('required') ? 'Nomor telepon perusahaan wajib diisi' : ''}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-6 col-12">
+                            <div class="mb-2">
+                                <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
+                            </div>
+                            <div>
+                                <input formControlName="defaultPaymentDay" type="number" id="date" class="w-full bg-gray-100" pInputText min="1" max="31">
+                                <div *ngIf="companyReqDtoFg.controls['defaultPaymentDay'].invalid && companyReqDtoFg.controls['defaultPaymentDay'].dirty" class="text-red-500 text-xs">
+                                    <p *ngIf="companyReqDtoFg.controls['defaultPaymentDay'].errors">
+                                        {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}
+                                        {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('max') ? 'Tanggal payroll hanya bisa diisi 1-31' : ''}}
+                                        {{companyReqDtoFg.controls['defaultPaymentDay'].hasError('min') ? 'Tanggal payroll hanya bisa diisi 1-31' : ''}}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -22,6 +22,7 @@ export class UserAdd implements OnInit {
             Validators.email
         ]],
         fullName: ['', [Validators.required, this.noWhitespaceValidator]],
+        phone: ['', [Validators.required]],
         roleId: ['', [Validators.required]],
         companyId: ['', [Validators.required]],
         fileContent: [''],

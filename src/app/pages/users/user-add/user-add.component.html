@@ -44,6 +44,21 @@
                         <div class="col-12 md:col-6">
                             <div class="mb-1 md:mb-3">
                                 <div class="mb-2">
+                                    <label for="role" class="form-label fw-semibold">Role <span class="text-red-500">*</span></label>
+                                </div>
+                                <div>
+                                    <p-dropdown styleClass="w-full" [options]="roles" optionValue="id" optionLabel="roleName" id="role" formControlName="roleId" />
+                                    <div *ngIf="userForm.controls['roleId'].invalid && userForm.controls['roleId'].dirty" class="text-red-500 text-xs">
+                                        <p *ngIf="userForm.controls['roleId'].errors">
+                                            {{userForm.controls['roleId'].hasError('required') ? 'roleId wajib diisi' : ''}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <div class="mb-1 md:mb-3">
+                                <div class="mb-2">
                                     <label for="company" class="form-label fw-semibold">Perusahaan <span class="text-red-500">*</span></label>
                                 </div>
                                 <div>
@@ -60,29 +75,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 md:col-6">
-                            <div class="mb-1 md:mb-3">
-                                <div class="mb-2">
-                                    <label for="role" class="form-label fw-semibold">Role <span class="text-red-500">*</span></label>
-                                </div>
-                                <div>
-                                    <p-dropdown styleClass="w-full" [options]="roles" optionValue="id" optionLabel="roleName" id="role" formControlName="roleId" />
-                                    <div *ngIf="userForm.controls['roleId'].invalid && userForm.controls['roleId'].dirty" class="text-red-500 text-xs">
-                                        <p *ngIf="userForm.controls['roleId'].errors">
-                                            {{userForm.controls['roleId'].hasError('required') ? 'roleId wajib diisi' : ''}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="mb-5">
-                        <div class="mb-2">
-                            <label for="file" class="form-label fw-semibold">Foto Profil</label>
+                    <div class="mb-5 grid">
+                        <div class="mb-1 col-12 md:col-6">
+                            <div class="mb-2">
+                                <label for="phone" class="form-label fw-semibold">Nomor Telepon</label>
+                            </div>
+                            <div>
+                                <input type="number" id="phone" class="w-full" pInputText formControlName="phone" />
+                            </div>
                         </div>
-                        <div>
-                            <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" accept=".jpg,.jpeg,.png" />
+                        <div class="mb-1 col-12 md:col-6">
+                            <div class="mb-2">
+                                <label for="file" class="form-label fw-semibold">Foto Profil</label>
+                            </div>
+                            <div>
+                                <input type="file" id="file" class="w-full" pInputText (change)="fileUpload($event)" accept=".jpg,.jpeg,.png" />
+                            </div>
                         </div>
                     </div>
                     <p-button routerLink="/users" type="button" severity="secondary">Batal</p-button>

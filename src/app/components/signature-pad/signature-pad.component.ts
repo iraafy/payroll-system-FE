@@ -20,6 +20,7 @@ export class SignaturePadComponent implements OnInit {
     @ViewChild('canvas') canvasEl!: ElementRef
     signatureImg!: string
     @Output() signature = new EventEmitter<FormGroup>()
+    width : number = 700
     
     constructor(
         private fb : NonNullableFormBuilder,
@@ -30,7 +31,24 @@ export class SignaturePadComponent implements OnInit {
         signatureExt: ['png', [Validators.required]] 
     })
     
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.init()
+    }
+
+
+    init(){
+        this.onResize()
+    }
+
+    onResize() {
+        const pageWidth : number = document.body.clientWidth
+        
+        if(pageWidth < 850) {
+            this.width = pageWidth / 1.3
+        }else {
+            this.width = 700
+        }
+    }
 
     ngAfterViewInit() {
         this.signaturePad = new SignaturePad(this.canvasEl.nativeElement)

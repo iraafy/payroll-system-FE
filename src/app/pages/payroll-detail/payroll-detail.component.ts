@@ -285,13 +285,15 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    showClientSignature(data: string) {
-        this.showSign = true
-        setTimeout(() => {
-            const img = document.getElementById("clientSign")
-            img?.setAttribute("src", "data:image/png;base64, " + data)
-        }, 1);
-    }
+    // # Show Client Signature if Needed
+    // # Don't Delete :)
+    // showClientSignature(data: string) {
+    //     this.showSign = true
+    //     setTimeout(() => {
+    //         const img = document.getElementById("clientSign")
+    //         img?.setAttribute("src", "data:image/png;base64, " + data)
+    //     }, 1);
+    // }
 
     exportFinalReport() {
         window.location.href = `http://localhost:8080/reports/${this.payrollId}`;

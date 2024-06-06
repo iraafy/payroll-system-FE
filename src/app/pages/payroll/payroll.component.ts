@@ -19,6 +19,7 @@ import { RoleType } from "../../constants/role-type";
 import { NotificationReqDto } from "../../dto/notification/notification.req.dto";
 import { NotificationService } from "../../services/notification.service";
 import { PayrollDetailResDto } from "../../dto/payroll-detail/payroll-detail.res.dto";
+import { monthNames } from "../../constants/global";
 
 @Component({
 	selector: 'payroll-detail',
@@ -30,6 +31,7 @@ export class Payroll implements OnInit {
 	createPayrollVisible: boolean = false;
 	clientId: string | null = null;
 	currentCompanyPayroll: string | null = null;
+	labelPayroll: string = `Payroll Bulan ${monthNames[new Date().getMonth()]}`
 	client: UserResDto | null = null;
 	company: CompanyResDto | null = null;
 	payrolls: PayrollResDto[] = [];
@@ -43,7 +45,7 @@ export class Payroll implements OnInit {
 
 	payrollReqDtoFg = this.fb.group({
 		clientId: ['', [Validators.required]],
-		title: ['', [Validators.required, this.noWhitespaceValidator]],
+		title: [this.labelPayroll, [Validators.required, this.noWhitespaceValidator]],
 		scheduledDate: ['', [Validators.required]]
 	})
 

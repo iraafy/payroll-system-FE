@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="chat-detail" *ngIf="chatDetailVisible">
-        <div class="chat px-4">
+        <div class="chat px-4" id="chat">
             <div *ngFor="let message of received">
                 <div class="sender-bubble p-3 m-2" *ngIf="message.userName === loginData?.id ">
                     <p class="m-0">{{message.message}}</p>

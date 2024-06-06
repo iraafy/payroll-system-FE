@@ -81,6 +81,18 @@ export class Reschedule implements OnInit {
 		)
 	}
 
+	rejectReschedule(id: string) {
+		firstValueFrom(this.rescheduleService.rejectReschedule(id)).then(
+			res => {
+				this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
+
+				this.confirmationVisible = false;
+
+				this.init();
+			}
+		)
+	}
+
 	checkApproval(isApproved: boolean) {
 		return isApproved
 	}

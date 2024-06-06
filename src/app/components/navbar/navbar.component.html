@@ -5,19 +5,19 @@
     <ng-template pTemplate="item" let-item>
         <ng-container>
             <div class="mx-4 my-2">
-                <a [routerLink]="item.route" class="no-underline md:text-white text-black-alpha-90" *ngIf="isAdmin">
+                <a [routerLink]="item.route" class="no-underline md:text-white text-white" *ngIf="isAdmin">
                     <span>{{item.label}}</span>
                 </a>
             </div>
         </ng-container>
         <ng-container *ngIf="item.image">
-            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="home-icon md:ml-7 ml-4 mb-3 cursor-pointer">
-            <div class="hidden-nav-content px-4 text-white">
+            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="home-icon md:ml-7 mr-4 ml-4 cursor-pointer">
+            <div class="hidden-nav-content px-4 text-white" *ngIf="!isAdmin">
                 <div class="pb-2" (click)="showDialog()">
                     <img src="assets/images/icon/calendar.svg" class="nav-icon mr-3 cursor-pointer" *ngIf="isPS">
                     Jadwal
                 </div>
-                <div class="py-2" (click)="sidebarVisible = true">
+                <div class="py-2" (click)="sidebarVisible = true" *ngIf="!isAdmin">
                     <img src="assets/images/icon/message.svg" class="nav-icon mr-3 cursor-pointer" *ngIf="!isAdmin">
                     Pesan
                 </div>

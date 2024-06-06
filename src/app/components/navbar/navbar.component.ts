@@ -206,7 +206,10 @@ export class Navbar {
     }
 
     logout() {
-        localStorage.removeItem('loginData');
+        setTimeout(() => {
+            localStorage.removeItem('dataLogin');
+        }, 1);
+
         this.router.navigateByUrl('/login');
     }
 

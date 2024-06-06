@@ -20,7 +20,7 @@ import SockJS from "sockjs-client"
 import { ChatResDto } from "../../dto/chat/chat.res.dto"
 import { MessageService } from "primeng/api"
 import { ChatReqDto } from "../../dto/chat/chat.req.dto"
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
 import { DialogModule } from 'primeng/dialog';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { NotificationService } from "../../services/notification.service";
@@ -89,7 +89,7 @@ export class Navbar {
     payrollIds: any[] = [];
 
     chat: FormGroup = this.fb.group({
-        message: ['', [Validators.required]],
+        message: ['', [Validators.required, this.noWhitespaceValidator]],
         recipientId: [this.pickedClient?.id, [Validators.required]],
         senderId: [this.authService.getLoginData()?.id, [Validators.required]]
     });
@@ -337,5 +337,11 @@ export class Navbar {
                 this.init()
             }
         )
+    }
+
+    noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
     }
 }

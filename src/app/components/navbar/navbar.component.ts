@@ -280,6 +280,7 @@ export class Navbar {
     connect(id: string | undefined) {
         const ws = new SockJS(this.websocketService.url)
         this.sockClient = Stomp.over(ws)
+        this.sockClient.debug = () => {}
         const that = this
         this.received = []
 

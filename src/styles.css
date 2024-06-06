@@ -81,6 +81,11 @@ a>.p-icon-wrapper {
     width: 300;
 }
 
+.card-stepper {
+    display: block !important;
+    width: 45rem;
+}
+
 .hero-img {
     height: 24rem;
     object-fit: cover;

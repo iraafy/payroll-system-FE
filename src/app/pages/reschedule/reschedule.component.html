@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="grid">
+    <div class="grid" *ngIf="reschedules.length > 0">
         <div class="col-6" *ngFor="let reschedule of reschedules">
             <div class="custom-small-shadow bg-white p-3 pt-4 mt-3 rounded-3">
                 <div class="grid">
@@ -48,5 +48,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="grid justify-content-center align-items-center" *ngIf="reschedules.length === 0">
+        <img src="assets/images/no-data.gif" width="30%" alt="">
     </div>
 </div>

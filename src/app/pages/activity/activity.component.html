@@ -61,7 +61,7 @@
                         <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" severity="secondary">
                             Batal
                         </p-button>
-                        <p-button type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
+                        <p-button [disabled]="activityReqDtoFg.invalid" type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
                             Simpan
                         </p-button>
                     </div>

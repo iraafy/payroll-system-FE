@@ -3,4 +3,5 @@ export interface NotificationReqDto {
 	contextUrl: string
 	contextId: string
 	userId: string
+	payrollDetailId: string
 }

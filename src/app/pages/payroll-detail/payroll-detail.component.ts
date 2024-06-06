@@ -173,10 +173,11 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    pingSubmit(id: string) {
+    pingSubmit(id: string, description: string) {
+
         if (this.clientId != null) {
             this.data = {
-                notificationContent: 'Anda belum mengisi bagian ini',
+                notificationContent: `Anda belum mengisi aktivitas ${description}`,
                 contextUrl: `/payrolls/${this.payrollId}`,
                 contextId: 'PING',
                 userId: this.clientId,

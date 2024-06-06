@@ -105,18 +105,22 @@ export class PayrollDetail implements OnInit {
 
                                 firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
                                     res => {
-                                        if ((res && res.isApproved != null)) {
+                                        console.log(res)
+                                        if ((res && (res.isApproved == false ))) {
                                             this.listReschedules.push(true)
-                                        } else if ((res && res.isApproved === true) || !res) {
+                                        } else if (!res) {
+                                            this.listReschedules.push(false)
+                                        } else {
                                             this.listReschedules.push(false)
                                         }
                                     }
                                 )
                             });
+                            console.log(this.listReschedules)
                         })
                     )
             }
-        }, 1);
+        }, 10);
 
     }
 
@@ -161,10 +165,11 @@ export class PayrollDetail implements OnInit {
             firstValueFrom(this.reschduleService.createNewReschdule(rescheduleDto)).then(
                 res => {
                     this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
+                    this.rescheduleVisible = false
                     this.init()
                 },
                 err => {
-                    this.messageService.add({ severity: 'error', summary: 'Gagal', detail: 'harap cek tanggal reschedule dan approval reschedule' })
+                    this.messageService.add({ severity: 'error', summary: 'Gagal', detail: 'Maaf aktivitas hanya bisa di reschedule di tanggal sebelumnya.' })
                 }
             )
         }

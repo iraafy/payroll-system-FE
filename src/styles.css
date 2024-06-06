@@ -52,12 +52,12 @@ a>.p-icon-wrapper {
 }
 
 .nav-icon {
-    width: 2rem;
+    width: 1.7rem;
 }
 
 .profile-nav-icon {
-    width: 2rem;
-    height: 2rem;
+    width: 1.7rem;
+    height: 1.7rem;
     object-fit: contain;
     background-color: black;
 }
@@ -110,6 +110,14 @@ textarea:focus-visible {
 
 .mb-9 {
     margin-bottom: 7rem;
+}
+
+.p-menubar.p-menubar-mobile-active .p-menubar-root-list {
+    background-color: #0E8DC4;
+}
+
+.hide-on-navbar {
+    display: block;
 }
 
 /* .pr-chat {
@@ -212,6 +220,24 @@ textarea:focus-visible {
 
 .rounded-img {
     border-radius: 50%;
+}
+
+.nav-content {
+    display: block;
+}
+
+.hidden-nav-content {
+    display: none;
+}
+
+@media screen and (max-width: 960px) {
+    .nav-content {
+        display: none;
+    }
+
+    .hidden-nav-content {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 767px) {

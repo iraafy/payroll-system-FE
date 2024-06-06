@@ -155,17 +155,17 @@ export class PayrollDetail implements OnInit {
                     this.messageService.add({ severity: 'error', summary: 'Gagal', detail: 'harap cek tanggal reschedule dan approval reschedule' })
                 }
             )
-            this.rescheduleVisible = false
         }
     }
 
-    pingSubmit() {
+    pingSubmit(id: string) {
         if (this.clientId != null) {
             this.data = {
                 notificationContent: 'Anda belum mengisi bagian ini',
                 contextUrl: `/payrolls/${this.payrollId}`,
                 contextId: 'PING',
-                userId: this.clientId
+                userId: this.clientId,
+                payrollDetailId: id
             }
             firstValueFrom(this.notificationService.sendPing(this.data)).then(
                 res => {

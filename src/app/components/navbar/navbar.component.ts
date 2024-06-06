@@ -122,6 +122,12 @@ export class Navbar {
             this.photoProfile = imageUrl;
         });
 
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+        } else {
+            this.photoProfile = 'assets/images/icon/user.svg'
+        }
+
         this.notificationService.currentNotificationCount.subscribe(notif => {
             this.notificationCount = notif;
         });
@@ -194,11 +200,6 @@ export class Navbar {
     }
 
     async init() {
-        if (this.loginData?.imageProfile != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
-        } else {
-            this.photoProfile = 'assets/images/icon/user.svg'
-        }
 
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
@@ -319,7 +320,8 @@ export class Navbar {
     isRead(id: string){
         firstValueFrom(this.notificationService.readNotification(id)).then(
             res => {
-                this.notificationService.changeNotification(this.notificationCount - 1, true);
+                this.notificationService.changeNotification(this.notificationCount - 1, true)
+                this.init()
             }
         )
     }

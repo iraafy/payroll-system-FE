@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from "primeng/button";
 import { FileUploadModule } from "primeng/fileupload";
 import { DialogModule } from "primeng/dialog";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { DialogModule } from "primeng/dialog";
         InputTextModule,
         ButtonModule,
         FileUploadModule, 
-        DialogModule
+        DialogModule,
+        ProgressSpinnerModule
     ]
 })
 

@@ -224,6 +224,7 @@ export class Payroll implements OnInit {
 					this.payrolls.forEach((payroll) => {
 						const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
 						payroll.scheduleDate = formattedDate;
+						this.init()
 					})
 				}
 			)

@@ -2,19 +2,14 @@
     <div class="relative">
         <img src="/assets/images/bg-profile.jpg" alt="bg-profile" class="w-full h-15rem z-0">
         <div class="profile-image">
-            <img [src]="photoProfile" class="md:w-10rem md:h-10rem w-7rem h-7rem rounded-img" alt="profile-image">
-            <p-fileUpload 
-                mode="basic" 
-                name="demo[]" 
-                url="https://www.primefaces.org/cdn/api/upload.php" 
-                accept="image/*" 
-                maxFileSize="1000000" 
-                [auto]="true" 
-                styleClass="edit-icon"
-                chooseIcon="pi pi-pencil"
-                (onSelect)="fileUpload($event)"
-                (onUpload)="onBasicUploadAuto()" 
-            >
+            <img *ngIf="!spin" [src]="photoProfile" class="md:w-10rem md:h-10rem w-7rem h-7rem rounded-img"
+                alt="profile-image">
+            <div class="flex justify-content-center" *ngIf="spin">
+                <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+            </div>
+            <p-fileUpload mode="basic" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="image/*" maxFileSize="1000000" [auto]="true" styleClass="edit-icon" chooseIcon="pi pi-pencil"
+                (onSelect)="fileUpload($event)" (onUpload)="onBasicUploadAuto()">
             </p-fileUpload>
         </div>
     </div>
@@ -34,31 +29,27 @@
     </div>
 </div>
 
-<p-dialog 
-    header="Ubah nama" 
-    [(visible)]="displayModal"
-    [modal]="true" 
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-    [style]="{ width: '35vw' }"
-    [draggable]="false" 
+<p-dialog header="Ubah nama" [(visible)]="displayModal" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '35vw' }" [draggable]="false"
     [resizable]="false">
-        <form [formGroup]="changeNameFb" (submit)="OnSubmitChangeName()">
-            <div class="mb-5">
-                <div class="mb-2">
-                    <label for="newName" class="form-label fw-semibold">Nama <span class="text-red-500">*</span></label>
-                </div>
-                <div>
-                    <input type="text" id="newName" class="w-full" pInputText formControlName="newName" />
-                    <div *ngIf="changeNameFb.controls['newName'].invalid && changeNameFb.controls['newName'].dirty" class="text-red-500 text-xs">
-                        <p *ngIf="changeNameFb.controls['newName'].errors">
-                            {{changeNameFb.controls['newName'].hasError('required') ? 'Nama wajib diisi' : ''}}
-                        </p>
-                    </div>
+    <form [formGroup]="changeNameFb" (submit)="OnSubmitChangeName()">
+        <div class="mb-5">
+            <div class="mb-2">
+                <label for="newName" class="form-label fw-semibold">Nama <span class="text-red-500">*</span></label>
+            </div>
+            <div>
+                <input type="text" id="newName" class="w-full" pInputText formControlName="newName" />
+                <div *ngIf="changeNameFb.controls['newName'].invalid && changeNameFb.controls['newName'].dirty"
+                    class="text-red-500 text-xs">
+                    <p *ngIf="changeNameFb.controls['newName'].errors">
+                        {{changeNameFb.controls['newName'].hasError('required') ? 'Nama wajib diisi' : ''}}
+                    </p>
                 </div>
             </div>
-            <div class="grid justify-content-end mt-5">
-                <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
-                <p-button type="submit" label="Ya" styleClass="ml-2 bg-color-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="grid justify-content-end mt-5">
+            <p-button label="Batal" severity="secondary" (click)="displayModal = false" />
+            <p-button type="submit" label="Ya" styleClass="ml-2 bg-color-primary" />
+        </div>
+    </form>
 </p-dialog>

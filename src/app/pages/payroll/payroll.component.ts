@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { NonNullableFormBuilder, Validators } from "@angular/forms";
+import { FormControl, NonNullableFormBuilder, Validators } from "@angular/forms";
 import { CalendarOptions, DateInput, EventInput } from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { PayrollReqDto } from "../../dto/payroll/payroll.req.dto";
@@ -42,9 +42,9 @@ export class Payroll implements OnInit {
 	
 
 	payrollReqDtoFg = this.fb.group({
-		clientId: ['', Validators.required],
-		title: ['', Validators.required],
-		scheduledDate: ['', Validators.required]
+		clientId: ['', [Validators.required]],
+		title: ['', [Validators.required, this.noWhitespaceValidator]],
+		scheduledDate: ['', [Validators.required]]
 	})
 
 	constructor(
@@ -195,15 +195,16 @@ export class Payroll implements OnInit {
 
 	onSubmit() {
 		if (this.payrollReqDtoFg.valid) {
-			const payrollReqDto: PayrollReqDto = this.payrollReqDtoFg.getRawValue();
+			const payrollReqDto: PayrollReqDto = this.payrollReqDtoFg.getRawValue() as any;
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(
 				res => {
 					this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message });
 					this.createPayrollVisible = false;
 					this.init();
-
-					this.payrollReqDtoFg.get('title')?.patchValue('');
+					
+					this.payrollReqDtoFg.get('title')?.reset();
+					this.init();
 					if (this.currentCompanyPayroll != null) {
 						this.payrollReqDtoFg.get('scheduledDate')?.patchValue(this.currentCompanyPayroll);
 					}
@@ -224,10 +225,17 @@ export class Payroll implements OnInit {
 					this.payrolls.forEach((payroll) => {
 						const formattedDate = this.datePipe.transform(payroll.scheduleDate, 'yyyy-MM-dd')!;
 						payroll.scheduleDate = formattedDate;
+						this.init()
 					})
 				}
 			)
 		}
 
 	}
+	
+	noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
+    }
 }

@@ -21,7 +21,7 @@
             <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5 cursor-pointer"
                 *ngIf="!isAdmin">
             <img [src]="photoProfile" (click)="profile.toggle($event)"
-                class="nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
+                class="profile-nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
         </ng-container>
     </ng-template>
 </p-menubar>
@@ -62,7 +62,9 @@
                 </div>
             </div>
         </div>
-        <div class="sticky bottom-0 z-5 w-full p-3 pb-2 bg-white custom-small-shadow">
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="bottom-0 z-5 w-full pr-chat bg-white" *ngIf="showMessageInput">
             <form [formGroup]="chat" (submit)="sendMessage()">
                 <div class="grid">
                     <div class="col-10">
@@ -70,7 +72,7 @@
                             formControlName="message"></textarea>
                     </div>
                     <div class="col-2">
-                        <p-button styleClass="bg-color-primary" (onClick)="sendMessage()">
+                        <p-button styleClass="bg-color-primary" (onClick)="sendMessage()" [disabled]="chat.invalid">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" class="p-0 m-0"
                                 viewBox="0 0 28 28">
                                 <path fill="#ffffff"
@@ -81,7 +83,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </ng-template>
 </p-sidebar>
 
 <p-overlayPanel #notif styleClass="w-20rem">
@@ -103,7 +105,7 @@
     <div class="grid">
         <div class="col-12 p-1">
             <div class="inline-flex cursor-pointer" routerLink="/profile">
-                <img [src]="photoProfile" class="nav-icon-dd mr-2 cursor-pointer rounded-img">
+                <img [src]="photoProfile" class="profile-nav-icon-dd mr-2 cursor-pointer rounded-img">
                 <span>
                     Profil
                 </span>

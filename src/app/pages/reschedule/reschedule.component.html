@@ -29,22 +29,22 @@
                         <p class="mt-0">{{reschedule.newScheduleDate}} <p-badge severity="primary" value="Tanggal Baru"
                                 class="ml-2" /></p>
                     </div>
-                    <div class="col flex justify-content-end">
-                        <p-button label="Setujui" (click)="showDialogConfirmation()"
+                    <div class="col text-right justify-content-end">
+                        <p-button label="Setuju / Tolak" (click)="showDialogConfirmation()"
                             styleClass="ml-2 rounded-3 bg-color-primary"></p-button>
-                        <p-dialog header="Konfirmasi" [(visible)]="confirmationVisible" [modal]="true"
-                            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }"
-                            [draggable]="false" [resizable]="false">
-                            <p>
-                                Apakah Anda yakin ingin menyetujui pengajuan reschedule ini?
-                            </p>
-                            <div class="grid justify-content-end mt-5">
-                                <p-button label="Batal" severity="secondary" (click)="confirmationVisible = false" />
-                                <p-button label="Setujui" styleClass="ml-2 bg-color-primary"
-                                    (click)="approveReschedule(reschedule.id)" />
-                            </div>
-                        </p-dialog>
                     </div>
+                    <p-dialog header="Konfirmasi" [(visible)]="confirmationVisible" [modal]="true"
+                        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }"
+                        [draggable]="false" [resizable]="false">
+                        <p>
+                            Setuju atau Tolak pengajuan reschedule ini?
+                        </p>
+                        <div class="grid justify-content-end mt-5">
+                            <p-button label="Tolak" severity="secondary" (click)="rejectReschedule(reschedule.id);confirmationVisible = false" />
+                            <p-button label="Setuju" styleClass="ml-2 bg-color-primary"
+                                (click)="approveReschedule(reschedule.id); confirmationVisible = true" />
+                        </div>
+                    </p-dialog>
                 </div>
             </div>
         </div>

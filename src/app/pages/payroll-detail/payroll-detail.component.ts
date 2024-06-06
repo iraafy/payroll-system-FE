@@ -32,7 +32,7 @@ export class PayrollDetail implements OnInit {
     downloadVisible: boolean = false
     spin: boolean = false
     showUpload: boolean = true
-    showSign : boolean = false
+    showSign: boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
     payrollDetails?: Observable<PayrollDetailResDto[]>
@@ -49,6 +49,8 @@ export class PayrollDetail implements OnInit {
     signature: SignatureReqDto = {
         signatureBase64: ''
     }
+
+    listReschedules: boolean[] = []
 
     tempTest: PayrollDetailResDto[] = []
 
@@ -100,7 +102,17 @@ export class PayrollDetail implements OnInit {
                                 const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
                                 item.maxUploadDate = formattedDate;
                                 this.payrollSize++;
-                        });
+
+                                firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
+                                    res => {
+                                        if ((res && res.isApproved != null)) {
+                                            this.listReschedules.push(true)
+                                        } else if ((res && res.isApproved === true) || !res) {
+                                            this.listReschedules.push(false)
+                                        }
+                                    }
+                                )
+                            });
                         })
                     )
             }
@@ -155,17 +167,17 @@ export class PayrollDetail implements OnInit {
                     this.messageService.add({ severity: 'error', summary: 'Gagal', detail: 'harap cek tanggal reschedule dan approval reschedule' })
                 }
             )
-            this.rescheduleVisible = false
         }
     }
 
-    pingSubmit() {
+    pingSubmit(id: string) {
         if (this.clientId != null) {
             this.data = {
                 notificationContent: 'Anda belum mengisi bagian ini',
                 contextUrl: `/payrolls/${this.payrollId}`,
                 contextId: 'PING',
-                userId: this.clientId
+                userId: this.clientId,
+                payrollDetailId: id
             }
             firstValueFrom(this.notificationService.sendPing(this.data)).then(
                 res => {
@@ -269,12 +281,11 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    showClientSignature(data : string){
+    showClientSignature(data: string) {
         this.showSign = true
         setTimeout(() => {
             const img = document.getElementById("clientSign")
-            console.log(img)
-            img?.setAttribute("src", "data:image/png;base64, "+data)
+            img?.setAttribute("src", "data:image/png;base64, " + data)
         }, 1);
     }
 

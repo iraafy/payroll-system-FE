@@ -20,7 +20,7 @@ import SockJS from "sockjs-client"
 import { ChatResDto } from "../../dto/chat/chat.res.dto"
 import { MessageService } from "primeng/api"
 import { ChatReqDto } from "../../dto/chat/chat.req.dto"
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms"
 import { DialogModule } from 'primeng/dialog';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { NotificationService } from "../../services/notification.service";
@@ -67,6 +67,7 @@ export class Navbar {
     sidebarVisible: boolean = false
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
+    showMessageInput : boolean = false
     navlinks: any = []
     clients: ClientAssignmentResDto[] = []
     notification: NotificationResDto[] = [];
@@ -88,7 +89,7 @@ export class Navbar {
     payrollIds: any[] = [];
 
     chat: FormGroup = this.fb.group({
-        message: ['', [Validators.required]],
+        message: ['', [Validators.required, this.noWhitespaceValidator]],
         recipientId: [this.pickedClient?.id, [Validators.required]],
         senderId: [this.authService.getLoginData()?.id, [Validators.required]]
     });
@@ -121,6 +122,12 @@ export class Navbar {
         this.userService.currentProfileImage.subscribe(imageUrl => {
             this.photoProfile = imageUrl;
         });
+
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
+        } else {
+            this.photoProfile = 'assets/images/icon/user.svg'
+        }
 
         this.notificationService.currentNotificationCount.subscribe(notif => {
             this.notificationCount = notif;
@@ -180,25 +187,33 @@ export class Navbar {
                 this.received = res
             }
         )
+
+        // setTimeout(() => {
+        //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+            
+        //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
+        // }, 1);
+
+        this.showMessageInput = true
     }
 
     closeChat() {
         this.chatListVisible = true
         this.chatDetailVisible = false
         this.disconnect()
+        this.showMessageInput = false
     }
 
     logout() {
-        localStorage.removeItem('loginData');
+        setTimeout(() => {
+            localStorage.removeItem('dataLogin');
+        }, 1);
+
         this.router.navigateByUrl('/login');
     }
 
     async init() {
-        if (this.loginData?.imageProfile != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`
-        } else {
-            this.photoProfile = 'assets/images/icon/user.svg'
-        }
 
         try {
             this.clients = await firstValueFrom(this.clientAssignmentService.getAllClientAssignment());
@@ -295,8 +310,10 @@ export class Navbar {
             this.sockClient.send(this.websocketService.topicChat + id, {}, JSON.stringify(newChat))
         }
 
-        this.text = null
-        this.chat.get('message')?.patchValue(null)
+        // this.text = null
+        // this.chat.get('message')?.patchValue(null)
+        // document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        // document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
     }
 
     private formatDate(date: string | Date, format: string): string {
@@ -319,8 +336,15 @@ export class Navbar {
     isRead(id: string){
         firstValueFrom(this.notificationService.readNotification(id)).then(
             res => {
-                this.notificationService.changeNotification(this.notificationCount - 1, true);
+                this.notificationService.changeNotification(this.notificationCount - 1, true)
+                this.init()
             }
         )
+    }
+
+    noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { 'whitespace': true };
     }
 }

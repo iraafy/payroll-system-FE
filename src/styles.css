@@ -38,25 +38,35 @@ body {
     font-size: 32px;
 }
 
-a > .p-icon-wrapper {
+a>.p-icon-wrapper {
     color: white !important;
 }
 
 
 .p-menubar-button:hover {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .p-menubar-button:focus {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .nav-icon {
     width: 2rem;
 }
 
-.nav-icon-dd { 
+.profile-nav-icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    background-color: black;
+}
+
+.profile-nav-icon-dd {
     width: 1.3rem;
+    height: 1.3rem;
+    object-fit: contain;
+    background-color: black;
 }
 
 .home-icon {
@@ -98,6 +108,14 @@ textarea:focus-visible {
     width: 40rem;
 }
 
+.mb-9 {
+    margin-bottom: 7rem;
+}
+
+/* .pr-chat {
+    padding-right: 65rem !important;
+} */
+
 .border-b {
     border-bottom: 0.5px solid rgb(203, 203, 203);
 }
@@ -132,7 +150,7 @@ textarea:focus-visible {
 .payroll-detail-event {
     background-color: #D6823C;
     border-color: #D6823C;
-    color: black;   
+    color: black;
 }
 
 .responsive-file-upload {
@@ -229,4 +247,5 @@ textarea:focus-visible {
     .text-name {
         margin-top: 6rem;
     }
+    
 }

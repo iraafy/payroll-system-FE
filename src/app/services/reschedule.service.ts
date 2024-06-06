@@ -18,7 +18,7 @@ export class ReschduleService {
     }
 
     getLastRescheduleByPayrollDetailId(id: string){
-        return this.baseService.get<RescheduleResDto>(`reschedules/payroll/payroll-detail/${id}`)
+        return this.baseService.get<RescheduleResDto>(`reschedules/payroll/${id}/lastSchedule`)
     }
 
     getReschedulesByPayrollId(id: string){
@@ -29,4 +29,7 @@ export class ReschduleService {
         return this.baseService.patch<InsertResDto>(`reschedules/${id}`, {})
     }
     
+    rejectReschedule(id: string){
+        return this.baseService.patch<InsertResDto>(`reschedules/${id}/reject`, {})
+    }
 }

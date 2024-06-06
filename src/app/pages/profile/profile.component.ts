@@ -21,6 +21,7 @@ export class Profile implements OnInit {
     fullName: string = this.loginData?.fullName || ''
     photoProfile: string | undefined = ''
     displayModal = false;
+    spin = false;
 
     changeProfilePicReqDtoFg = this.fb.group({
         fileContent: ['', Validators.required],
@@ -45,9 +46,9 @@ export class Profile implements OnInit {
     init() {
         this.name = this.loginData?.fullName;
         if (this.loginData?.imageProfile != null) {
-          this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
         } else {
-          this.photoProfile = 'https://cdn-icons-png.flaticon.com/512/5987/5987424.png';
+            this.photoProfile = 'https://cdn-icons-png.flaticon.com/512/5987/5987424.png';
         }
     }
 
@@ -87,6 +88,7 @@ export class Profile implements OnInit {
                 this.changeProfilePicReqDtoFg.get('fileExt')?.patchValue(resultExtension);
             })
         }
+        this.spin = true
     }
 
     OnSubmitChangeName() {
@@ -106,6 +108,7 @@ export class Profile implements OnInit {
             res => {
                 this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message });
                 this.setLocalStorage();
+                this.spin = false
             }
         )
     }

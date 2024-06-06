@@ -29,4 +29,7 @@ export class ReschduleService {
         return this.baseService.patch<InsertResDto>(`reschedules/${id}`, {})
     }
     
+    rejectReschedule(id: string){
+        return this.baseService.patch<InsertResDto>(`reschedules/${id}/reject`, {})
+    }
 }

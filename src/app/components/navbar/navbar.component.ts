@@ -188,14 +188,20 @@ export class Navbar {
             }
         )
 
+        
         // setTimeout(() => {
-        //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
-        //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+            //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+            //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
             
-        //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
-        // }, 1);
-
+            //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
+            // }, 1);
+            
         this.showMessageInput = true
+        
+        setTimeout(() => {
+            var bottomElement = document.querySelector('.chat') as HTMLElement;
+            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+        }, 10);
     }
 
     closeChat() {
@@ -206,7 +212,10 @@ export class Navbar {
     }
 
     logout() {
-        localStorage.removeItem('loginData');
+        setTimeout(() => {
+            localStorage.removeItem('dataLogin');
+        }, 1);
+
         this.router.navigateByUrl('/login');
     }
 
@@ -307,8 +316,13 @@ export class Navbar {
             this.sockClient.send(this.websocketService.topicChat + id, {}, JSON.stringify(newChat))
         }
 
-        // this.text = null
-        // this.chat.get('message')?.patchValue(null)
+        setTimeout(() => {
+            var bottomElement = document.querySelector('.chat') as HTMLElement;
+            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+        }, 10);
+
+        this.text = null
+        this.chat.get('message')?.patchValue(null)
         // document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
         // document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
     }

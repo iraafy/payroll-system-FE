@@ -60,6 +60,10 @@ export class CompanyAdd implements OnInit {
                 res => {
                     this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Company berhasil terbuat' });
                     this.router.navigate(['/companies'])
+                },
+                err => {
+                    this.displayModal = false
+                    this.messageService.add({ severity: 'error', summary: 'Gagal', detail: err.error['message'] })
                 }
             )
         }

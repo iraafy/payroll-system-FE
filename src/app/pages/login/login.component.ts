@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { firstValueFrom } from "rxjs";
@@ -13,7 +13,7 @@ import { MessageService } from "primeng/api";
     
 })
 
-export class Login {
+export class Login implements OnInit {
 
     loginReqDtoFg = this.fb.group({
         email: ['', [
@@ -32,6 +32,10 @@ export class Login {
         private messageService: MessageService
     ) { }
 
+    ngOnInit(): void {
+        this.init()
+    }
+
     onSubmit() {
         if (this.loginReqDtoFg.valid) {
             const loginReqDto: LoginReqDto = this.loginReqDtoFg.getRawValue()
@@ -48,6 +52,12 @@ export class Login {
                 }
             )
 
+        }
+    }
+
+    init(){
+        if(this.authService.getLoginData()){
+            this.router.navigateByUrl("/homepage")
         }
     }
 

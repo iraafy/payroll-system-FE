@@ -8,11 +8,36 @@
             </div>
         </ng-container>
         <ng-container *ngIf="item.image">
-            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image"
-                class="home-icon ml-7 mr-5 hidden lg:inline cursor-pointer">
+            <img [src]="item.image" [routerLink]="item.route" alt="{{ item.label }} image" class="home-icon md:ml-7 ml-4 mb-3 cursor-pointer">
+            <div class="hidden-nav-content px-4 text-white">
+                <div class="pb-2" (click)="showDialog()">
+                    <img src="assets/images/icon/calendar.svg" class="nav-icon mr-3 cursor-pointer" *ngIf="isPS">
+                    Jadwal
+                </div>
+                <div class="py-2" (click)="sidebarVisible = true">
+                    <img src="assets/images/icon/message.svg" class="nav-icon mr-3 cursor-pointer" *ngIf="!isAdmin">
+                    Pesan
+                </div>
+            </div>
         </ng-container>
     </ng-template>
-    <ng-template pTemplate="end">
+    
+    <div class="nav-content">
+        <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5 cursor-pointer" *ngIf="isPS">
+        <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5 cursor-pointer" *ngIf="!isAdmin">
+        <i class="text-2xl" severity="warning" pBadge value={{notificationCount}} *ngIf="!isAdmin && notificationCount > 0"></i>
+        <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-5 cursor-pointer" *ngIf="!isAdmin">
+        <img [src]="photoProfile" (click)="profile.toggle($event)" class="profile-nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
+    </div>
+    
+    <div class="hidden-nav-content px-4 text-white">
+        <i class="text-2xl" severity="warning" pBadge value={{notificationCount}} *ngIf="!isAdmin && notificationCount > 0"></i>
+        <img src="assets/images/icon/notification.svg" (click)="notif.toggle($event)" class="nav-icon mr-4 cursor-pointer" *ngIf="!isAdmin">
+        <img [src]="photoProfile" (click)="profile.toggle($event)" class="profile-nav-icon cursor-pointer rounded-img cursor-pointer">
+    </div>
+
+
+    <!-- <ng-template pTemplate="end">
         <ng-container>
             <img src="assets/images/icon/calendar.svg" (click)="showDialog()" class="nav-icon mr-5 cursor-pointer" *ngIf="isPS">
             <img src="assets/images/icon/message.svg" (click)="sidebarVisible = true" class="nav-icon mr-5 cursor-pointer"
@@ -23,7 +48,7 @@
             <img [src]="photoProfile" (click)="profile.toggle($event)"
                 class="profile-nav-icon md:mr-7 mr-3 cursor-pointer rounded-img cursor-pointer">
         </ng-container>
-    </ng-template>
+    </ng-template> -->
 </p-menubar>
 
 <p-sidebar [(visible)]="sidebarVisible" id="sidebar" position="right" styleClass="md:w-30rem w-full">
@@ -50,7 +75,7 @@
         </div>
     </div>
     <div class="chat-detail" *ngIf="chatDetailVisible">
-        <div class="chat px-4">
+        <div class="chat px-4" id="chat">
             <div *ngFor="let message of received">
                 <div class="sender-bubble p-3 m-2" *ngIf="message.userName === loginData?.id ">
                     <p class="m-0">{{message.message}}</p>
@@ -105,7 +130,7 @@
     <div class="grid">
         <div class="col-12 p-1">
             <div class="inline-flex cursor-pointer" routerLink="/profile">
-                <img [src]="photoProfile" class="profile-nav-icon mr-2 cursor-pointer rounded-img">
+                <img [src]="photoProfile" class="profile-nav-icon-dd mr-2 cursor-pointer rounded-img">
                 <span>
                     Profil
                 </span>

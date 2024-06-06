@@ -233,24 +233,5 @@ textarea:focus-visible {
     .text-name {
         margin-top: 6rem;
     }
-
-    ::ng-deep .custom-dialog .p-dialog-content {
-        background-color: black !important; /* Change background to black */
-        border: none !important;
-    }
-    
-    ::ng-deep .custom-dialog .p-dialog-header {
-        background-color: black !important; /* Change header background to black */
-        border-bottom: none !important;
-    }
-    
-    ::ng-deep .custom-dialog .p-dialog-footer {
-        background-color: black !important; /* Change footer background to black */
-        border-top: none !important;
-    }
-    
-    ::ng-deep .p-dialog-mask.custom-dialog-mask {
-        background-color: rgba(0, 0, 0, 0.8) !important; /* Change modal overlay to black */
-    }
     
 }

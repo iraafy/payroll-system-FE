@@ -18,7 +18,6 @@ import { HttpResponse } from "@angular/common/http"
 import { PDFDocumentProxy } from "pdfjs-dist"
 import { PdfService } from "../../services/pdf.service"
 import { SignatureReqDto } from "../../dto/payroll-detail/signature.req.dto"
-import { RescheduleResDto } from "../../dto/reschedule/reschedule.res.dto"
 
 @Component({
     selector: 'payroll-detail',
@@ -108,14 +107,12 @@ export class PayrollDetail implements OnInit {
                                     res => {
                                         if ((res && res.isApproved != null)) {
                                             this.listReschedules.push(true)
-                                            console.log(res)
-                                        } else if((res && res.isApproved === true) || res) {
+                                        } else if ((res && res.isApproved === true) || !res) {
                                             this.listReschedules.push(false)
                                         }
                                     }
                                 )
                             });
-                            console.log(this.listReschedules)
                         })
                     )
             }
@@ -288,7 +285,6 @@ export class PayrollDetail implements OnInit {
         this.showSign = true
         setTimeout(() => {
             const img = document.getElementById("clientSign")
-            console.log(img)
             img?.setAttribute("src", "data:image/png;base64, " + data)
         }, 1);
     }

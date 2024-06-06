@@ -38,17 +38,17 @@ body {
     font-size: 32px;
 }
 
-a > .p-icon-wrapper {
+a>.p-icon-wrapper {
     color: white !important;
 }
 
 
 .p-menubar-button:hover {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .p-menubar-button:focus {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .nav-icon {
@@ -136,7 +136,7 @@ textarea:focus-visible {
 .payroll-detail-event {
     background-color: #D6823C;
     border-color: #D6823C;
-    color: black;   
+    color: black;
 }
 
 .responsive-file-upload {
@@ -233,4 +233,5 @@ textarea:focus-visible {
     .text-name {
         margin-top: 6rem;
     }
+    
 }

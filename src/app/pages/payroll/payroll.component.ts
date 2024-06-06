@@ -203,7 +203,7 @@ export class Payroll implements OnInit {
 					this.createPayrollVisible = false;
 					this.init();
 					
-					this.payrollReqDtoFg.get('title')?.reset;
+					this.payrollReqDtoFg.get('title')?.reset();
 					this.init();
 					if (this.currentCompanyPayroll != null) {
 						this.payrollReqDtoFg.get('scheduledDate')?.patchValue(this.currentCompanyPayroll);
@@ -231,6 +231,7 @@ export class Payroll implements OnInit {
 		}
 
 	}
+	
 	noWhitespaceValidator(control: FormControl) {
         const isWhitespace = (control && control.value && control.value.toString() || '').trim().length === 0;
         const isValid = !isWhitespace;

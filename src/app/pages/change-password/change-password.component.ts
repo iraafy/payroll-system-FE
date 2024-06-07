@@ -36,22 +36,23 @@ export class ChangePassword {
         if(this.userUpdateReqDtoFg.valid) {
             const oldPassword = this.userUpdateReqDtoFg.value.oldPassword;
             const newPassword = this.userUpdateReqDtoFg.value.newPassword;
-            
+            this.displayModal = false;
             if (oldPassword && newPassword) {
                 if (this.userUpdateReqDtoFg.value.newPassword === this.userUpdateReqDtoFg.value.confirmPassword) {
                     const userData: UserUpdateReqDto = {
                         oldPassword: oldPassword,
                         newPassword: newPassword
                     };
-                    firstValueFrom(this.userService.changePassword(userData)).then(res => {
-                        if (res.message === 'Gagal mengubah kata sandi :(') {
-                            this.messageService.add({ severity: 'warn', summary: 'Peringatan', detail: 'Kata Sandi Lama Tidak Sesuai' });
-                        } else {
+                    firstValueFrom(this.userService.changePassword(userData)).then(
+                        res => {
                             localStorage.clear();
                             this.router.navigateByUrl('/login');
                             this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Kata Sandi Berhasil Diubah' });
+                        },
+                        err => {
+                            this.messageService.add({ severity: 'warn', summary: 'Peringatan', detail: err.error['message'] });
                         }
-                    });
+                    );
                 } else {
                     this.messageService.add({ severity: 'warn', summary: 'Peringatan', detail: 'Konfirmasi Kata Sandi Tidak Sesuai' });
                 }

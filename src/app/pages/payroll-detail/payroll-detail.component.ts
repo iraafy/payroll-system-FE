@@ -99,7 +99,7 @@ export class PayrollDetail implements OnInit {
                     .pipe(
                         tap((items: PayrollDetailResDto[]) => {
                             items.forEach((item) => {
-                                const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
+                                const formattedDate = this.datePipe.transform(item.maxUploadDate, 'dd-MM-yyyy')!;
                                 item.maxUploadDate = formattedDate;
                                 this.payrollSize++;
 

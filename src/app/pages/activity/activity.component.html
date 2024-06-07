@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="mb-5 mt-3 inline-flex">
-                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" formControlName="forClient"/>
+                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" (onChange)="isChecked(checked)" formControlName="forClient"/>
                         <label for="switch" class="ml-2 pt-1">
                             Unggahan Klien
                         </label>

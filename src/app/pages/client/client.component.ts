@@ -40,8 +40,6 @@ export class Client implements OnInit {
                         this.companyLogos?.push(`${BASE_URL}/files/file/${client.fileId}`);
                     }
                 });
-
-                console.log(this.companyLogos);
             }
         )
 

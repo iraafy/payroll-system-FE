@@ -64,6 +64,7 @@ export class Activity {
             },
             err => {
                 this.messageService.add({ severity: 'error', summary: 'Gagal', detail: err.error['message'] });
+                this.init()
             }
         );
     }

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { LoginReqDto } from "../dto/user/login.req.dto";
 import { LoginResDto } from "../dto/user/login.res.dto";
+import { BASE_URL } from "../constants/global";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
 
     login(loginReqDto: LoginReqDto) {
         return this.http.post<LoginResDto>(
-            'http://192.168.20.75:8080/users/login',
+            `${BASE_URL}/users/login`,
             loginReqDto
         )
     }

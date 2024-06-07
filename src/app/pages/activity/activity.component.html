@@ -43,7 +43,7 @@
                             <label for="date" class="form-label fw-semibold">Maksimal Unggah <span class="text-red-500">*</span></label>
                         </div>
                         <div >
-                            <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="maxUploadDate" />
+                            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" styleClass="w-full bg-gray-100" formControlName="maxUploadDate" />
                             <div *ngIf="activityReqDtoFg.controls['maxUploadDate'].invalid && activityReqDtoFg.controls['maxUploadDate'].dirty" class="text-red-500 text-xs">
                                 <p *ngIf="activityReqDtoFg.controls['maxUploadDate'].errors">
                                     {{activityReqDtoFg.controls['maxUploadDate'].hasError('required') ? 'Maksimal unggah wajib diisi' : ''}}

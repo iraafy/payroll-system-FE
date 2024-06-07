@@ -51,14 +51,14 @@
                 <p-stepperPanel *ngFor="let payroll of pd; let i = index" 
                     header="{{payroll.description}} [{{payroll.maxUploadDate}}]">
                     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-                        <div class="flex flex-column">
+                        <div class="flex card-stepper">
                             <div 
                                 class="border-2 shadow-3 border-dashed p-4 surface-border border-round surface-ground font-medium">
                                 <div>
                                     <div class="grid" *ngIf="isPS">
-
                                         <div class="md:mt-0 mt-3 md:col-10 col-12 md:flex-order-0 flex-order-1">
-                                            <!-- <b>Data_Karyawan.xlsx</b> -->
+                                            {{!payroll.filePath && payroll.forClient ? "Belum ada File Upload dari Client" : ''}}
+                                            {{!payroll.filePath && payroll.forClient ? "Belum ada File Upload dari Client" : ''}}
                                         </div>
                                         <div class="md:col-2 col-12 flex md:justify-content-end justify-content-start"
                                             *ngIf="isPS && payroll.forClient">
@@ -82,7 +82,7 @@
                                                 <div class="flex justify-content-end">
                                                     <p-button label="Batal" severity="secondary"
                                                         (click)="pingVisible = false" />
-                                                    <p-button label="Ya" (click)="pingSubmit(payroll.id)"
+                                                    <p-button label="Ya" (click)="pingSubmit(payroll.id, payroll.description)"
                                                         styleClass="ml-2 bg-color-primary" />
                                                 </div>
                                             </p-dialog>
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="grid mt-2 pl-1">
                                         <p-button severity="secondary" label="Pratinjau"
-                                            styleClass="text-center mr-3 rounded-3 border-none text-sm font-bold"
+                                        styleClass="text-center mr-3 rounded-3 border-none text-sm font-bold"
                                             *ngIf="isPS && payroll.filePath || payroll.filePath && !payroll.forClient"
                                             (click)="onPreview(payroll.id)"></p-button>
                                         <p-button (click)="showDialogSignature(payroll.id)" label="Tanda Tangan"
@@ -100,10 +100,23 @@
                                             styleClass="text-center mr-3 bg-color-primary rounded-3 border-none text-sm font-bold"
                                             *ngIf="(isClient && payroll.filePath && !payroll.forClient) || (((isPS && payroll.filePath) || (payroll.filePath && !payroll.forClient)) && payroll.psAcknowledge)">
                                         </p-button>
-                                        <p-button (click)="showClientSignature(payroll.clientAcknowledge.toString())"
+                                        <p class="mt-4 font-bold w-full flex justify-content-end">
+                                            <span *ngIf="payroll.psAcknowledge && isPS">
+                                                <p-chip
+                                                    styleClass="bg-green-700 text-white text-xs ml-2 py-1 px-3 mt-3 mb:mt-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2"
+                                                        width="1rem" height="1rem" viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="m23 12l-2.44-2.78l.34-3.68l-3.61-.82l-1.89-3.18L12 3L8.6 1.54L6.71 4.72l-3.61.81l.34 3.68L1 12l2.44 2.78l-.34 3.69l3.61.82l1.89 3.18L12 21l3.4 1.46l1.89-3.18l3.61-.82l-.34-3.68zm-13 5l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9z" />
+                                                    </svg>
+                                                    Sudah Disetujui
+                                                </p-chip>
+                                            </span>
+                                        </p>
+                                        <!-- <p-button (click)="showClientSignature(payroll.clientAcknowledge.toString())"
                                             label="Lihat Tanda Tangan"
                                             styleClass="text-center bg-color-primary rounded-3 border-none text-sm font-bold"
-                                            *ngIf="((isPS && payroll.clientAcknowledge) || (payroll.clientAcknowledge && !payroll.forClient))"></p-button>
+                                            *ngIf="((isPS && payroll.clientAcknowledge) || (payroll.clientAcknowledge && !payroll.forClient))"></p-button> -->
                                         <p-dialog header="Konfirmasi" [(visible)]="downloadVisible" [modal]="true"
                                             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
                                             [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
@@ -121,8 +134,14 @@
                                 </div>
                                 <div class="grid">
                                     <div class="md:col-10 col-12 flex-order-1 md:flex-order-0">
+                                        <div class="md:mt-0 md:col-10 col-12 md:flex-order-0 flex-order-1" *ngIf="!payroll.filePath && !payroll.forClient">
+                                            {{!payroll.filePath && !payroll.forClient ? "Menunggu File Upload dari PS" : ''}}
+                                        </div>
                                         <!-- BELUM UPLOAD -->
                                         <div>
+                                            <div class="flex justify-content-center" *ngIf="spin">
+                                                <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+                                            </div>
                                             <p-fileUpload url="https://www.primefaces.org/cdn/api/upload.php"
                                                 (onUpload)="fileUpload($event, payroll.id)" [multiple]="false"
                                                 styleClass="responsive-file-upload" accept=".pdf,.doc,.docx,.xls,.xlsx"
@@ -142,7 +161,7 @@
                                                         *ngIf="isClient && payroll.filePath || payroll.filePath && payroll.forClient"
                                                         (click)="onPreview(payroll.id)"></p-button>
                                                 </div>
-                                                <div class="col-auto">
+                                                <div class="col-auto" *ngIf="payroll.filePath && isClient">
                                                     <p-button (click)="showDialogSignature(payroll.id)"
                                                         [disabled]="payroll.psAcknowledge && payroll.clientAcknowledge"
                                                         styleClass="bg-color-primary" label="Tanda Tangan" />

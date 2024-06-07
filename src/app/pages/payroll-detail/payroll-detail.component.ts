@@ -105,7 +105,6 @@ export class PayrollDetail implements OnInit {
 
                                 firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
                                     res => {
-                                        console.log(res)
                                         if ((res && (res.isApproved == false ))) {
                                             this.listReschedules.push(true)
                                         } else if (!res) {
@@ -116,7 +115,6 @@ export class PayrollDetail implements OnInit {
                                     }
                                 )
                             });
-                            console.log(this.listReschedules)
                         })
                     )
             }
@@ -175,10 +173,11 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    pingSubmit(id: string) {
+    pingSubmit(id: string, description: string) {
+
         if (this.clientId != null) {
             this.data = {
-                notificationContent: 'Anda belum mengisi bagian ini',
+                notificationContent: `Anda belum mengisi aktivitas ${description}`,
                 contextUrl: `/payrolls/${this.payrollId}`,
                 contextId: 'PING',
                 userId: this.clientId,
@@ -286,13 +285,15 @@ export class PayrollDetail implements OnInit {
         }
     }
 
-    showClientSignature(data: string) {
-        this.showSign = true
-        setTimeout(() => {
-            const img = document.getElementById("clientSign")
-            img?.setAttribute("src", "data:image/png;base64, " + data)
-        }, 1);
-    }
+    // # Show Client Signature if Needed
+    // # Don't Delete :)
+    // showClientSignature(data: string) {
+    //     this.showSign = true
+    //     setTimeout(() => {
+    //         const img = document.getElementById("clientSign")
+    //         img?.setAttribute("src", "data:image/png;base64, " + data)
+    //     }, 1);
+    // }
 
     exportFinalReport() {
         window.location.href = `http://localhost:8080/reports/${this.payrollId}`;

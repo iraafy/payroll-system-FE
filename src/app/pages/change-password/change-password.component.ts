@@ -28,6 +28,10 @@ export class ChangePassword {
         confirmPassword: ['', Validators.required]
     });
 
+    openModal() {
+        this.displayModal = true;
+    }
+
     onSubmit() {
         if(this.userUpdateReqDtoFg.valid) {
             const oldPassword = this.userUpdateReqDtoFg.value.oldPassword;

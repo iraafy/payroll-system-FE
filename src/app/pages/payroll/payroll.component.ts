@@ -79,7 +79,7 @@ export class Payroll implements OnInit {
 					
 					currentLastDate.setDate(currentLastDate.getDate());
 					const currentDay = currentLastDate.getDate();
-					
+
 					if(currentDay < this.company.payrollDate){
 						if(currentDay ===  6 ){
 							currentLastDate.setDate(currentLastDate.getDate() - 1)
@@ -209,6 +209,17 @@ export class Payroll implements OnInit {
 
 	onSubmit() {
 		if (this.payrollReqDtoFg.valid) {
+			var toDateTime =  this.payrollReqDtoFg.get('scheduledDate')?.getRawValue()
+			var submittedTime = ""
+			if(typeof toDateTime === "string" ){
+				toDateTime = toDateTime.split("-")
+				submittedTime = toDateTime[2]+"-"+toDateTime[1]+"-"+toDateTime[0]
+			}else {
+				toDateTime = toDateTime.toISOString().split("T")[0].split("-")
+				submittedTime = toDateTime[0]+"-"+toDateTime[1]+"-"+toDateTime[2]
+			}
+			
+			this.payrollReqDtoFg.get('scheduledDate')?.patchValue(submittedTime)
 			const payrollReqDto: PayrollReqDto = this.payrollReqDtoFg.getRawValue() as any;
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(

@@ -92,6 +92,7 @@ export class UserAdd implements OnInit {
 
     createUser() {
         const userReq: UserReqDto = this.userForm.getRawValue()
+        
         firstValueFrom(this.userService.saveUser(userReq)).then(
             res => {
                 this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: 'Berhasil Menambahkan user' })

@@ -1,8 +1,12 @@
 <div class="mx-4 md:mx-8 mt-7">
     <div class="grid">
         <div class="col-auto">
-            <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" styleClass="custom-small-shadow border-none bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24"><path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+            <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3"
+                styleClass="custom-small-shadow border-none bg-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                    <path fill="none" stroke="#012B30" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="m14 7l-5 5l5 5" />
+                </svg>
             </p-button>
         </div>
         <div class="col-auto ml-3">
@@ -14,48 +18,50 @@
         <div class="lg:col-6 col-12 flex align-items-center">
             <div class="w-full shadow-3 p-4 pt-2">
                 <p class="font-bold">(Payment Date : {{payrollDate}})</p>
-                <pre>
-                    {{activityReqDtoFg.value | json}}
-                </pre>
                 <form [formGroup]="activityReqDtoFg" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <div class="mb-2">
-                            <label for="activity" class="form-label fw-semibold">Aktivitas <span class="text-red-500">*</span></label>
+                            <label for="activity" class="form-label fw-semibold">Aktivitas <span
+                                    class="text-red-500">*</span></label>
                         </div>
                         <div>
-                            <textarea 
-                                pInputTextarea 
-                                rows="4" 
-                                [ngClass]="{
+                            <textarea pInputTextarea rows="4" [ngClass]="{
                                     'border-red-500': activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty, 
                                     'border-black-alpha-20': activityReqDtoFg.controls['description'].valid || activityReqDtoFg.controls['description'].untouched || !activityReqDtoFg.controls['description'].touched
-                                }" 
-                                class="p-2 w-full bg-gray-50 border-round-md" 
-                                id="activity" 
+                                }" class="p-2 w-full bg-gray-50 border-round-md" id="activity"
                                 formControlName="description">
                             </textarea>
-                            <div *ngIf="activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty" class="text-red-500 text-xs">
+                            <div *ngIf="activityReqDtoFg.controls['description'].invalid && activityReqDtoFg.controls['description'].dirty"
+                                class="text-red-500 text-xs">
                                 <p *ngIf="activityReqDtoFg.controls['description'].errors">
-                                    {{activityReqDtoFg.controls['description'].hasError('required') ? 'Deskripsi aktivitas wajib diisi' : (activityReqDtoFg.controls['description'].hasError('whitespace') ? 'Deskripsi aktivitas wajib diisi dengan huruf/angka' : '')}}
+                                    {{activityReqDtoFg.controls['description'].hasError('required') ? 'Deskripsi
+                                    aktivitas wajib diisi' :
+                                    (activityReqDtoFg.controls['description'].hasError('whitespace') ? 'Deskripsi
+                                    aktivitas wajib diisi dengan huruf/angka' : '')}}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3" *ngIf="checked">
                         <div class="mb-2">
-                            <label for="date" class="form-label fw-semibold">Maksimal Unggah <span class="text-red-500">*</span></label>
+                            <label for="date" class="form-label fw-semibold">Maksimal Unggah <span
+                                    class="text-red-500">*</span></label>
                         </div>
-                        <div >
-                            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" styleClass="w-full bg-gray-100" formControlName="maxUploadDate" />
-                            <div *ngIf="activityReqDtoFg.controls['maxUploadDate'].invalid && activityReqDtoFg.controls['maxUploadDate'].dirty" class="text-red-500 text-xs">
+                        <div>
+                            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay"
+                                styleClass="w-full bg-gray-100" formControlName="maxUploadDate" />
+                            <div *ngIf="activityReqDtoFg.controls['maxUploadDate'].invalid && activityReqDtoFg.controls['maxUploadDate'].dirty"
+                                class="text-red-500 text-xs">
                                 <p *ngIf="activityReqDtoFg.controls['maxUploadDate'].errors">
-                                    {{activityReqDtoFg.controls['maxUploadDate'].hasError('required') ? 'Maksimal unggah wajib diisi' : ''}}
+                                    {{activityReqDtoFg.controls['maxUploadDate'].hasError('required') ? 'Maksimal unggah
+                                    wajib diisi' : ''}}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="mb-5 mt-3 inline-flex">
-                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" (onChange)="isChecked(checked)" formControlName="forClient"/>
+                        <p-inputSwitch ariaLabelledBy="switch" [(ngModel)]="checked" (onChange)="isChecked(checked)"
+                            formControlName="forClient" />
                         <label for="switch" class="ml-2 pt-1">
                             Unggahan Klien
                         </label>
@@ -64,7 +70,8 @@
                         <p-button routerLink="/payrolls/{{payrollId}}" class="rounded-3" severity="secondary">
                             Batal
                         </p-button>
-                        <p-button [disabled]="activityReqDtoFg.invalid" type="submit" class="rounded-3" styleClass="bg-color-primary ml-3">
+                        <p-button [disabled]="activityReqDtoFg.invalid" type="submit" class="rounded-3"
+                            styleClass="bg-color-primary ml-3">
                             Simpan
                         </p-button>
                     </div>

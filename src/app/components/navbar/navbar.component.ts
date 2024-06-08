@@ -67,7 +67,7 @@ export class Navbar {
     sidebarVisible: boolean = false
     chatListVisible: boolean = true
     chatDetailVisible: boolean = false
-    showMessageInput : boolean = false
+    showMessageInput: boolean = false
     navlinks: any = []
     clients: ClientAssignmentResDto[] = []
     notification: NotificationResDto[] = [];
@@ -188,19 +188,19 @@ export class Navbar {
             }
         )
 
-        
+
         // setTimeout(() => {
-            //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
-            //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
-            
-            //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
-            // }, 1);
-            
+        //     document.querySelector(".chat .ng-star-inserted")?.classList.remove("mb-9")
+        //     document.querySelector(".chat > .ng-star-inserted:last-child")?.classList.add("mb-9")
+
+        //     console.log(document.querySelector(".chat > .ng-star-inserted:last-child"))
+        // }, 1);
+
         this.showMessageInput = true
-        
+
         setTimeout(() => {
             var bottomElement = document.querySelector('.chat') as HTMLElement;
-            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 10);
     }
 
@@ -280,7 +280,7 @@ export class Navbar {
     connect(id: string | undefined) {
         const ws = new SockJS(this.websocketService.url)
         this.sockClient = Stomp.over(ws)
-        this.sockClient.debug = () => {}
+        this.sockClient.debug = () => { }
         const that = this
         this.received = []
 
@@ -319,7 +319,7 @@ export class Navbar {
 
         setTimeout(() => {
             var bottomElement = document.querySelector('.chat') as HTMLElement;
-            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' }); 
+            bottomElement?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 10);
 
         this.text = null
@@ -345,7 +345,7 @@ export class Navbar {
         return color;
     }
 
-    isRead(id: string){
+    isRead(id: string) {
         firstValueFrom(this.notificationService.readNotification(id)).then(
             res => {
                 this.notificationService.changeNotification(this.notificationCount - 1, true)

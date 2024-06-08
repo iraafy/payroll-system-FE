@@ -80,10 +80,15 @@
                     <div class="mb-5 grid">
                         <div class="mb-1 col-12 md:col-6">
                             <div class="mb-2">
-                                <label for="phone" class="form-label fw-semibold">Nomor Telepon</label>
+                                <label for="phone" class="form-label fw-semibold">Nomor Telepon <span class="text-red-500">*</span></label>
                             </div>
                             <div>
                                 <input type="number" id="phone" class="w-full" pInputText formControlName="phone" />
+                                <div *ngIf="userForm.controls['phone'].invalid && userForm.controls['phone'].dirty" class="text-red-500 text-xs">
+                                    <p *ngIf="userForm.controls['phone'].errors">
+                                        {{userForm.controls['phone'].hasError('required') ? 'Nomor telepon wajib diisi' : ''}}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-1 col-12 md:col-6">

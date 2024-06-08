@@ -50,6 +50,7 @@ export class Profile implements OnInit {
             firstValueFrom(this.userService.getUserByid(this.loginData.id)).then(
                 res => {
                     this.profileData = res;
+                    this.photoProfile = `${BASE_URL}/files/file/${this.profileData.fileId}`;
                 }
             )
         }

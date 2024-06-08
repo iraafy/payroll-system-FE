@@ -32,6 +32,7 @@ export class PayrollDetail implements OnInit {
     downloadVisible: boolean = false
     spin: boolean = false
     showUpload: boolean = true
+    showPreview: boolean = true
     showSign: boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
@@ -99,13 +100,13 @@ export class PayrollDetail implements OnInit {
                     .pipe(
                         tap((items: PayrollDetailResDto[]) => {
                             items.forEach((item) => {
-                                const formattedDate = this.datePipe.transform(item.maxUploadDate, 'yyyy-MM-dd')!;
+                                const formattedDate = this.datePipe.transform(item.maxUploadDate, 'dd-MM-yyyy')!;
                                 item.maxUploadDate = formattedDate;
                                 this.payrollSize++;
 
                                 firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
                                     res => {
-                                        if ((res && (res.isApproved == false ))) {
+                                        if ((res && (res.isApproved == false))) {
                                             this.listReschedules.push(true)
                                         } else if (!res) {
                                             this.listReschedules.push(false)
@@ -118,7 +119,7 @@ export class PayrollDetail implements OnInit {
                         })
                     )
             }
-        }, 10);
+        }, 200);
 
     }
 
@@ -130,6 +131,10 @@ export class PayrollDetail implements OnInit {
                 penColor: 'rgb(0, 0, 0)'
             })
         }
+    }
+
+    convertDate(input: string){
+        return this.datePipe.transform(input, 'yyyy-MM-dd')!;
     }
 
     loginData = this.authService.getLoginData()
@@ -219,9 +224,8 @@ export class PayrollDetail implements OnInit {
                             this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
                             firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id))
 
-                            this.showUpload = false
-
                             this.init()
+
                         }
 
                     )

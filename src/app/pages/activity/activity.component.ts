@@ -45,7 +45,7 @@ export class Activity {
     activityReqDtoFg = this.fb.group({
         description: ['', [Validators.required, this.noWhitespaceValidator]],
         maxUploadDate: ['', Validators.required],
-        forClient: [false],
+        forClient: [true],
     });
 
     isChecked(test: boolean){
@@ -55,7 +55,9 @@ export class Activity {
     }
 
     onSubmit(): void {
-        
+        const clientZone = new Date(this.activityReqDtoFg.get('maxUploadDate')?.getRawValue())
+        const userTimezoneOffset = clientZone.getTimezoneOffset() * 60000;
+        this.activityReqDtoFg.get('maxUploadDate')?.patchValue(new Date(clientZone.getTime() - userTimezoneOffset).toISOString())
         const payrollDetailReqDto = this.activityReqDtoFg.value as any;
         firstValueFrom(this.payrollService.createNewPayrollDetail(payrollDetailReqDto, this.payrollId)).then(
             res => {

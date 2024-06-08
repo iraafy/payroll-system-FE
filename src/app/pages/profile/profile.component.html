@@ -2,7 +2,7 @@
     <div class="relative">
         <img src="/assets/images/bg-profile.jpg" alt="bg-profile" class="w-full h-15rem z-0">
         <div class="profile-image">
-            <img *ngIf="!spin" [src]="photoProfile" class="md:w-10rem md:h-10rem w-7rem h-7rem rounded-img"
+            <img *ngIf="!spin" [src]="photoProfile" class="md:w-10rem md:h-10rem w-7rem h-7rem rounded-img bg-black-alpha-90"
                 alt="profile-image">
             <div class="flex justify-content-center" *ngIf="spin">
                 <p-progressSpinner ariaLabel="loading"></p-progressSpinner>

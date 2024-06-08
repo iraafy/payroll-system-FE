@@ -40,7 +40,8 @@ export class Payroll implements OnInit {
 	loginData: LoginResDto | undefined = undefined;
 	eventsOnCalendar: EventInput[] = [];
 
-	currentDate: Date = new Date();
+	currentDate: DateInput | null = null
+	companyDate : Date = new Date()
 	
 
 	payrollReqDtoFg = this.fb.group({
@@ -75,13 +76,15 @@ export class Payroll implements OnInit {
 					const monthCurrent = dateCurrent.getMonth();
 					const yearCurrent = dateCurrent.getFullYear();
 					const currentLastDate = new Date(yearCurrent, monthCurrent + 1, 0);
-					currentLastDate.setDate(currentLastDate.getDate()-1);
-					console.log(currentLastDate)
-					const currentDay = currentLastDate.getDay();
+					
+					currentLastDate.setDate(currentLastDate.getDate());
+					const currentDay = currentLastDate.getDate();
+
 					if(currentDay < this.company.payrollDate){
 						if(currentDay ===  6 ){
 							currentLastDate.setDate(currentLastDate.getDate() - 1)
-							this.currentDate = currentLastDate
+							console.log(currentLastDate)
+							this.companyDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
@@ -89,7 +92,8 @@ export class Payroll implements OnInit {
 
 						}else if(currentDay === 0) {
 							currentLastDate.setDate(currentLastDate.getDate() - 2)
-							this.currentDate = currentLastDate
+							console.log(currentLastDate)
+							this.companyDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
@@ -98,21 +102,24 @@ export class Payroll implements OnInit {
 						}else {
 							this.currentDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
+							console.log(currentLastDate)
+							this.companyDate = currentLastDate
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
 							this.defaultPayment.initialDate = formattedDate;
 						}
 					}else{
-						const companyPayrollDate = new Date(currentDate);
+						const companyPayrollDate = new Date();
 						companyPayrollDate.setDate(this.company.payrollDate);
-						this.currentDate = companyPayrollDate
+						this.companyDate = companyPayrollDate
+						console.log(companyPayrollDate)
 						const formattedDate = this.formatDate(companyPayrollDate);
 						this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 						this.currentCompanyPayroll = formattedDate;
 						this.defaultPayment.initialDate = formattedDate;
 					}
 				})
-
+			
 			this.payrollReqDtoFg.get('clientId')?.patchValue(this.clientId);
 
 			firstValueFrom(this.userService.getUserByid(this.clientId)).then(
@@ -140,8 +147,8 @@ export class Payroll implements OnInit {
 					this.eventsOnCalendar = [];
 					
 					this.payrolls.forEach((payroll) => {
-						const formattedDate = this.formatDate(payroll.scheduleDate);
-						payroll.scheduleDate = formattedDate;
+						const formattedDate = this.formatDateForCalendar(payroll.scheduleDate);
+						payroll.scheduleDate = this.formatDate(payroll.scheduleDate);
 						const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
 						this.eventsOnCalendar.push(event);
 					})
@@ -153,8 +160,8 @@ export class Payroll implements OnInit {
 					this.clientPayrollDetails = res;
 					
 					this.clientPayrollDetails.forEach((detail) => {
-						const formattedDate = this.formatDate(detail.maxUploadDate);
-						detail.maxUploadDate = formattedDate;
+						const formattedDate = this.formatDateForCalendar(detail.maxUploadDate);
+						detail.maxUploadDate = this.formatDate(detail.maxUploadDate);
 						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
 						this.eventsOnCalendar.push(event);
 					})
@@ -194,12 +201,26 @@ export class Payroll implements OnInit {
 
 	};
 
-	private formatDate(date: string | Date): string {
+	private formatDateForCalendar(date: string | Date): string {
 		return this.datePipe.transform(date, 'yyyy-MM-dd')!;
+	}
+	private formatDate(date: string | Date): string {
+		return this.datePipe.transform(date, 'dd-MM-YYYY')!;
 	}
 
 	onSubmit() {
 		if (this.payrollReqDtoFg.valid) {
+			var toDateTime =  this.payrollReqDtoFg.get('scheduledDate')?.getRawValue()
+			var submittedTime = ""
+			if(typeof toDateTime === "string" ){
+				toDateTime = toDateTime.split("-")
+				submittedTime = toDateTime[2]+"-"+toDateTime[1]+"-"+toDateTime[0]
+			}else {
+				toDateTime = toDateTime.toISOString().split("T")[0].split("-")
+				submittedTime = toDateTime[0]+"-"+toDateTime[1]+"-"+toDateTime[2]
+			}
+			
+			this.payrollReqDtoFg.get('scheduledDate')?.patchValue(submittedTime)
 			const payrollReqDto: PayrollReqDto = this.payrollReqDtoFg.getRawValue() as any;
 
 			firstValueFrom(this.payrollService.createNewPayroll(payrollReqDto)).then(

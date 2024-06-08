@@ -7,8 +7,8 @@
         <div *ngFor="let client of clients; let i=index"  class="col-12 md:col-4 flex justify-content-center cursor-pointer">
             <div class="shadow-3 w-full text-center" routerLink="/clients/{{client.id}}" >
                 <img [src]="companyLogos[i]" alt="Company-Logo" class="w-7rem h-7rem mt-3" />
-                <h4>{{ client.company }}</h4>
-                <p>{{ client.name }}</p>
+                <h4 class="mb-0">{{ client.company }}</h4>
+                <p class="mt-2 mb-5">{{ client.name }}</p>
             </div>
         </div>
     </div>

@@ -133,6 +133,10 @@ export class PayrollDetail implements OnInit {
         }
     }
 
+    convertDate(input: string){
+        return this.datePipe.transform(input, 'yyyy-MM-dd')!;
+    }
+
     loginData = this.authService.getLoginData()
 
     get isPS() {

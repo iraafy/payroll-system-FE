@@ -83,6 +83,7 @@ export class Payroll implements OnInit {
 					if(currentDay < this.company.payrollDate){
 						if(currentDay ===  6 ){
 							currentLastDate.setDate(currentLastDate.getDate() - 1)
+							console.log(currentLastDate)
 							this.companyDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
@@ -91,6 +92,7 @@ export class Payroll implements OnInit {
 
 						}else if(currentDay === 0) {
 							currentLastDate.setDate(currentLastDate.getDate() - 2)
+							console.log(currentLastDate)
 							this.companyDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
@@ -99,23 +101,24 @@ export class Payroll implements OnInit {
 							
 						}else {
 							const formattedDate = this.formatDate(currentLastDate);
+							console.log(currentLastDate)
 							this.companyDate = currentLastDate
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
 							this.defaultPayment.initialDate = formattedDate;
 						}
 					}else{
-						const companyPayrollDate = new Date(currentDate);
+						const companyPayrollDate = new Date();
 						companyPayrollDate.setDate(this.company.payrollDate);
 						this.companyDate = companyPayrollDate
-	
+						console.log(companyPayrollDate)
 						const formattedDate = this.formatDate(companyPayrollDate);
 						this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 						this.currentCompanyPayroll = formattedDate;
 						this.defaultPayment.initialDate = formattedDate;
 					}
 				})
-
+			
 			this.payrollReqDtoFg.get('clientId')?.patchValue(this.clientId);
 
 			firstValueFrom(this.userService.getUserByid(this.clientId)).then(

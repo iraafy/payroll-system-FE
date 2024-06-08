@@ -13,19 +13,40 @@
             </p-fileUpload>
         </div>
     </div>
-    <div class="text-name text-center">
-        <h2>
-            {{ name }} <i class="ml-2 pi pi-pencil cursor-pointer" (click)="displayModal = true"></i>
-        </h2>
-        <p>
-            {{ email }}
-        </p>
-        <p>
-            {{ roleName }}
-        </p>
-        <p>
-            {{ company }}
-        </p>
+    <div class="md:px-7 px-4 my-5">
+        <div class="w-full grid justify-content-center">
+            <div class="md:col-6 col-12 bg-white shadow-4 p-5">
+                <h1 class="text-color-primary font-bold">
+                    {{ profileData?.fullName }} <i class="ml-2 pi pi-pen-to-square cursor-pointer" (click)="displayModal = true"></i>
+                </h1>
+                <div class="grid">
+                    <div class="col-6">
+                        <b>Email</b>
+                        <p>
+                            {{ profileData?.email }}
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <b>No. Telepon</b>
+                        <p>
+                            {{ profileData?.phone }}
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <b>Nama Perusahaan</b>
+                        <p>
+                            {{ profileData?.companyName }}
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <b>Role</b>
+                        <p>
+                            {{ profileData?.roleName }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

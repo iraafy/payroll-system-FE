@@ -50,16 +50,17 @@ export class Profile implements OnInit {
             firstValueFrom(this.userService.getUserByid(this.loginData.id)).then(
                 res => {
                     this.profileData = res;
+                    this.photoProfile = `${BASE_URL}/files/file/${this.profileData.fileId}`;
                 }
             )
         }
-
         this.name = this.profileData?.fullName;
         if (this.profileData?.id != null) {
             this.photoProfile = `${BASE_URL}/files/file/${this.profileData.fileId}`;
         } else {
             this.photoProfile = 'assets/images/icon/user.svg';
         }
+
     }
 
     name = this.loginData?.fullName;

@@ -14,7 +14,7 @@ import { BehaviorSubject } from "rxjs"
     providedIn: 'root'
 })
 export class UserService {
-    private profileImageSource = new BehaviorSubject<string>('https://cdn-icons-png.flaticon.com/512/5987/5987424.png');
+    private profileImageSource = new BehaviorSubject<string>('assets/images/icon/user.svg');
     currentProfileImage = this.profileImageSource.asObservable();
 
     constructor(private http: HttpClient, private base : BaseService) { }

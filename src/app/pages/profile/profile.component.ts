@@ -54,29 +54,11 @@ export class Profile implements OnInit {
                 }
             )
         }
-        this.name = this.profileData?.fullName;
-        if (this.profileData?.id != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.profileData.fileId}`;
+
+        if (this.loginData?.imageProfile != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
         } else {
             this.photoProfile = 'assets/images/icon/user.svg';
-        }
-
-    }
-
-    name = this.loginData?.fullName;
-    company = this.loginData?.companyName;
-    role = this.loginData?.roleCode;
-    file = this.loginData?.imageProfile
-    email = this.loginData?.email;
-    roleName = this.checkRole();
-
-    checkRole() {
-        if (RoleType.PS === this.role) {
-            return 'Payroll Service'
-        } else if (RoleType.CLIENT === this.role) {
-            return 'Client'
-        } else {
-            return 'Super Admin'
         }
     }
 

@@ -76,7 +76,7 @@
                     <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <p-calendar appendTo="body" [iconDisplay]="'input'"  [showIcon]="true" inputId="icondisplay" styleClass="w-full bg-gray-100" formControlName="scheduledDate" dateFormat="yy-mm-dd" [defaultDate]="companyDate" />
+                    <p-calendar appendTo="body" [iconDisplay]="'input'"  [showIcon]="true" inputId="icondisplay" styleClass="w-full bg-gray-100" formControlName="scheduledDate" dateFormat="dd-mm-yy" [defaultDate]="companyDate" />
                     <div *ngIf="payrollReqDtoFg.controls['scheduledDate'].invalid && payrollReqDtoFg.controls['scheduledDate'].dirty" class="text-red-500 text-xs">
                         <p *ngIf="payrollReqDtoFg.controls['scheduledDate'].errors">
                             {{payrollReqDtoFg.controls['scheduledDate'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}

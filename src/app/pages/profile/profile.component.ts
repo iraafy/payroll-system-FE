@@ -48,7 +48,7 @@ export class Profile implements OnInit {
         if (this.loginData?.imageProfile != null) {
             this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
         } else {
-            this.photoProfile = 'https://cdn-icons-png.flaticon.com/512/5987/5987424.png';
+            this.photoProfile = 'assets/images/icon/user.svg';
         }
     }
 

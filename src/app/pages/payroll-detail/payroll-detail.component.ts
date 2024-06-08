@@ -32,6 +32,7 @@ export class PayrollDetail implements OnInit {
     downloadVisible: boolean = false
     spin: boolean = false
     showUpload: boolean = true
+    showPreview: boolean = true
     showSign: boolean = false
     payrollId: string | null = ''
     clientId: string | null = ''
@@ -105,7 +106,7 @@ export class PayrollDetail implements OnInit {
 
                                 firstValueFrom(this.reschduleService.getLastRescheduleByPayrollDetailId(item.id)).then(
                                     res => {
-                                        if ((res && (res.isApproved == false ))) {
+                                        if ((res && (res.isApproved == false))) {
                                             this.listReschedules.push(true)
                                         } else if (!res) {
                                             this.listReschedules.push(false)
@@ -118,7 +119,7 @@ export class PayrollDetail implements OnInit {
                         })
                     )
             }
-        }, 10);
+        }, 200);
 
     }
 
@@ -219,9 +220,8 @@ export class PayrollDetail implements OnInit {
                             this.messageService.add({ severity: 'success', summary: 'Berhasil', detail: res.message })
                             firstValueFrom(this.payrollService.setPayrollDetailFile(id, res.id))
 
-                            this.showUpload = false
-
                             this.init()
+
                         }
 
                     )

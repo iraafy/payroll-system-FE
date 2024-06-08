@@ -57,6 +57,9 @@
 <p-dialog header="Tambah Data Payroll" [(visible)]="createPayrollVisible" [modal]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false"
     [resizable]="false">
+        <pre>
+            {{payrollReqDtoFg.value | json}}
+        </pre>
         <form [formGroup]="payrollReqDtoFg" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <div class="mb-2">
@@ -76,7 +79,8 @@
                     <label for="date" class="form-label fw-semibold">Tanggal Payroll <span class="text-red-500">*</span></label>
                 </div>
                 <div>
-                    <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="scheduledDate"/>
+                    <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" styleClass="w-full bg-gray-100" formControlName="scheduledDate" dateFormat="yy-mm-dd" [defaultDate]="currentDate" />
+                    <!-- <input type="date" id="date" class="w-full bg-gray-100" pInputText formControlName="scheduledDate"/> -->
                     <div *ngIf="payrollReqDtoFg.controls['scheduledDate'].invalid && payrollReqDtoFg.controls['scheduledDate'].dirty" class="text-red-500 text-xs">
                         <p *ngIf="payrollReqDtoFg.controls['scheduledDate'].errors">
                             {{payrollReqDtoFg.controls['scheduledDate'].hasError('required') ? 'Tanggal payroll wajib diisi' : ''}}

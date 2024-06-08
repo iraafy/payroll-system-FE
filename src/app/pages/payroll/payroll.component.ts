@@ -40,7 +40,7 @@ export class Payroll implements OnInit {
 	loginData: LoginResDto | undefined = undefined;
 	eventsOnCalendar: EventInput[] = [];
 
-	currentDate: DateInput | null = null
+	currentDate: Date = new Date();
 	
 
 	payrollReqDtoFg = this.fb.group({
@@ -75,10 +75,13 @@ export class Payroll implements OnInit {
 					const monthCurrent = dateCurrent.getMonth();
 					const yearCurrent = dateCurrent.getFullYear();
 					const currentLastDate = new Date(yearCurrent, monthCurrent + 1, 0);
+					currentLastDate.setDate(currentLastDate.getDate()-1);
+					console.log(currentLastDate)
 					const currentDay = currentLastDate.getDay();
 					if(currentDay < this.company.payrollDate){
 						if(currentDay ===  6 ){
 							currentLastDate.setDate(currentLastDate.getDate() - 1)
+							this.currentDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
@@ -86,12 +89,14 @@ export class Payroll implements OnInit {
 
 						}else if(currentDay === 0) {
 							currentLastDate.setDate(currentLastDate.getDate() - 2)
+							this.currentDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
 							this.defaultPayment.initialDate = formattedDate;
 							
 						}else {
+							this.currentDate = currentLastDate
 							const formattedDate = this.formatDate(currentLastDate);
 							this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 							this.currentCompanyPayroll = formattedDate;
@@ -100,7 +105,7 @@ export class Payroll implements OnInit {
 					}else{
 						const companyPayrollDate = new Date(currentDate);
 						companyPayrollDate.setDate(this.company.payrollDate);
-	
+						this.currentDate = companyPayrollDate
 						const formattedDate = this.formatDate(companyPayrollDate);
 						this.payrollReqDtoFg.get('scheduledDate')?.patchValue(formattedDate);
 						this.currentCompanyPayroll = formattedDate;

@@ -21,6 +21,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama Perusahaan</th>
+                    <th>Alamat</th>
+                    <th>No. Telepon</th>
                     <th>Tanggal Payroll</th>
                 </tr>
             </ng-template>
@@ -28,6 +30,8 @@
                 <tr>
                     <td>{{ i + 1 }}</td>
                     <td>{{ company.companyName }}</td>
+                    <td>{{ company.address }}</td>
+                    <td>{{ company.phone }}</td>
                     <td>{{ company.payrollDate }}</td>
                 </tr>
             </ng-template>

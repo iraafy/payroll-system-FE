@@ -10,6 +10,7 @@ import { firstValueFrom } from "rxjs";
 import { UserService } from "../../services/user.service";
 import { MessageService } from "primeng/api";
 import { UploadEvent } from "primeng/fileupload";
+import { UserResDto } from "../../dto/user/user.res.dto";
 
 @Component({
     selector: 'profile-app',
@@ -18,6 +19,7 @@ import { UploadEvent } from "primeng/fileupload";
 
 export class Profile implements OnInit {
     loginData: LoginResDto | undefined = this.authService.getLoginData();
+    profileData: UserResDto | undefined;
     fullName: string = this.loginData?.fullName || ''
     photoProfile: string | undefined = ''
     displayModal = false;
@@ -44,9 +46,17 @@ export class Profile implements OnInit {
     }
 
     init() {
-        this.name = this.loginData?.fullName;
-        if (this.loginData?.imageProfile != null) {
-            this.photoProfile = `${BASE_URL}/files/file/${this.loginData.imageProfile}`;
+        if (this.loginData != null) {
+            firstValueFrom(this.userService.getUserByid(this.loginData.id)).then(
+                res => {
+                    this.profileData = res;
+                }
+            )
+        }
+
+        this.name = this.profileData?.fullName;
+        if (this.profileData?.id != null) {
+            this.photoProfile = `${BASE_URL}/files/file/${this.profileData.fileId}`;
         } else {
             this.photoProfile = 'assets/images/icon/user.svg';
         }

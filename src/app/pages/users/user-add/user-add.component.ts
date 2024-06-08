@@ -84,8 +84,10 @@ export class UserAdd implements OnInit {
                 const resultBase64 = result.substring(result.indexOf(",") + 1, result.length)
                 const resultExtension = file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length)
 
-                this.userForm.get('fileContent')?.patchValue(resultBase64)
-                this.userForm.get('fileExt')?.patchValue(resultExtension)
+                this.userForm.patchValue({
+                    fileContent: resultBase64,
+                    fileExt: resultExtension
+                  });
             })
         }
     }

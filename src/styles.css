@@ -96,6 +96,14 @@ a>.p-icon-wrapper {
     border: none !important;
 }
 
+.ui-calendar .ui-datepicker {
+    height: 200px;
+}
+
+.ui-datepicker td span, .ui-datepicker td a {
+    padding: 0px;
+}
+
 .p-menuitem-content:focus-visible {
     background-color: transparent !important;
     border: none !important;

@@ -143,8 +143,8 @@ export class Payroll implements OnInit {
 					this.eventsOnCalendar = [];
 					
 					this.payrolls.forEach((payroll) => {
-						const formattedDate = this.formatDate(payroll.scheduleDate);
-						payroll.scheduleDate = formattedDate;
+						const formattedDate = this.formatDateForCalendar(payroll.scheduleDate);
+						payroll.scheduleDate = this.formatDate(payroll.scheduleDate);
 						const event = { title: payroll.title, start: formattedDate, className: 'payroll-event' };
 						this.eventsOnCalendar.push(event);
 					})
@@ -156,8 +156,8 @@ export class Payroll implements OnInit {
 					this.clientPayrollDetails = res;
 					
 					this.clientPayrollDetails.forEach((detail) => {
-						const formattedDate = this.formatDate(detail.maxUploadDate);
-						detail.maxUploadDate = formattedDate;
+						const formattedDate = this.formatDateForCalendar(detail.maxUploadDate);
+						detail.maxUploadDate = this.formatDate(detail.maxUploadDate);
 						const event = { title: detail.description, start: formattedDate, className: 'payroll-detail-event' };
 						this.eventsOnCalendar.push(event);
 					})
@@ -197,8 +197,11 @@ export class Payroll implements OnInit {
 
 	};
 
-	private formatDate(date: string | Date): string {
+	private formatDateForCalendar(date: string | Date): string {
 		return this.datePipe.transform(date, 'yyyy-MM-dd')!;
+	}
+	private formatDate(date: string | Date): string {
+		return this.datePipe.transform(date, 'dd-MM-YYYY')!;
 	}
 
 	onSubmit() {
